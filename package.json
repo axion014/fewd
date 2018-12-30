@@ -1,0 +1,18 @@
+{
+  "name": "w3g",
+  "version": "0.1.0",
+  "description": "The framework for making 3D browser games.",
+  "main": "w3g.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "axion014",
+  "license": "ISC",
+  "dependencies": {
+    "mikan.js": "^1.0.10",
+    "resource-loader": "^2.2.3",
+    "three": "^0.99.0",
+    "three-text2d": "^0.4.1",
+    "three.meshline": "^1.1.0"
+  }
+}

@@ -4,6 +4,11 @@
  * Blend two textures
  */
 
+import assets, {addFile} from "../loading";
+import "./identicalVertex";
+
+addFile('GLSL', 'blendFragment', "node_modules/w3g/three-effect/blendFragment.min.glsl");
+
 export default class BlendShader {
 	uniforms = {
 		"tDiffuse1": {value: null},
@@ -11,7 +16,11 @@ export default class BlendShader {
 		"mixRatio":  {value: 0.5},
 		"opacity":   {value: 1.0}
 	};
-	vertexShader = "varying vec2 vUv;void main() {vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}";
 
-	fragmentShader = "uniform float opacity;uniform float mixRatio;uniform sampler2D tDiffuse1;uniform sampler2D tDiffuse2;varying vec2 vUv;void main() {vec4 t=texture2D(tDiffuse1,vUv);vec4 u=texture2D(tDiffuse2,vUv);gl_FragColor=opacity*mix(t,u,mixRatio);}";
+	constructor() {
+		this.vertexShader = assets.GLSL.identicalVertex;
+		this.fragmentShader = assets.GLSL.blendFragment;
+	}
+
+	static requiredResources = {GLSL: ['identicalVertex', 'blendFragment']};
 }

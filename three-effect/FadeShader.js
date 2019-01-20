@@ -1,4 +1,9 @@
+
+import assets, {addFile} from "../loading";
+import "./identicalVertex";
 import {Vector4} from "three";
+
+addFile('GLSL', 'fadeFragment', "node_modules/w3g/three-effect/fadeFragment.min.glsl");
 
 export default class FadeShader {
   uniforms = {
@@ -6,7 +11,10 @@ export default class FadeShader {
     color: {value: new Vector4(0, 0, 0, 0)}
   };
 
-  vertexShader = "varying vec2 vUv;void main() {vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}";
+	constructor() {
+		this.vertexShader = assets.GLSL.copyVertex;
+		this.fragmentShader = assets.GLSL.fadeFragment;
+	}
 
-  fragmentShader = "uniform vec4 color;uniform sampler2D tDiffuse;varying vec2 vUv;void main() {vec4 t=texture2D(tDiffuse,vUv);gl_FragColor=vec4(t.rgb*(1.-color.a)+color.rgb*color.a,t.a);}";
+	static requiredResources = {GLSL: ['identicalVertex', 'fadeFragment']};
 }

@@ -4,13 +4,21 @@
  * Full-screen textured quad shader
  */
 
+import assets, {addFile} from "../loading";
+import "./identicalVertex";
+
+addFile('GLSL', 'copyFragment', "node_modules/w3g/three-effect/copyFragment.min.glsl");
+
 export default class CopyShader {
 	uniforms = {
 		"tDiffuse": {value: null},
 		"opacity":  {value: 1.0}
 	};
 
-	vertexShader = "varying vec2 vUv;void main() {vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}";
+	constructor() {
+		this.vertexShader = assets.GLSL.identicalVertex;
+		this.fragmentShader = assets.GLSL.copyFragment;
+	}
 
-	fragmentShader = "uniform float opacity;uniform sampler2D tDiffuse;varying vec2 vUv;void main() {gl_FragColor=opacity*texture2D(tDiffuse,vUv);}";
+	static requiredResources = {GLSL: ['identicalVertex', 'copyFragment']};
 }

@@ -14,7 +14,6 @@ export default class Element extends Group {
 		this.opacity = options.opacity;
 		connect(this, "selfOpacity", nativeContent, "opacity");
 		let rotation;
-		console.log(this)
 		defineAccessor(this, "rotation", {
 			get() {return rotation;},
 			set(v) {

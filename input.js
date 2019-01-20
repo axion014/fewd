@@ -17,34 +17,43 @@ export let mouseY = null;
 export const keys = {};
 export const keyDown = {};
 
+export function processEvent(newname, olde) {
+	const rect = olde.currentTarget.getBoundingClientRect();
+	const newe = createCustomEvent(newname, olde);
+	newe.x = olde.clientX - rect.left;
+	newe.y = olde.clientY - rect.top;
+	return newe;
+}
+
 export function initPointerEvents(element) {
 	function updateMousePosition(e) {
-		const rect = e.currentTarget.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
+		mouseX = e.x;
+		mouseY = e.y;
 	}
 	element.addEventListener('touchstart', e => {
 		e.preventDefault();
-		element.dispatchEvent(createCustomEvent('pointstart', e));
+		element.dispatchEvent(processEvent('pointstart', e));
 	});
 	element.addEventListener('touchmove', e => {
 		e.preventDefault();
-		element.dispatchEvent(createCustomEvent('pointmove', e));
+		element.dispatchEvent(processEvent('pointmove', e));
 	});
 	element.addEventListener('touchend', e => {
 		e.preventDefault();
-		element.dispatchEvent(createCustomEvent('pointend', e));
+		element.dispatchEvent(processEvent('pointend', e));
 	});
 	element.addEventListener('mousedown', e => {
-		element.dispatchEvent(createCustomEvent('pointstart', e));
+		e = processEvent('pointstart', e);
 		updateMousePosition(e);
+		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousemove', e => {
-		element.dispatchEvent(createCustomEvent('pointmove', e));
+		e = processEvent('pointmove', e);
 		updateMousePosition(e);
+		element.dispatchEvent(e);
 	});
 	element.addEventListener('mouseup', e => {
-		element.dispatchEvent(createCustomEvent('pointend', e));
+		element.dispatchEvent(processEvent('pointend', e));
 	});
 }
 

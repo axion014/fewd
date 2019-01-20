@@ -31,33 +31,34 @@ export default class Scene extends EventDispatcher {
 
 		Easing.initIn(this);
 
+		const updateInteractivity = target => target._interactive = target.interactive;
+
+		function hitTest(scene, camera) {
+			return e => {
+				scene.traverse(children => {
+					if (children._interactive === false || !children.hitTest) return;
+					pos.copy(children.position).project(camera);
+					if (children.hitTest(e.x - (pos.x + 1) * vw / 2, e.y - (1 - pos.y) * vh / 2)) {
+						children.dispatchEvent(e);
+					}
+				});
+			};
+		}
+
+		const hitTestThreeScene = hitTest(this.threeScene, this.camera);
+		const hitTestUIScene = hitTest(this.UIScene, this.UICamera);
+
 		['pointstart', 'pointmove', 'pointend', 'click'].forEach(name => {
 			this.addEventListener(name, e => {
-				const rect = e.currentTarget.getBoundingClientRect();
-				const x = e.clientX - rect.left;
-				const y = e.clientY - rect.top;
-				this.threeScene.traverse(children => {
-					children._interactive = children.interactive;
-				});
-				this.UIScene.traverse(children => {
-					children._interactive = children.interactive;
-				});
-				this.threeScene.traverse(children => {
-					if (children._interactive === false) return;
-					pos.copy(children.position).project(this.camera);
-					if (children.hitTest && children.hitTest(
-						x - (pos.x + 1) * vw / 2, y - (1 - pos.y) * vh / 2)) {
-						children.dispatchEvent(e);
-					}
-				});
-				this.UIScene.traverse(children => {
-					if (children._interactive === false) return;
-					pos.copy(children.position).project(this.UICamera);
-					if (children.hitTest && children.hitTest(
-						x - (pos.x + 1) * vw / 2, y - (1 - pos.y) * vh / 2)) {
-						children.dispatchEvent(e);
-					}
-				});
+				/*
+				 * Don't change actual interactivity of objects anywhere else, so that changeing their
+				 * interactivity inside a event listener don't affect targets the event triggers on.
+			   */
+				this.threeScene.traverse(updateInteractivity);
+				this.UIScene.traverse(updateInteractivity);
+
+				hitTestThreeScene(e);
+				hitTestUIScene(e);
 			});
 		});
 	}

@@ -2,7 +2,7 @@ import {WebGLRenderer, Color} from "three";
 
 import EffectComposer from "./three-effect/EffectComposer";
 
-import {initPointerEvents, keyDown} from "./input";
+import {initPointerEvents, keyDown, processEvent} from "./input";
 
 const loopRate = 60;
 
@@ -63,14 +63,12 @@ export function init(options) {
 
 export function run() {
 	['pointstart', 'pointmove', 'pointend'].forEach(name => {
-		canvas.addEventListener(name, e => {
-			currentScene.dispatchEvent(Object.assign({}, e.detail, {type: name, target: null, currentTarget: e.detail.target}));
-		});
+		canvas.addEventListener(name, e => currentScene.dispatchEvent(Object.assign({type: e.type}, e)));
 	});
 
 	['touchend', 'click'].forEach(name => {
 		canvas.addEventListener(name, e => {
-			currentScene.dispatchEvent(Object.assign({}, e, {type: 'click', target: null, currentTarget: e.target}));
+			currentScene.dispatchEvent(Object.assign({type: e.type}, processEvent('click', e)));
 		});
 	});
 

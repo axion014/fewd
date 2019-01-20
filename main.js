@@ -42,6 +42,8 @@ export function resize(width, height) {
 
 initKeyEvents();
 
+let canvas;
+
 export function init(options) {
 	if (!options) options = {};
 	if (options.fitScreen) {
@@ -51,7 +53,7 @@ export function init(options) {
 		});
 	} else if (options.width && options.height) resize(options.width, options.height);
 	const canvaspresented = options && options.canvasId;
-	const canvas = canvaspresented ? document.getElementById(options.canvasId) : document.createElement("canvas");
+	canvas = canvaspresented ? document.getElementById(options.canvasId) : document.createElement("canvas");
 	threeRenderer = new WebGLRenderer({canvas: canvas, antialias: true});
 	threeRenderer.setSize(vw, vh);
 	threeRenderer.setClearColor(new Color(0xffffff), 1.0);

@@ -1,5 +1,3 @@
-import {currentScene} from "./main";
-
 export function createCustomEvent(name, detail) {
 	let event = null;
 	try {
@@ -58,12 +56,6 @@ export function initPointerEvents(element) {
 }
 
 export function initKeyEvents() {
-	document.addEventListener('keydown', e => {
-		currentScene.dispatchEvent(Object.assign(e, {type: name, target: null, currentTarget: e.target}, {descriptor: true}));
-		keys[e.code] = keyDown[e.code] = true;
-	});
-	document.addEventListener('keyup', e => {
-		currentScene.dispatchEvent(Object.assign(e, {type: name, target: null, currentTarget: e.target}, {descriptor: true}));
-		keys[e.code] = keyDown[e.code] = false;
-	});
+	document.addEventListener('keydown', e => keys[e.code] = keyDown[e.code] = true);
+	document.addEventListener('keyup', e => keys[e.code] = keyDown[e.code] = false);
 }

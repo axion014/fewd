@@ -2,8 +2,6 @@ import {EventDispatcher, Scene as THREEScene, PerspectiveCamera, OrthographicCam
 
 import RenderPass from "./three-effect/RenderPass";
 
-import {SpriteText2D} from "three-text2d";
-
 import {setCurrentScene, vw, vh, resized} from "./main";
 import Easing from "./easing";
 

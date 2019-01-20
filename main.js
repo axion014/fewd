@@ -38,25 +38,30 @@ export function resize(width, height) {
 	resized = true;
 }
 
-export function fitScreen() {
-	window.addEventListener('resize', () => {
-		resize(window.innerWidth, window.innerHeight);
-	});
-}
 
 export function init(options) {
-	if (options) {
-		vw = options.width;
-		vh = options.height;
-	}
-	const canvas = document.getElementById("screen");
+	if (!options) options = {};
+	if (options.fitScreen) {
+		resize(window.innerWidth, window.innerHeight);
+		window.addEventListener('resize', () => {
+			resize(window.innerWidth, window.innerHeight);
+		});
+	} else if (options.width && options.height) resize(options.width, options.height);
+	const canvaspresented = options && options.canvasId;
+	const canvas = canvaspresented ? document.getElementById(options.canvasId) : document.createElement("canvas");
 	threeRenderer = new WebGLRenderer({canvas: canvas, antialias: true});
 	threeRenderer.setSize(vw, vh);
 	threeRenderer.setClearColor(new Color(0xffffff), 1.0);
 	threeComposer = new EffectComposer(threeRenderer);
 
+	window.addEventListener('unload', () => threeRenderer.forceContextLoss());
+
 	initPointerEvents(canvas);
 
+	if (!canvaspresented) return canvas;
+}
+
+export function run() {
 	['pointstart', 'pointmove', 'pointend'].forEach(name => {
 		canvas.addEventListener(name, e => {
 			currentScene.dispatchEvent(Object.assign({}, e.detail, {type: name, target: null, currentTarget: e.detail.target}));
@@ -69,12 +74,6 @@ export function init(options) {
 		});
 	});
 
-	window.addEventListener('unload', () => {
-		threeRenderer.forceContextLoss();
-	});
-}
-
-export function run() {
 	let previous = performance.now();
 	(function loop() {
 		window.setTimeout(loop, 1000 / loopRate);

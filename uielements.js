@@ -84,7 +84,7 @@ export function createLabel(text, options) {
 		fillStyle: 'hsla(0, 0%, 0%, 0.6)',
 		font: "32px 'HiraKakuProN-W3'"
 	}, options));
-	element.opacity = options.opacity;
+	element.opacity = options ? options.opacity : 1;
 	element.hitTest = hitTestRectangle;
 	return element;
 }
@@ -96,7 +96,7 @@ export function createLabelArea(text, options) {
 		font: "32px 'HiraKakuProN-W3'",
 		lineHeight: 1.2
 	}, options));
-	element.opacity = options.opacity;
+	element.opacity = options ? options.opacity : 1;
 	element.hitTest = hitTestRectangle;
 	return element;
 }

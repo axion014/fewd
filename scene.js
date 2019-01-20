@@ -64,6 +64,7 @@ export default class Scene extends EventDispatcher {
 	}
 
 	update(deltaTime) {
+		updateEvent.deltaTime = deltaTime;
 		function updateChild(children) {
 			children.dispatchEvent(updateEvent);
 			if (children.update) children.update(deltaTime);

@@ -18,6 +18,7 @@ export let resized = false;
 export function setCurrentScene(scene) {
 	currentScene = scene;
 	threeComposer.passes = scene.threePasses;
+	scene.updateCameras();
 }
 
 export function renderScreen() {

@@ -77,14 +77,15 @@ export default class Scene extends EventDispatcher {
 		setCurrentScene(this);
 	}
 
+	updateCameras() {
+		this.camera.aspect = vw / vh;
+		this.UICamera.left = -vw / 2;
+		this.UICamera.right = vw / 2;
+		this.UICamera.top = vh / 2;
+		this.UICamera.bottom = -vh / 2;
+	}
 	prepareForRendering() {
-		if (resized) {
-			this.camera.aspect = vw / vh;
-			this.UICamera.left = -vw / 2;
-			this.UICamera.right = vw / 2;
-			this.UICamera.top = vh / 2;
-			this.UICamera.bottom = -vh / 2;
-		}
+		if (resized) this.updateCameras();
 		this.UIScene.traverse(children => {
 			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {

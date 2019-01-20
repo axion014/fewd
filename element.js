@@ -22,6 +22,6 @@ export default class Element extends Group {
 				rotateZ(nativeContent, rotation);
 			}
 		});
-		this.rotation = options.rotation;
+		this.rotation = options.rotation || 0;
 	}
 }

@@ -2,7 +2,7 @@ import {Mesh, Object3D, Quaternion, MultiMaterial, Vector2, Vector3} from "three
 import {MeshLine, MeshLineMaterial} from "three.meshline";
 
 import {vw, vh, resized} from "./main";
-import {get, free} from "./utils";
+import {get, free, defineAccessor} from "./utils";
 
 //3軸
 export const Axis = {x: new Vector3(1, 0, 0), y: new Vector3(0, 1, 0), z: new Vector3(0, 0, 1)};

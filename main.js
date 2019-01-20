@@ -24,6 +24,7 @@ export function renderScreen() {
 	if (resized) threeRenderer.setSize(vw, vh);
 	currentScene.prepareForRendering();
 	threeComposer.render();
+	resized = false;
 }
 
 export function setGameLoopfrequency(r) {
@@ -84,6 +85,5 @@ export function run() {
 
 	threeRenderer.setAnimationLoop(() => {
 		renderScreen();
-		resized = false;
 	});
 }

@@ -79,10 +79,10 @@ export default class Easing {
 	 *
 	 */
 	static initIn(scene) {
-		scene._easings = [];
+		scene._easings = new Set();
 		scene.addEasing = function(easing) {
-			easing.trigger(() => this._easings.remove(easing));
-			this._easings.push(easing);
+			easing.trigger(() => this._easings.delete(easing));
+			this._easings.add(easing);
 		}
 		scene.updateEasings = function(delta) {
 			this._easings.forEach(easing => easing.update(delta));

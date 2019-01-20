@@ -34,7 +34,7 @@ const pools = {};
 
 export function get(type) {
 	if (pools[type] !== undefined) {
-		if (pools[type].length !== 0) return objects.pop();
+		if (pools[type].length !== 0) return pools[type].pop();
 	} else pools[type] = [];
 	const newobj = new type();
 	pools[type].push(newobj);
@@ -42,7 +42,7 @@ export function get(type) {
 }
 
 export function free() {
-	for (let i = 0; i < arguments.length; i++) pools[v[i].prototype.constructor].push(v);
+	for (let i = 0; i < arguments.length; i++) pools[arguments[i].constructor].push(arguments[i]);
 }
 
 export function normalizeAngle(t) {

@@ -9,6 +9,9 @@ import Easing from "./easing";
 
 const pos = new Vector3();
 
+const updateEvent = {type: "update"};
+const renderEvent = {type: "render"};
+
 export default class Scene extends EventDispatcher {
 
 	threeScene = new THREEScene();
@@ -61,11 +64,11 @@ export default class Scene extends EventDispatcher {
 
 	update(deltaTime) {
 		function updateChild(children) {
-			children.dispatchEvent("update");
+			children.dispatchEvent(updateEvent);
 			if (children.update) children.update(deltaTime);
 		}
 		this.updateEasings(deltaTime);
-		this.dispatchEvent("update");
+		this.dispatchEvent(updateEvent);
 		this.threeScene.traverse(updateChild);
 		this.UIScene.traverse(updateChild);
 	}
@@ -83,7 +86,7 @@ export default class Scene extends EventDispatcher {
 			this.UICamera.bottom = -vh / 2;
 		}
 		this.UIScene.traverse(children => {
-			children.dispatchEvent('render');
+			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {
 				let opacity = 1;
 				for (let obj = children; obj.parent; obj = obj.parent) opacity *= obj.opacity === undefined ? 1 : obj.opacity;

@@ -3,7 +3,7 @@ export function hitTestCircle(dx, dy) {
 }
 
 export function hitTestEllipse(dx, dy) {
-	if (this.radius) return hitTestCircle(dx, dy);
+	if (this.radius) return hitTestCircle.call(this, dx, dy);
 	// TODO
 }
 

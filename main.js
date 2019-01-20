@@ -2,7 +2,7 @@ import {WebGLRenderer, Color} from "three";
 
 import EffectComposer from "./three-effect/EffectComposer";
 
-import {initPointerEvents, keyDown, processEvent} from "./input";
+import {initPointerEvents, initKeyEvents, keyDown, processEvent} from "./input";
 
 const loopRate = 60;
 
@@ -40,6 +40,7 @@ export function resize(width, height) {
 	resized = true;
 }
 
+initKeyEvents();
 
 export function init(options) {
 	if (!options) options = {};

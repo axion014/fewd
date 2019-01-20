@@ -1,13 +1,22 @@
 import {Texture, LoaderUtils} from "three";
 
+import GLTFLoader from "./GLTFLoader";
 
 import regeneratorRuntime from "regenerator-runtime"; // async requires this
 
+const glTFLoader = new GLTFLoader();
 export const fileParsers = {
 	/*THREE_Model_JSON(json, url) {
 		const data = new JSONLoader().parse(json, LoaderUtils.extractUrlBase(url));
 		return new Mesh(data.geometry, data.materials);
 	},*/
+	async THREE_Model_GLTF(response, url) {
+		const arrayBuffer = await response.arrayBuffer();
+		const gltf = await new Promise((resolve, reject) => {
+			glTFLoader.parse(arrayBuffer, LoaderUtils.extractUrlBase(url), resolve, reject);
+		});
+		return gltf.scene.children[0];
+	},
 	async THREE_Texture(response) {
 		const blob = await response.blob();
 		const image = document.createElement('img');

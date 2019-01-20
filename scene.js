@@ -79,11 +79,15 @@ export default class Scene extends EventDispatcher {
 
 	updateCameras() {
 		this.camera.aspect = vw / vh;
+		this.camera.zoom = Math.sqrt(this.camera.aspect);
+		this.camera.updateProjectionMatrix();
 		this.UICamera.left = -vw / 2;
 		this.UICamera.right = vw / 2;
 		this.UICamera.top = vh / 2;
 		this.UICamera.bottom = -vh / 2;
+		this.UICamera.updateProjectionMatrix();
 	}
+
 	prepareForRendering() {
 		if (resized) this.updateCameras();
 		this.UIScene.traverse(children => {

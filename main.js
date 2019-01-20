@@ -11,6 +11,8 @@ export let threeComposer;
 
 export let currentScene;
 
+export let currentFPS = 0;
+
 export let vw = 640;
 export let vh = 960;
 export let resized = false;
@@ -81,7 +83,13 @@ export function run() {
 		previous = current;
 	})();
 
+	const frameTimes = [];
+	frameTimes.length = 60;
+	frameTimes.fill(0, 0, 60);
 	threeRenderer.setAnimationLoop(() => {
+		const currentTime = performance.now();
+		frameTimes.push(currentTime);
+		currentFPS = 60000 / (currentTime - frameTimes.shift());
 		renderScreen();
 	});
 }

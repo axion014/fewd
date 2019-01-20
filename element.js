@@ -18,7 +18,7 @@ export default class Element extends Group {
 			get() {return rotation;},
 			set(v) {
 				rotation = v;
-				nativeContent.quaternion.copy(0, 0, 0, 1);
+				nativeContent.quaternion.set(0, 0, 0, 1);
 				rotateZ(nativeContent, rotation);
 			}
 		});

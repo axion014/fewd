@@ -11,18 +11,19 @@ export function rotate(o, a, r) {
 	const tempquaternion = get(Quaternion);
 	o.quaternion.multiply(tempquaternion.setFromAxisAngle(a, r));
 	free(tempquaternion);
+	return o;
 }
 
 export function rotateX(o, r) {
-	rotate(o, Axis.x, r);
+	return rotate(o, Axis.x, r);
 }
 
 export function rotateY(o, r) {
-	rotate(o, Axis.y, r);
+	return rotate(o, Axis.y, r);
 }
 
 export function rotateZ(o, r) {
-	rotate(o, Axis.z, r);
+	return rotate(o, Axis.z, r);
 }
 
 export function deepclone(object, clonegeometry, clonematerial) {

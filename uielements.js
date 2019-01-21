@@ -1,7 +1,6 @@
 import {Group, Math as THREE_Math} from "three";
 
-import {SpriteText2D} from "../three-text2d/lib/SpriteText2D.js";
-import {textAlign} from "../three-text2d/lib/utils.js";
+import {SpriteText2D, textAlign} from "three-text2d";
 
 import Mikan from "mikan.js";
 

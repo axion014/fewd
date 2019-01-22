@@ -13,6 +13,7 @@ export default class Element extends Group {
 		connect(this, "height", nativeContent.scale, "y");
 		this.opacity = options.opacity;
 		connect(this, "selfOpacity", nativeContent, "opacity");
+		nativeContent.opacity = options.selfOpacity;
 		let rotation;
 		defineAccessor(this, "rotation", {
 			get() {return rotation;},

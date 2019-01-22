@@ -67,7 +67,13 @@ export function createMark(options) {
 	const horizontal = new Mesh(new PlaneBufferGeometry(1, 1), material);
 	group.add(horizontal);
 
-	connectColor(group, "strokeColor", material, "color", [vertical, horizontal]);
+	defineAccessor(group, "strokeColor", {
+		get: () => vertical.material.color,
+		set: v => {
+			vertical.material.color.set(v);
+			horizontal.material.color.set(v);
+		}
+	});
 	connect(group, "width", horizontal.scale, "x");
 	connect(group, "height", vertical.scale, "y");
 	defineAccessor(group, "strokeWidth", {

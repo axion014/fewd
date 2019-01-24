@@ -43,7 +43,7 @@ export function connectColor(base, key, targetbase, targetkey) {
 	});
 }
 
-export function createMeshLine(geometry, material, flat) {
+export function setMeshLineGeometry(mesh, geometry) {
 	if (geometry[0].isVector2) {
 		const newarray = [];
 		for (let i = 0; i < geometry.length; i++) {
@@ -69,12 +69,17 @@ export function createMeshLine(geometry, material, flat) {
 		}
 		geometry = newarray;
 	}
+	mesh.geometryGenerator.setGeometry(geometry);
+}
+
+export function createMeshLine(geometry, material, flat) {
 	const geometryGenerator = new MeshLine();
-	geometryGenerator.setGeometry(geometry);
 	const mesh = new Mesh(
 		geometryGenerator.geometry,
 		new MeshLineMaterial(Object.assign({resolution: new Vector2(vw, vh)}, material))
 	);
+	mesh.geometryGenerator = geometryGenerator;
+	setMeshLineGeometry(mesh, geometry);
 	mesh.addEventListener("render", () => {
 		if (resized) mesh.material.uniforms.resolution.value.set(vw, vh); // the uniform variable resolution must be kept up to date
 	});

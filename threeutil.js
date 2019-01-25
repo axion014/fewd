@@ -64,7 +64,7 @@ export function setMeshLineGeometry(mesh, geometry, flat) {
 		const newarray = [];
 		for (let i = 0; i < geometry.length; i += 2) {
 			newarray.push(geometry[i]);
-			newarray.push(geometry[i] + 1);
+			newarray.push(geometry[i + 1]);
 			newarray.push(0);
 		}
 		geometry = newarray;
@@ -76,7 +76,7 @@ export function createMeshLine(geometry, material, flat) {
 	const geometryGenerator = new MeshLine();
 	const mesh = new Mesh(
 		geometryGenerator.geometry,
-		new MeshLineMaterial(Object.assign({resolution: new Vector2(vw, vh)}, material))
+		new MeshLineMaterial(Object.assign({resolution: new Vector2(vw, vh), sizeAttenuation: 0}, material))
 	);
 	mesh.geometryGenerator = geometryGenerator;
 	setMeshLineGeometry(mesh, geometry, flat);

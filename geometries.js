@@ -23,7 +23,7 @@ export function createRectangle(options) {
 	const geometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
 
 	const stroke = createMeshLine(
-		geometry(options.width, options.height),
+		geometry(options.width / 2, options.height / 2),
 		{color: options.strokeColor},
 		true
 	);

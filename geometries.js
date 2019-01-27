@@ -24,7 +24,7 @@ export function createRectangle(options) {
 
 	const stroke = createMeshLine(
 		geometry(options.width / 2, options.height / 2),
-		{color: options.strokeColor},
+		{color: options.strokeColor, lineWidth: options.strokeWidth},
 		true
 	);
 	group.add(stroke);
@@ -52,6 +52,7 @@ export function createRectangle(options) {
 	connectColor(group, "strokeColor", stroke.material.uniforms.color, "value", stroke);
 	connect(group, "fillOpacity", fill);
 	connect(group, "strokeOpacity", stroke);
+	connect(group, "strokeWidth", stroke.material.uniforms.lineWidth, "value");
 
 	group.hitTest = hitTestRectangle;
 

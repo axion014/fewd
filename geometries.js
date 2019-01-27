@@ -33,23 +33,20 @@ export function createRectangle(options) {
 		get() {return fill.width},
 		set(v) {
 			fill.width = v;
-			setMeshLineGeometry(stroke, geometry(v / 2, group.height / 2), true);
+			setMeshLineGeometry(stroke, geometry(v / 2, fill.height / 2), true);
 		}
 	});
 	defineAccessor(group, "height", {
 		get() {return fill.height},
 		set(v) {
 			fill.height = v;
-			setMeshLineGeometry(stroke, geometry(group.width / 2, v / 2), true);
+			setMeshLineGeometry(stroke, geometry(fill.width / 2, v / 2), true);
 		}
 	});
 	group.opacity = options.opacity;
 	defineAccessor(group, "selfOpacity", {
 		get() {return fill.opacity},
-		set(v) {
-			fill.opacity = v;
-			stroke.opacity = v;
-		}
+		set(v) {fill.opacity = stroke.opacity = v}
 	});
 	connectColor(group, "fillColor", fill.material, "color", fill);
 	connectColor(group, "strokeColor", stroke.material.uniforms.color, "value", stroke);

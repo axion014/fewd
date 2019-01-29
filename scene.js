@@ -103,7 +103,7 @@ export default class Scene extends EventDispatcher {
 		let renderToScreen = true;
 		for (let i = this.threePasses.length - 1; i >= 0; i--) {
 			this.threePasses[i].renderToScreen = renderToScreen;
-			if (!this.threePasses[i].clear) renderToScreen = false;
+			if (this.threePasses[i].clear) renderToScreen = false;
 		}
 	}
 

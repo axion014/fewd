@@ -100,6 +100,11 @@ export default class Scene extends EventDispatcher {
 				if (children.material.opacity !== 1) children.material.transparent = true;
 			}
 		});
+		let renderToScreen = true;
+		for (let i = this.threePasses.length - 1; i >= 0; i--) {
+			this.threePasses[i].renderToScreen = renderToScreen;
+			if (!this.threePasses[i].clear) renderToScreen = false;
+		}
 	}
 
 	static createAndEnter() {

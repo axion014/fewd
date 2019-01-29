@@ -43,6 +43,16 @@ export function connectColor(base, key, targetbase, targetkey) {
 	});
 }
 
+export function connectColorMulti(base, key, targetbase, targetkey) {
+	if (targetkey === undefined) targetkey = [key];
+	defineAccessor(base, key, {
+		get: () => targetbase[0][targetkey[0] || key],
+		set: v => {
+			for (let i = 0; i < targetbase.length; i++) targetbase[i][targetkey[i] || ley].set(v);
+		}
+	});
+}
+
 export function setMeshLineGeometry(mesh, geometry, flat) {
 	if (geometry[0].isVector2) {
 		const newarray = [];

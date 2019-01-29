@@ -30,6 +30,16 @@ export function connect(base, key, targetbase, targetkey) {
 	});
 }
 
+export function connectMulti(base, key, targetbase, targetkey) {
+	if (targetkey === undefined) targetkey = [key];
+	defineAccessor(base, key, {
+		get: () => targetbase[0][targetkey[0] || key],
+		set: v => {
+			for (let i = 0; i < targetbase.length; i++) targetbase[i][targetkey[i] || ley] = v;
+		}
+	});
+}
+
 const pools = {};
 
 export function get(type) {

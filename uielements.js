@@ -135,8 +135,8 @@ export function createGauge(options) {
 	connect(element, "fillColor", background);
 	connect(element, "strokeColor", background);
 	connectColor(element, "gaugeColor", foreground, "fillColor");
-	connect(element, "fillOpacity", background, "fillOpacity");
-	connect(element, "strokeOpacity", background, "strokeOpacity");
+	connect(element, "fillOpacity", background);
+	connect(element, "strokeOpacity", background);
 	connect(element, "gaugeOpacity", foreground, "opacity");
 
 	element.hitTest = hitTestRectangle;

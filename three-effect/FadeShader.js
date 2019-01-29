@@ -12,7 +12,7 @@ export default class FadeShader {
   };
 
 	constructor() {
-		this.vertexShader = assets.GLSL.copyVertex;
+		this.vertexShader = assets.GLSL.identicalVertex;
 		this.fragmentShader = assets.GLSL.fadeFragment;
 	}
 

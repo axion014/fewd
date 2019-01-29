@@ -25,7 +25,7 @@ export function createRectangle(options) {
 	const stroke = createMeshLine(
 		geometry(options.width / 2, options.height / 2),
 		{
-			color: options.strokeColor || 'transparent',
+			color: options.strokeColor || 'white',
 			lineWidth: options.strokeWidth !== undefined ? options.strokeWidth : 2
 		},
 		true

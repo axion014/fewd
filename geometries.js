@@ -77,37 +77,6 @@ export function createEllipse(options) {
 	return element;
 }
 
-export function createMark(options) {
-	const group = new Group();
-
-	const material = new MeshBasicMaterial({color: options.strokeColor});
-
-	const vertical = new Mesh(new PlaneBufferGeometry(1, 1), material);
-	group.add(vertical);
-
-	const horizontal = new Mesh(new PlaneBufferGeometry(1, 1), material);
-	group.add(horizontal);
-
-	defineAccessor(group, "strokeColor", {
-		get: () => vertical.material.color,
-		set: v => {
-			vertical.material.color.set(v);
-			horizontal.material.color.set(v);
-		}
-	});
-	connect(group, "width", horizontal.scale, "x");
-	connect(group, "height", vertical.scale, "y");
-	defineAccessor(group, "strokeWidth", {
-		get: () => vertical.scale.x,
-		set: v => {
-			vertical.scale.x = v;
-			horizontal.scale.y = v;
-		}
-	});
-
-	return group;
-}
-
 export function createSymmetricTriangle(options) {
 	const shape = new Shape();
 	shape.moveTo(0, -0.5);

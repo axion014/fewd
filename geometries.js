@@ -17,7 +17,7 @@ export function createRectangle(options) {
 		new PlaneBufferGeometry(1, 1),
 		new MeshBasicMaterial({color: options.fillColor})
 	);
-	fill.opacity = 1;
+	fill.visible = !!options.fillColor;
 	group.add(fill);
 
 	const geometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
@@ -30,6 +30,7 @@ export function createRectangle(options) {
 		},
 		true
 	);
+	stroke.visible = !!options.strokeColor;
 	group.add(stroke);
 
 	const element = new Element(mesh, Object.assign(options, {customScale: true}));
@@ -67,6 +68,8 @@ export function createEllipse(options) {
 		new MeshBasicMaterial({color: options.fillColor})
 	);
 
+	mesh.visible = !!options.fillColor;
+
 	const element = new Element(mesh, options);
 
 	connectColor(element, "fillColor", mesh.material, "color", mesh);
@@ -87,6 +90,8 @@ export function createSymmetricTriangle(options) {
 		new ShapeBufferGeometry(shape),
 		new MeshBasicMaterial({color: options.fillColor})
 	);
+
+	mesh.visible = !!options.fillColor;
 
 	const element = new Element(mesh, options);
 

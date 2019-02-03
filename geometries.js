@@ -48,8 +48,8 @@ export function createRectangle(options) {
 			setMeshLineGeometry(stroke, geometry(fill.scale.x / 2, v / 2), true);
 		}
 	});
-	connectColor(element, "fillColor", fill.material, "color");
-	connectColor(element, "strokeColor", stroke.material.uniforms.color, "value");
+	connectColor(element, "fillColor", fill.material, "color", fill);
+	connectColor(element, "strokeColor", stroke.material.uniforms.color, "value", stroke);
 	connect(element, "fillOpacity", fill);
 	connect(element, "strokeOpacity", stroke);
 	connect(element, "strokeWidth", stroke.material.uniforms.lineWidth, "value");
@@ -69,7 +69,7 @@ export function createEllipse(options) {
 
 	const element = new Element(mesh, options);
 
-	connectColor(element, "fillColor", mesh.material, "color");
+	connectColor(element, "fillColor", mesh.material, "color", mesh);
 	//connectColor(element, "strokeColor", stroke.material.uniforms.color, "value");
 
 	element.hitTest = hitTestEllipse;
@@ -90,7 +90,7 @@ export function createSymmetricTriangle(options) {
 
 	const element = new Element(mesh, options);
 
-	connectColor(element, "fillColor", mesh.material, "color");
+	connectColor(element, "fillColor", mesh.material, "color", mesh);
 	//connectColor(element, "strokeColor", stroke.material.uniforms.color, "value");
 
 	return element;

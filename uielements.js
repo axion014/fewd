@@ -134,7 +134,7 @@ export function createGauge(options) {
 
 	connect(element, "fillColor", background);
 	connect(element, "strokeColor", background);
-	connectColor(element, "gaugeColor", foreground, "fillColor");
+	connectColor(element, "gaugeColor", foreground, "fillColor", foreground);
 	connect(element, "fillOpacity", background);
 	connect(element, "strokeOpacity", background);
 	connect(element, "gaugeOpacity", foreground, "opacity");

@@ -35,20 +35,24 @@ export function applyToAllMaterials(m, f) {
 	else f(m);
 }
 
-export function connectColor(base, key, targetbase, targetkey) {
+export function connectColor(base, key, targetbase, targetkey, target) {
 	if (targetkey === undefined) targetkey = key;
 	defineAccessor(base, key, {
 		get: () => targetbase[targetkey],
-		set: v => targetbase[targetkey].set(v)
+		set: v => {
+			target.visible = v;
+			if (v) targetbase[targetkey].set(v);
+		}
 	});
 }
 
-export function connectColorMulti(base, key, targetbase, targetkey) {
+export function connectColorMulti(base, key, targetbase, targetkey, target) {
 	if (targetkey === undefined) targetkey = [key];
 	defineAccessor(base, key, {
 		get: () => targetbase[0][targetkey[0] || key],
 		set: v => {
-			for (let i = 0; i < targetbase.length; i++) targetbase[i][targetkey[i] || ley].set(v);
+			target.visible = v;
+			if (v) for (let i = 0; i < targetbase.length; i++) targetbase[i][targetkey[i] || key].set(v);
 		}
 	});
 }

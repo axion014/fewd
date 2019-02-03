@@ -33,7 +33,7 @@ export function createRectangle(options) {
 	stroke.visible = !!options.strokeColor;
 	group.add(stroke);
 
-	const element = new Element(mesh, Object.assign(options, {customScale: true}));
+	const element = new Element(group, Object.assign(options, {customScale: true}));
 
 	defineAccessor(element, "width", {
 		get() {return fill.scale.x},

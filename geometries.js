@@ -35,6 +35,7 @@ export function createRectangle(options) {
 
 	const element = new Element(group, Object.assign(options, {customScale: true}));
 
+	fill.scale.set(options.width, options.height, 1);
 	defineAccessor(element, "width", {
 		get() {return fill.scale.x},
 		set(v) {
@@ -51,8 +52,8 @@ export function createRectangle(options) {
 	});
 	connectColor(element, "fillColor", fill.material, "color", fill);
 	connectColor(element, "strokeColor", stroke.material.uniforms.color, "value", stroke);
-	connect(element, "fillOpacity", fill);
-	connect(element, "strokeOpacity", stroke);
+	connect(element, "fillOpacity", fill, "opacity");
+	connect(element, "strokeOpacity", stroke, "opacity");
 	connect(element, "strokeWidth", stroke.material.uniforms.lineWidth, "value");
 
 	element.hitTest = hitTestRectangle;

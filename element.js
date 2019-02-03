@@ -7,10 +7,12 @@ export default class Element extends Group {
 	constructor(nativeContent, options) {
 		super();
 		this.add(nativeContent);
-		nativeContent.scale.x = options.width;
-		nativeContent.scale.y = options.height;
-		connect(this, "width", nativeContent.scale, "x");
-		connect(this, "height", nativeContent.scale, "y");
+		if (!options.customScale) {
+			nativeContent.scale.x = options.width;
+			nativeContent.scale.y = options.height;
+			connect(this, "width", nativeContent.scale, "x");
+			connect(this, "height", nativeContent.scale, "y");
+		}
 		this.opacity = options.opacity;
 		connect(this, "selfOpacity", nativeContent, "opacity");
 		nativeContent.opacity = options.selfOpacity;

@@ -13,10 +13,10 @@ import {hitTestRectangle, hitTestEllipse} from './hittest';
 export function createRectangle(options) {
 	const group = new Group();
 
-	const fill = new Element(new Mesh(
+	const fill = new Mesh(
 		new PlaneBufferGeometry(1, 1),
 		new MeshBasicMaterial({color: options.fillColor})
-	), options);
+	);
 	fill.opacity = 1;
 	group.add(fill);
 
@@ -32,34 +32,31 @@ export function createRectangle(options) {
 	);
 	group.add(stroke);
 
-	defineAccessor(group, "width", {
-		get() {return fill.width},
+	const element = new Element(mesh, Object.assign(options, {customScale: true}));
+
+	defineAccessor(element, "width", {
+		get() {return fill.scale.x},
 		set(v) {
-			fill.width = v;
-			setMeshLineGeometry(stroke, geometry(v / 2, fill.height / 2), true);
+			fill.scale.x = v;
+			setMeshLineGeometry(stroke, geometry(v / 2, fill.scale.y / 2), true);
 		}
 	});
-	defineAccessor(group, "height", {
-		get() {return fill.height},
+	defineAccessor(element, "height", {
+		get() {return fill.scale.y},
 		set(v) {
-			fill.height = v;
-			setMeshLineGeometry(stroke, geometry(fill.width / 2, v / 2), true);
+			fill.scale.y = v;
+			setMeshLineGeometry(stroke, geometry(fill.scale.x / 2, v / 2), true);
 		}
 	});
-	group.opacity = options.opacity;
-	defineAccessor(group, "selfOpacity", {
-		get() {return fill.opacity},
-		set(v) {fill.opacity = stroke.opacity = v}
-	});
-	connectColor(group, "fillColor", fill.material, "color");
-	connectColor(group, "strokeColor", stroke.material.uniforms.color, "value");
-	connect(group, "fillOpacity", fill);
-	connect(group, "strokeOpacity", stroke);
-	connect(group, "strokeWidth", stroke.material.uniforms.lineWidth, "value");
+	connectColor(element, "fillColor", fill.material, "color");
+	connectColor(element, "strokeColor", stroke.material.uniforms.color, "value");
+	connect(element, "fillOpacity", fill);
+	connect(element, "strokeOpacity", stroke);
+	connect(element, "strokeWidth", stroke.material.uniforms.lineWidth, "value");
 
-	group.hitTest = hitTestRectangle;
+	element.hitTest = hitTestRectangle;
 
-	return group;
+	return element;
 }
 
 export function createEllipse(options) {

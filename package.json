@@ -1,6 +1,6 @@
 {
   "name": "w3g",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "The framework for making 3D browser games.",
   "main": "w3g.js",
   "scripts": {

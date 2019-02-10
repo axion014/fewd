@@ -43,24 +43,22 @@ const assets = {};
 const loadingResources = new Set();
 
 function forEachResourse(list, callback) {
-	function callbackInside(list) {
-		Object.keys(list).forEach(type => {
-			function callbackSimpleList(list) {
-				Object.keys(list).forEach(name => callback(type, name, list[name]));
-			}
-			if (Array.isArray(list[type])) list[type].forEach(elm => {
-				if (typeof elm === "string") callback(type, elm);
-				else callbackSimpleList(elm);
-			});
-			else callbackSimpleList(list[type]);
-		});
+	function callbackSimpleList(list) {
+		Object.keys(list).forEach(name => callback(type, name, list[name]));
 	}
-	if (Array.isArray(list)) {
-		list.forEach(elm => {
-			if (elm.constructor === Object) callbackInside(elm);
-			else forEachResourse(elm.requiredResources, callback);
-		});
-	} else callbackInside(list);
+	function callbackInside(innerList) {
+		if (innerList.constructor === Object) {
+			Object.keys(innerList).forEach(type => {
+				if (Array.isArray(innerList[type])) innerList[type].forEach(elm => {
+					if (typeof elm === "string") callback(type, elm, urlList[type][elm]);
+					else callbackSimpleList(elm);
+				});
+				else callbackSimpleList(innerList[type]);
+			});
+		} else forEachResourse(list.requiredResources, callback);
+	}
+	if (Array.isArray(list)) list.forEach(callbackInside);
+	else callbackInside(list);
 }
 
 export async function loadResources(list, onProgress) {

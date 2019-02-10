@@ -14,6 +14,13 @@ export function rotate(o, a, r) {
 	return o;
 }
 
+export function rotateAbs(o, a, r) {
+	const tempquaternion = get(Quaternion);
+	o.quaternion.premultiply(tempquaternion.setFromAxisAngle(a, r));
+	free(tempquaternion);
+	return o;
+}
+
 export function rotateX(o, r) {
 	return rotate(o, Axis.x, r);
 }
@@ -24,6 +31,18 @@ export function rotateY(o, r) {
 
 export function rotateZ(o, r) {
 	return rotate(o, Axis.z, r);
+}
+
+export function rotateAbsX(o, r) {
+	return rotateAbs(o, Axis.x, r);
+}
+
+export function rotateAbsY(o, r) {
+	return rotateAbs(o, Axis.y, r);
+}
+
+export function rotateAbsZ(o, r) {
+	return rotateAbs(o, Axis.z, r);
 }
 
 export function deepclone(object, clonegeometry, clonematerial) {
@@ -133,41 +152,6 @@ export default function extend() {
 		return a;
 	};
 	THREE.applyToAllMaterial = */
-
-	Object3D.prototype.rotateAbs = function(a, r) {
-		this.quaternion.rotateAbs(a, r);
-	};
-	Object3D.prototype.move = function(d) {
-		this.position.x = d.x;
-		this.position.y = d.y;
-		this.position.z = d.z;
-		return this;
-	};
-	Object3D.prototype.rotateAbsX = function(r) {
-		this.quaternion.rotateAbsX(r);
-	};
-	Object3D.prototype.rotateAbsY = function(r) {
-		this.quaternion.rotateAbsY(r);
-	};
-	Object3D.prototype.rotateAbsZ = function(r) {
-		this.quaternion.rotateAbsZ(r);
-	};
-
-	Quaternion.prototype.rotate = function(a, r) {
-		return this.multiply(new Quaternion().setFromAxisAngle(a, r));
-	};
-	Quaternion.prototype.rotateAbs = function(a, r) {
-		return this.premultiply(new Quaternion().setFromAxisAngle(a, r));
-	};
-	Quaternion.prototype.rotateAbsX = function(r) {
-		return this.rotateAbs(Axis.x, r);
-	};
-	Quaternion.prototype.rotateAbsY = function(r) {
-		return this.rotateAbs(Axis.y, r);
-	};
-	Quaternion.prototype.rotateAbsZ = function(r) {
-		return this.rotateAbs(Axis.z, r);
-	};
 	Object.defineProperty(MultiMaterial.prototype, 'opacity', {
 		set(p) {
 			for (var i = 0; i < this.materials.length; i++) {

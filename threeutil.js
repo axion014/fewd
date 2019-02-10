@@ -46,7 +46,7 @@ export function rotateAbsZ(o, r) {
 }
 
 export function deepclone(object, clonegeometry, clonematerial) {
-	return new object.constructor(clonegeometry ? this.geometry.clone() : this.geometry, clonematerial ? this.material.clone(true) : this.material).copy(this);
+	return new object.constructor(clonegeometry ? object.geometry.clone() : object.geometry, clonematerial ? object.material.clone(true) : object.material).copy(object);
 }
 
 export function applyToAllMaterials(m, f) {

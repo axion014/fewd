@@ -16,6 +16,7 @@ export let currentFPS = 0;
 export let vw = 640;
 export let vh = 960;
 export let resized = false;
+let updated = false;
 
 export function setCurrentScene(scene) {
 	currentScene = scene;
@@ -28,6 +29,7 @@ export function renderScreen() {
 	currentScene.prepareForRendering();
 	threeComposer.render();
 	resized = false;
+	updated = false;
 }
 
 export function setGameLoopfrequency(r) {
@@ -84,6 +86,7 @@ export function run() {
 		if (currentScene.update) currentScene.update(current - previous);
 		Object.keys(keyDown).forEach(key => keyDown[key] = false);
 		previous = current;
+		updated = true;
 	})();
 
 	const frameTimes = [];
@@ -93,6 +96,6 @@ export function run() {
 		const currentTime = performance.now();
 		frameTimes.push(currentTime);
 		currentFPS = 60000 / (currentTime - frameTimes.shift());
-		renderScreen();
+		if (updated) renderScreen();
 	});
 }

@@ -40,7 +40,7 @@ export function addFile(type, name, url) {
 }
 
 const assets = {};
-const loadingResources = new Set();
+const loadingResources = new Map();
 
 function forEachResourse(list, callback) {
 	function callbackSimpleList(list) {
@@ -70,21 +70,23 @@ export async function loadResources(list, onProgress) {
 	return Promise.all(promises);
 }
 
-export async function loadResource(type, name, url) {
+export function loadResource(type, name, url) {
+	const key = `${type}.${name}`;
 	// Don't load already loaded resource
-	if ((assets[type] && assets[type][name]) || loadingResources.has(`${type}.${name}`)) return;
+	if ((!assets[type] || !assets[type][name]) && !loadingResources.has(key)) {
+		loadingResources.set(key, (async () => {
+			if (!fileParsers[type]) throw new Error(`fileParsers[${type}] does not exist`);
+			if (!url) url = urlList[type][name];
+			const response = await fetch(new Request(url, {}));
+			if (!response.ok) throw new Error(`HTTP error, status = ${response.status}`);
+			if (!assets[type]) assets[type] = [];
+	  	assets[type][name] = await fileParsers[type](response, url);
+			//console.log(`done ${key} (${url})`);
 
-	loadingResources.add(`${type}.${name}`);
-
-	if (!fileParsers[type]) throw new Error(`fileParsers[${type}] does not exist`);
-	if (!url) url = urlList[type][name];
-	const response = await fetch(new Request(url, {}));
-	if (!response.ok) throw new Error(`HTTP error, status = ${response.status}`);
-	if (!assets[type]) assets[type] = [];
-  assets[type][name] = await fileParsers[type](response, url);
-	//console.log(`done ${type}.${name} (${url})`);
-
-	loadingResources.delete(`${type}.${name}`);
+			loadingResources.delete(key);
+		})());
+	}
+	return loadingResources.get(key);
 }
 
 export function countResources(list) {

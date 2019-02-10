@@ -27,6 +27,7 @@ export default class Easing {
 	 */
 	wait(time) {
 		this.queue.push({time, currentTime: 0});
+		return this;
 	}
 
 	/*

@@ -90,15 +90,20 @@ export default class Scene extends EventDispatcher {
 
 	updatePasses() {
 		this.threePasses[0].clear = true;
-		this.threePasses[0].renderToScreen =
-			this.threePasses[1].clear || this.threePasses[1].renderToScreen;
 		this.threePasses[this.threePasses.length - 1].clear = false;
 		this.threePasses[this.threePasses.length - 1].renderToScreen = true;
-		for (let i = 1; i < this.threePasses.length - 1; i++) {
-			this.threePasses[i].renderToScreen = this.threePasses[i + 1].clear;
+		for (let i = this.threePasses.length - 2; i >= 1; i--) {
+			this.threePasses[i].renderToScreen =
+				!(this.threePasses[i] instanceof RenderPass) && this.threePasses[i + 1].clear ||
+				this.threePasses[i + 1] instanceof RenderPass && this.threePasses[i + 1].renderToScreen;
 			this.threePasses[i].clear =
 				this.threePasses[i - 1].renderToScreen && !this.threePasses[i].renderToScreen;
+			this.threePasses[i].needsSwap =
+				!(this.threePasses[i] instanceof RenderPass && this.threePasses[i + 1] instanceof RenderPass);
 		}
+		this.threePasses[0].renderToScreen =
+			this.threePasses[1] instanceof RenderPass && this.threePasses[1].renderToScreen;
+		this.threePasses[0].needsSwap = !(this.threePasses[1] instanceof RenderPass);
 	}
 
 	prepareForRendering() {

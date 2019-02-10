@@ -33,6 +33,8 @@ export default function EffectComposer(renderer, renderTarget) {
 	this.copyPass = new ShaderPass(new CopyShader());
 };
 
+EffectComposer.requiredResources = CopyShader;
+
 Object.assign(EffectComposer.prototype, {
 	swapBuffers: function() {
 		const tmp = this.readBuffer;

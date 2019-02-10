@@ -3,6 +3,9 @@ import {WebGLRenderer, Color} from "three";
 import EffectComposer from "./three-effect/EffectComposer";
 
 import {initPointerEvents, initKeyEvents, keyDown, processEvent} from "./input";
+import {loadResources} from "./loading";
+
+import regeneratorRuntime from "regenerator-runtime"; // async requires this
 
 const loopRate = 60;
 
@@ -46,7 +49,7 @@ initKeyEvents();
 
 let canvas;
 
-export function init(options) {
+export async function init(options) {
 	if (!options) options = {};
 	if (options.fitScreen) {
 		resize(window.innerWidth, window.innerHeight);
@@ -59,6 +62,7 @@ export function init(options) {
 	threeRenderer = new WebGLRenderer({canvas: canvas, antialias: true});
 	threeRenderer.setSize(vw, vh);
 	threeRenderer.setClearColor(new Color(0xffffff), 1.0);
+	await loadResources(EffectComposer);
 	threeComposer = new EffectComposer(threeRenderer);
 
 	window.addEventListener('unload', () => threeRenderer.forceContextLoss());

@@ -23,8 +23,8 @@ export default class Scene extends EventDispatcher {
 		this.UICamera.position.z = 5;
 		this.UIScene.add(this.UICamera);
 		this.threePasses = [
-			new RenderPass(this.threeScene, this.camera, {renderToScreen: true}),
-			new RenderPass(this.UIScene, this.UICamera, {renderToScreen: true, clear: false})
+			new RenderPass(this.threeScene, this.camera, {}),
+			new RenderPass(this.UIScene, this.UICamera, {})
 		];
 
 		Easing.initIn(this);

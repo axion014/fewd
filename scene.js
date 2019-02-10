@@ -88,6 +88,19 @@ export default class Scene extends EventDispatcher {
 		this.UICamera.updateProjectionMatrix();
 	}
 
+	updatePasses() {
+		this.threePasses[0].clear = true;
+		this.threePasses[0].renderToScreen =
+			this.threePasses[1].clear || this.threePasses[1].renderToScreen;
+		this.threePasses[this.threePasses.length - 1].clear = false;
+		this.threePasses[this.threePasses.length - 1].renderToScreen = true;
+		for (let i = 1; i < this.threePasses.length - 1; i++) {
+			this.threePasses[i].renderToScreen = this.threePasses[i + 1].clear;
+			this.threePasses[i].clear =
+				this.threePasses[i - 1].renderToScreen && !this.threePasses[i].renderToScreen;
+		}
+	}
+
 	prepareForRendering() {
 		if (resized) this.updateCameras();
 		this.UIScene.traverse(children => {
@@ -100,17 +113,7 @@ export default class Scene extends EventDispatcher {
 				if (children.material.opacity !== 1) children.material.transparent = true;
 			}
 		});
-		this.threePasses[0].clear = true;
-		this.threePasses[0].renderToScreen =
-			this.threePasses[1].clear || this.threePasses[1].renderToScreen;
-		for (let i = 1; i < this.threePasses.length - 1; i++) {
-			this.threePasses[i].renderToScreen =
-				!this.threePasses[i - 1].clear && this.threePasses[i + 1].clear;
-			this.threePasses[i].clear =
-				this.threePasses[i - 1].renderToScreen && !this.threePasses[i].renderToScreen;
-		}
-		this.threePasses[this.threePasses.length - 1].clear = false;
-		this.threePasses[this.threePasses.length - 1].renderToScreen = true;
+		this.updatePasses();
 	}
 
 	static createAndEnter() {

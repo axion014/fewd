@@ -73,7 +73,8 @@ export async function loadResources(list, onProgress) {
 export function loadResource(type, name, url) {
 	const key = `${type}.${name}`;
 	// Don't load already loaded resource
-	if ((!assets[type] || !assets[type][name]) && !loadingResources.has(key)) {
+	if (assets[type] && assets[type][name]) return Promise.resolve();
+	if (!loadingResources.has(key)) {
 		loadingResources.set(key, (async () => {
 			if (!fileParsers[type]) throw new Error(`fileParsers[${type}] does not exist`);
 			if (!url) url = urlList[type][name];

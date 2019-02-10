@@ -30,7 +30,7 @@ export default function EffectComposer(renderer, renderTarget) {
 
 	this.passes = [];
 
-	this.copyPass = new ShaderPass(CopyShader);
+	this.copyPass = new ShaderPass(new CopyShader());
 };
 
 Object.assign(EffectComposer.prototype, {

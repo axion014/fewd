@@ -43,19 +43,19 @@ const assets = {};
 const loadingResources = new Map();
 
 function forEachResourse(list, callback) {
-	function callbackSimpleList(list) {
-		Object.keys(list).forEach(name => callback(type, name, list[name]));
-	}
 	function callbackInside(innerList) {
 		if (innerList.constructor === Object) {
 			Object.keys(innerList).forEach(type => {
+				function callbackSimpleList(list) {
+					Object.keys(list).forEach(name => callback(type, name, list[name]));
+				}
 				if (Array.isArray(innerList[type])) innerList[type].forEach(elm => {
 					if (typeof elm === "string") callback(type, elm, urlList[type][elm]);
 					else callbackSimpleList(elm);
 				});
 				else callbackSimpleList(innerList[type]);
 			});
-		} else forEachResourse(list.requiredResources, callback);
+		} else forEachResourse(innerList.requiredResources, callback);
 	}
 	if (Array.isArray(list)) list.forEach(callbackInside);
 	else callbackInside(list);

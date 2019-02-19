@@ -1,4 +1,4 @@
-import {Mesh, Object3D, Quaternion, MultiMaterial, Vector2, Vector3} from "three";
+import {Mesh, Object3D, Quaternion, MultiMaterial, Vector2, Vector3, Color} from "three";
 import {MeshLine, MeshLineMaterial} from "three.meshline";
 
 import {vw, vh, resized} from "./main";
@@ -106,6 +106,7 @@ export function setMeshLineGeometry(mesh, geometry, flat) {
 }
 
 export function createMeshLine(geometry, material, flat) {
+	if (!(material.color instanceof Color)) material.color = new Color(material.color);
 	const geometryGenerator = new MeshLine();
 	const mesh = new Mesh(
 		geometryGenerator.geometry,

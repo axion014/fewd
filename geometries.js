@@ -78,6 +78,13 @@ export function createEllipse(options) {
 
 	connectColor(element, "fillColor", mesh.material, "color", mesh);
 	//connectColor(element, "strokeColor", stroke.material.uniforms.color, "value");
+	defineAccessor(element, "radius", {
+		get() {
+			if (element.width !== element.height)
+				throw new Error("Attempted to access radius property of a ellipse whose width and height is different");
+			return element.width;
+		}
+	});
 
 	element.hitTest = hitTestEllipse;
 

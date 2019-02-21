@@ -28,6 +28,8 @@ function getFontHeight(fontStyle) {
 }
 
 function MultilineSpriteText2D(text, options) {
+	options = options || {};
+
 	this.width = options.width;
 	this.lineHeight = options.lineHeight;
 	SpriteText2D.apply(this, arguments);
@@ -102,6 +104,8 @@ export function createLabelArea(text, options) {
 }
 
 export function createGauge(options) {
+	options = options || {};
+
 	const group = new Group();
 
 	const background = createRectangle({

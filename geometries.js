@@ -11,6 +11,7 @@ import Element from "./element";
 import {hitTestRectangle, hitTestEllipse} from './hittest';
 
 export function createRectangle(options) {
+	options = options || {};
 	const group = new Group();
 
 	const fill = new Mesh(
@@ -62,6 +63,8 @@ export function createRectangle(options) {
 }
 
 export function createEllipse(options) {
+	options = options || {};
+
 	if (options.radius) options.width = options.height = options.radius * 2;
 
 	const mesh = new Mesh(
@@ -82,6 +85,8 @@ export function createEllipse(options) {
 }
 
 export function createSymmetricTriangle(options) {
+	options = options || {};
+
 	const shape = new Shape();
 	shape.moveTo(0, -0.5);
 	shape.lineTo(0.5, 0.5);

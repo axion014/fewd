@@ -26,5 +26,8 @@ export default class Element extends Group {
 			}
 		});
 		this.rotation = options.rotation || 0;
+		if (options.x) this.position.x = options.x;
+		if (options.y) this.position.y = options.y;
+		if (options.z) this.position.z = options.z;
 	}
 }

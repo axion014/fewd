@@ -83,7 +83,8 @@ export function createEllipse(options) {
 			if (element.width !== element.height)
 				throw new Error("Attempted to access radius property of a ellipse whose width and height is different");
 			return element.width;
-		}
+		},
+		set(v) {element.width = element.height = v}
 	});
 
 	element.hitTest = hitTestEllipse;

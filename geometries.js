@@ -10,12 +10,13 @@ import {createMeshLine, setMeshLineGeometry, connectColor} from "./threeutil";
 import Element from "./element";
 import {hitTestRectangle, hitTestEllipse} from './hittest';
 
+const rectgeometry = new PlaneBufferGeometry(1, 1);
 export function createRectangle(options) {
 	options = options || {};
 	const group = new Group();
 
 	const fill = new Mesh(
-		new PlaneBufferGeometry(1, 1),
+		rectgeometry,
 		new MeshBasicMaterial({color: options.fillColor})
 	);
 	fill.visible = !!options.fillColor;
@@ -62,13 +63,18 @@ export function createRectangle(options) {
 	return element;
 }
 
+const circlegeometries = {};
 export function createEllipse(options) {
 	options = options || {};
 
 	if (options.radius) options.width = options.height = options.radius * 2;
 
+	if (options.segments === undefined) options.segments = 32;
+	if (!circlegeometries[options.segments])
+		circlegeometries[options.segments] = new CircleBufferGeometry(0.5, options.segments);
+
 	const mesh = new Mesh(
-		new CircleBufferGeometry(0.5, options.segments !== undefined ? options.segments : 32),
+		circlegeometries[options.segments],
 		new MeshBasicMaterial({color: options.fillColor})
 	);
 
@@ -92,16 +98,17 @@ export function createEllipse(options) {
 	return element;
 }
 
+const shape = new Shape();
+shape.moveTo(0, -0.5);
+shape.lineTo(0.5, 0.5);
+shape.lineTo(-0.5, 0.5);
+shape.lineTo(0, -0.5);
+const symmetrictrianglegeometry = new ShapeBufferGeometry(shape);
 export function createSymmetricTriangle(options) {
 	options = options || {};
 
-	const shape = new Shape();
-	shape.moveTo(0, -0.5);
-	shape.lineTo(0.5, 0.5);
-	shape.lineTo(-0.5, 0.5);
-	shape.lineTo(0, -0.5);
 	const mesh = new Mesh(
-		new ShapeBufferGeometry(shape),
+		symmetrictrianglegeometry,
 		new MeshBasicMaterial({color: options.fillColor})
 	);
 

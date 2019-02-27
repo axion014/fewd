@@ -13,6 +13,7 @@ export default class Element extends Group {
 			connect(this, "width", nativeContent.scale, "x");
 			connect(this, "height", nativeContent.scale, "y");
 		}
+		this.nativeContent = nativeContent;
 		this.opacity = options.opacity;
 		connect(this, "selfOpacity", nativeContent, "opacity");
 		nativeContent.opacity = options.selfOpacity;

@@ -11,6 +11,7 @@ import Element from "./element";
 import {hitTestRectangle, hitTestEllipse} from './hittest';
 
 const rectgeometry = new PlaneBufferGeometry(1, 1);
+const rectlinegeometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
 export class Rectangle extends Element {
 	constructor(options) {
 		options = options || {};
@@ -23,10 +24,8 @@ export class Rectangle extends Element {
 		fill.visible = !!options.fillColor;
 		group.add(fill);
 
-		const geometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
-
 		const stroke = createMeshLine(
-			geometry(options.width / 2, options.height / 2),
+			rectlinegeometry(options.width / 2, options.height / 2),
 			{
 				color: options.strokeColor,
 				lineWidth: options.strokeWidth !== undefined ? options.strokeWidth : 2
@@ -43,14 +42,14 @@ export class Rectangle extends Element {
 			get() {return fill.scale.x},
 			set(v) {
 				fill.scale.x = v;
-				setMeshLineGeometry(stroke, geometry(v / 2, fill.scale.y / 2), true);
+				setMeshLineGeometry(stroke, rectlinegeometry(v / 2, fill.scale.y / 2), true);
 			}
 		});
 		defineAccessor(this, "height", {
 			get() {return fill.scale.y},
 			set(v) {
 				fill.scale.y = v;
-				setMeshLineGeometry(stroke, geometry(fill.scale.x / 2, v / 2), true);
+				setMeshLineGeometry(stroke, rectlinegeometry(fill.scale.x / 2, v / 2), true);
 			}
 		});
 		connectColor(this, "fillColor", fill.material, "color", fill);

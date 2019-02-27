@@ -80,72 +80,74 @@ MultilineSpriteText2D.prototype = Object.create(SpriteText2D.prototype);
 
 define(MultilineSpriteText2D.prototype, "width", null);
 
-export function createLabel(text, options) {
-	const element = new SpriteText2D(text || " ", Object.assign({
-		align: textAlign.center,
-		fillStyle: 'hsla(0, 0%, 0%, 0.6)',
-		font: "32px 'HiraKakuProN-W3'"
-	}, options));
-	element.opacity = options ? options.opacity : 1;
-	element.hitTest = hitTestRectangle;
-	return element;
+export class Label extends SpriteText2D {
+	constructor(text, options) {
+		super(text || " ", Object.assign({
+			align: textAlign.center,
+			fillStyle: 'hsla(0, 0%, 0%, 0.6)',
+			font: "32px 'HiraKakuProN-W3'"
+		}, options));
+		this.opacity = options ? options.opacity : 1;
+		this.hitTest = hitTestRectangle;
+	}
 }
 
-export function createLabelArea(text, options) {
-	const element = new MultilineSpriteText2D(text, Object.assign({
-		align: textAlign.center,
-		fillStyle: 'hsla(0, 0%, 0%, 0.6)',
-		font: "32px 'HiraKakuProN-W3'",
-		lineHeight: 1.2
-	}, options));
-	element.opacity = options ? options.opacity : 1;
-	element.hitTest = hitTestRectangle;
-	return element;
+export class LabelArea extends MultilineSpriteText2D {
+	constructor(text, options) {
+		super(text, Object.assign({
+			align: textAlign.center,
+			fillStyle: 'hsla(0, 0%, 0%, 0.6)',
+			font: "32px 'HiraKakuProN-W3'",
+			lineHeight: 1.2
+		}, options));
+		this.opacity = options ? options.opacity : 1;
+		this.hitTest = hitTestRectangle;
+	}
 }
 
-export function createGauge(options) {
-	options = options || {};
+export class Gauge extends Element {
+	constructor(options) {
+		options = options || {};
 
-	const group = new Group();
+		const group = new Group();
 
-	const background = createRectangle({
-		width: 1,
-		height: 1,
-		fillColor: options.fillColor,
-		strokeColor: options.strokeColor
-	});
-	group.add(background);
+		const background = createRectangle({
+			width: 1,
+			height: 1,
+			fillColor: options.fillColor,
+			strokeColor: options.strokeColor
+		});
+		group.add(background);
 
-  const foreground = createRectangle({
-		width: options.value / options.maxValue,
-		height: 1,
-		fillColor: options.gaugeColor
-	});
-  foreground.position.z = 0.0001;
-	group.add(foreground);
+  	const foreground = createRectangle({
+			width: options.value / options.maxValue,
+			height: 1,
+			fillColor: options.gaugeColor
+		});
+  	foreground.position.z = 0.0001;
+		group.add(foreground);
 
-	group.maxValue = options.maxValue;
+		group.maxValue = options.maxValue;
 
-	defineAccessor(group, "value", {
-		get: () => foreground.width * group.maxValue,
-		set: v => {
-			foreground.width = v / group.maxValue;
-			foreground.x = -(1 - foreground.width) / 2
-		}
-	});
+		defineAccessor(group, "value", {
+			get: () => foreground.width * group.maxValue,
+			set: v => {
+				foreground.width = v / group.maxValue;
+				foreground.x = -(1 - foreground.width) / 2
+			}
+		});
 
-	const element = new Element(group, options);
+		super(group, options);
 
-	connect(element, "fillColor", background);
-	connect(element, "strokeColor", background);
-	connectColor(element, "gaugeColor", foreground, "fillColor", foreground);
-	connect(element, "fillOpacity", background);
-	connect(element, "strokeOpacity", background);
-	connect(element, "gaugeOpacity", foreground, "opacity");
+		connect(this, "fillColor", background);
+		connect(this, "strokeColor", background);
+		connectColor(this, "gaugeColor", foreground, "fillColor", foreground);
+		connect(this, "fillOpacity", background);
+		connect(this, "strokeOpacity", background);
+		connect(this, "gaugeOpacity", foreground, "opacity");
 
-	element.hitTest = hitTestRectangle;
-
-	return element;
+		this.hitTest = hitTestRectangle;
+	}
 }
 
 export {textAlign};

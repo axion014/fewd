@@ -4,7 +4,8 @@ import {SpriteText2D, textAlign} from "three-text2d";
 
 import Mikan from "mikan.js";
 
-import {createRectangle} from "./geometries";
+import {Rectangle} from "./geometries";
+import {define, defineAccessor} from "./utils";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
 

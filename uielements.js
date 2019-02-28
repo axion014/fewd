@@ -5,8 +5,6 @@ import {SpriteText2D, textAlign} from "three-text2d";
 import Mikan from "mikan.js";
 
 import {createRectangle} from "./geometries";
-import {define, defineAccessor, connect} from "./utils";
-import {connectColor} from "./threeutil";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
 
@@ -129,25 +127,55 @@ export class Gauge extends Element {
 
 		group.maxValue = options.maxValue;
 
-		defineAccessor(group, "value", {
-			get: () => foreground.width * group.maxValue,
-			set: v => {
-				foreground.width = v / group.maxValue;
-				foreground.x = -(1 - foreground.width) / 2
-			}
-		});
-
 		super(group, options);
-
-		connect(this, "fillColor", background);
-		connect(this, "strokeColor", background);
-		connectColor(this, "gaugeColor", foreground, "fillColor", foreground);
-		connect(this, "fillOpacity", background);
-		connect(this, "strokeOpacity", background);
-		connect(this, "gaugeOpacity", foreground, "opacity");
 
 		this.hitTest = hitTestRectangle;
 	}
 }
+
+defineAccessor(Gauge.prototype, "width", {
+	get() {return this.foreground.scale.x},
+	set(v) {this.nativeContent.scale.x = v}
+});
+defineAccessor(Gauge.prototype, "height", {
+	get() {return this.foreground.scale.y},
+	set(v) {this.nativeContent.scale.y = v}
+});
+defineAccessor(Gauge.prototype, "value", {
+	get() {this.foreground.width * this.nativeContent.maxValue},
+	set(v) {
+		foreground.width = v / group.maxValue;
+		foreground.x = -(1 - foreground.width) / 2
+	}
+});
+defineAccessor(Gauge.prototype, "fillOpacity", {
+	get() {return this.background.fillOpacity},
+	set(v) {this.background.fillOpacity = v}
+});
+defineAccessor(Gauge.prototype, "strokeOpacity", {
+	get() {return this.background.strokeOpacity},
+	set(v) {this.background.strokeOpacity = v}
+});
+defineAccessor(Gauge.prototype, "gaugeOpacity", {
+	get() {return this.foreground.opacity},
+	set(v) {this.foreground.opacity = v}
+});
+defineAccessor(Gauge.prototype, "strokeWidth", {
+	get() {return this.background.strokeWidth},
+	set(v) {this.background.strokeWidth = v}
+});
+defineAccessor(Gauge.prototype, "fillColor", {
+	get() {return this.background.fillColor},
+	set(v) {this.background.fillColor = v}
+});
+defineAccessor(Gauge.prototype, "strokeColor", {
+	get() {return this.background.strokeColor},
+	set(v) {this.background.strokeColor = v}
+});
+defineAccessor(Gauge.prototype, "gaugeColor", {
+	get() {return this.foreground.fillColor},
+	set(v) {this.foreground.fillColor = v}
+});
+
 
 export {textAlign};

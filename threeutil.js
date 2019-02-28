@@ -59,7 +59,7 @@ export function connectColor(base, key, targetbase, targetkey, target) {
 	defineAccessor(base, key, {
 		get: () => targetbase[targetkey],
 		set: v => {
-			target.visible = v;
+			target.visible = Boolean(v);
 			if (v) targetbase[targetkey].set(v);
 		}
 	});

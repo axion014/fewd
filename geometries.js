@@ -67,8 +67,6 @@ export class Ellipse extends Element {
 	constructor(options) {
 		options = options || {};
 
-		if (options.radius) options.width = options.height = options.radius * 2;
-
 		if (options.segments === undefined) options.segments = 32;
 		if (!circlegeometries[options.segments])
 			circlegeometries[options.segments] = new CircleBufferGeometry(0.5, options.segments);
@@ -88,10 +86,11 @@ export class Ellipse extends Element {
 			get() {
 				if (this.width !== this.height)
 				throw new Error("Attempted to access radius property of a ellipse whose width and height is 	different");
-				return this.width;
+				return this.width / 2;
 			},
-			set(v) {this.width = this.height = v}
+			set(v) {this.width = this.height = v * 2}
 		});
+		if (options.radius) this.radius = options.radius;
 
 		this.hitTest = hitTestEllipse;
 	}

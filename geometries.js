@@ -90,14 +90,12 @@ export class Ellipse extends Element {
 		if (!circlegeometries[options.segments])
 			circlegeometries[options.segments] = new CircleBufferGeometry(0.5, options.segments);
 
-		const mesh = new Mesh(
+		super(new Mesh(
 			circlegeometries[options.segments],
 			new MeshBasicMaterial({color: options.fillColor})
-		);
+		), options);
 
-		mesh.visible = !!options.fillColor;
-
-		super(mesh, options);
+		this.nativeContent.visible = !!options.fillColor;
 
 		if (options.radius) this.radius = options.radius;
 
@@ -141,15 +139,12 @@ export class SymmetricTriangle extends Element {
 	constructor(options) {
 		options = options || {};
 
-		const mesh = new Mesh(
+		super(new Mesh(
 			symmetrictrianglegeometry,
 			new MeshBasicMaterial({color: options.fillColor})
-		);
+		), options);
 
-		mesh.visible = !!options.fillColor;
-
-		super(mesh, options);
-
+		this.nativeContent.visible = !!options.fillColor;
 	}
 }
 defineAccessor(SymmetricTriangle.prototype, "width", {

@@ -10,6 +10,15 @@ export default class Element extends Group {
 		this.nativeContent = nativeContent;
 		this.opacity = options.opacity;
 		this.selfOpacity = options.selfOpacity;
+
+		defineAccessor(this, "rotation", {
+			get() {return this._rotation},
+			set(v) {
+				this._rotation = v;
+				this.quaternion.set(0, 0, 0, 1);
+				rotateZ(this, v);
+			}
+		});
 		this.rotation = options.rotation || 0;
 		if (options.x) this.x = options.x;
 		if (options.y) this.y = options.y;
@@ -32,12 +41,4 @@ defineAccessor(Element.prototype, "z", {
 defineAccessor(Element.prototype, "selfOpacity", {
 	get() {return this.nativeContent.opacity},
 	set(v) {this.nativeContent.opacity = v}
-});
-defineAccessor(Element.prototype, "rotation", {
-	get() {return this._rotation;},
-	set(v) {
-		this._rotation = v;
-		this.quaternion.set(0, 0, 0, 1);
-		rotateZ(this, v);
-	}
 });

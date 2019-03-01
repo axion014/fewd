@@ -15,16 +15,17 @@ const rectlinegeometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
 export class Rectangle extends Element {
 	constructor(options) {
 		options = options || {};
-		const group = new Group();
+		super(new Group(), Object.assign(options, {customScale: true}));
 
-		const fill = new Mesh(
+		this.fill = new Mesh(
 			rectgeometry,
 			new MeshBasicMaterial({color: options.fillColor})
 		);
-		fill.visible = !!options.fillColor;
-		group.add(fill);
+		this.fill.visible = !!options.fillColor;
+		this.fill.scale.set(options.width, options.height, 1);
+		this.nativeContent.add(this.fill);
 
-		const stroke = createMeshLine(
+		this.stroke = createMeshLine(
 			rectlinegeometry(options.width / 2, options.height / 2),
 			{
 				color: options.strokeColor,
@@ -32,12 +33,9 @@ export class Rectangle extends Element {
 			},
 			true
 		);
-		stroke.visible = !!options.strokeColor;
-		group.add(stroke);
+		this.stroke.visible = !!options.strokeColor;
+		this.nativeContent.add(this.stroke);
 
-		super(group, Object.assign(options, {customScale: true}));
-
-		fill.scale.set(options.width, options.height, 1);
 		this.hitTest = hitTestRectangle;
 	}
 }

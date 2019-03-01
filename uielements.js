@@ -110,7 +110,7 @@ export class Gauge extends Element {
 
 		const group = new Group();
 
-		const background = createRectangle({
+		const background = new Rectangle({
 			width: 1,
 			height: 1,
 			fillColor: options.fillColor,
@@ -118,7 +118,7 @@ export class Gauge extends Element {
 		});
 		group.add(background);
 
-  	const foreground = createRectangle({
+  	const foreground = new Rectangle({
 			width: options.value / options.maxValue,
 			height: 1,
 			fillColor: options.gaugeColor
@@ -126,26 +126,25 @@ export class Gauge extends Element {
   	foreground.position.z = 0.0001;
 		group.add(foreground);
 
-		group.maxValue = options.maxValue;
-
 		super(group, options);
 
+		this.maxValue = options.maxValue;
 		this.hitTest = hitTestRectangle;
 	}
 }
 
 defineAccessor(Gauge.prototype, "width", {
-	get() {return this.foreground.scale.x},
+	get() {return this.nativeContent.scale.x},
 	set(v) {this.nativeContent.scale.x = v}
 });
 defineAccessor(Gauge.prototype, "height", {
-	get() {return this.foreground.scale.y},
+	get() {return this.nativeContent.scale.y},
 	set(v) {this.nativeContent.scale.y = v}
 });
 defineAccessor(Gauge.prototype, "value", {
-	get() {this.foreground.width * this.nativeContent.maxValue},
+	get() {this.foreground.width * this.maxValue},
 	set(v) {
-		foreground.width = v / group.maxValue;
+		foreground.width = v / this.maxValue;
 		foreground.x = -(1 - foreground.width) / 2
 	}
 });

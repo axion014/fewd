@@ -11,6 +11,7 @@ export function createCustomEvent(name, detail) {
 
 export let mouseX = null;
 export let mouseY = null;
+export let pointing = false;
 
 export const keys = {};
 export const keyDown = {};
@@ -43,6 +44,7 @@ export function initPointerEvents(element) {
 	element.addEventListener('mousedown', e => {
 		e = processEvent('pointstart', e);
 		updateMousePosition(e);
+		pointing = true;
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousemove', e => {
@@ -51,6 +53,7 @@ export function initPointerEvents(element) {
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mouseup', e => {
+		pointing = false;
 		element.dispatchEvent(processEvent('pointend', e));
 	});
 }

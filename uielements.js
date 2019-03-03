@@ -108,25 +108,23 @@ export class Gauge extends Element {
 	constructor(options) {
 		options = options || {};
 
-		const group = new Group();
+		super(new Group(), options);
 
-		const background = new Rectangle({
+		this.background = new Rectangle({
 			width: 1,
 			height: 1,
 			fillColor: options.fillColor,
 			strokeColor: options.strokeColor
 		});
-		group.add(background);
+		this.nativeContent.add(this.background);
 
-  	const foreground = new Rectangle({
+  	this.foreground = new Rectangle({
 			width: options.value / options.maxValue,
 			height: 1,
 			fillColor: options.gaugeColor
 		});
-  	foreground.position.z = 0.0001;
-		group.add(foreground);
-
-		super(group, options);
+  	this.foreground.position.z = 0.0001;
+		this.nativeContent.add(this.foreground);
 
 		this.maxValue = options.maxValue;
 		this.hitTest = hitTestRectangle;
@@ -144,8 +142,8 @@ defineAccessor(Gauge.prototype, "height", {
 defineAccessor(Gauge.prototype, "value", {
 	get() {this.foreground.width * this.maxValue},
 	set(v) {
-		foreground.width = v / this.maxValue;
-		foreground.x = -(1 - foreground.width) / 2
+		this.foreground.width = v / this.maxValue;
+		this.foreground.x = -(1 - this.foreground.width) / 2
 	}
 });
 defineAccessor(Gauge.prototype, "fillOpacity", {

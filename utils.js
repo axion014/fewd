@@ -46,9 +46,7 @@ export function get(type) {
 	if (pools[type] !== undefined) {
 		if (pools[type].length !== 0) return pools[type].pop();
 	} else pools[type] = [];
-	const newobj = new type();
-	pools[type].push(newobj);
-	return newobj;
+	return new type();
 }
 
 export function free() {

@@ -7,7 +7,7 @@ import {loadResources} from "./loading";
 
 import regeneratorRuntime from "regenerator-runtime"; // async requires this
 
-const loopRate = 60;
+export let loopRate = 60;
 
 let threeRenderer;
 export let threeComposer;
@@ -35,9 +35,6 @@ export function renderScreen() {
 	updated = false;
 }
 
-export function setGameLoopfrequency(r) {
-	loopRate = r;
-}
 
 export function resize(width, height) {
 	vw = width;

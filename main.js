@@ -8,7 +8,7 @@ import {loadResources} from "./loading";
 import regeneratorRuntime from "regenerator-runtime"; // async requires this
 
 export let loopRate = 60;
-let frameRate = 60;
+export let frameRate = 60;
 
 let threeRenderer;
 export let threeComposer;
@@ -55,10 +55,6 @@ export function resize(width, height) {
 	resized = true;
 }
 
-export function getFrameRate() {
-	return frameRate;
-}
-
 let breakRenderLoop = false;
 export function setFrameRate(v) {
 	frameRate = v;
@@ -91,8 +87,8 @@ export async function init(options) {
 			resize(window.innerWidth, window.innerHeight);
 		});
 	} else if (options.width && options.height) resize(options.width, options.height);
-	const canvaspresented = options && options.canvasId;
-	canvas = canvaspresented ? document.getElementById(options.canvasId) : document.createElement("canvas");
+	const canvaspresented = options.canvas;
+	canvas = canvaspresented ? options.canvas : document.createElement("canvas");
 	threeRenderer = new WebGLRenderer({canvas: canvas, antialias: true});
 	threeRenderer.setSize(vw, vh);
 	threeRenderer.setPixelRatio(window.devicePixelRatio);

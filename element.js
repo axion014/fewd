@@ -24,21 +24,16 @@ export default class Element extends Group {
 		if (options.y) this.y = options.y;
 		if (options.z) this.z = options.z;
 	}
-}
 
-defineAccessor(Element.prototype, "x", {
-	get() {return this.position.x},
-	set(v) {this.position.x = v}
-});
-defineAccessor(Element.prototype, "y", {
-	get() {return this.position.y},
-	set(v) {this.position.y = v}
-});
-defineAccessor(Element.prototype, "z", {
-	get() {return this.position.z},
-	set(v) {this.position.z = v}
-});
-defineAccessor(Element.prototype, "selfOpacity", {
-	get() {return this.nativeContent.opacity},
-	set(v) {this.nativeContent.opacity = v}
-});
+	get x() {return this.position.x}
+	set x(v) {this.position.x = v}
+
+	get y() {return this.position.y}
+	set y(v) {this.position.y = v}
+
+	get z() {return this.position.z}
+	set z(v) {this.position.z = v}
+
+	get selfOpacity() {return this.nativeContent.opacity}
+	set selfOpacity(v) {this.nativeContent.opacity = v}
+}

@@ -5,7 +5,7 @@ import {SpriteText2D, textAlign} from "three-text2d";
 import Mikan from "mikan.js";
 
 import {Rectangle} from "./geometries";
-import {define, defineAccessor} from "./utils";
+import {define} from "./utils";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
 
@@ -129,51 +129,38 @@ export class Gauge extends Element {
 		this.maxValue = options.maxValue;
 		this.hitTest = hitTestRectangle;
 	}
-}
+	get width() {return this.nativeContent.scale.x}
+	set width(v) {this.nativeContent.scale.x = v}
 
-defineAccessor(Gauge.prototype, "width", {
-	get() {return this.nativeContent.scale.x},
-	set(v) {this.nativeContent.scale.x = v}
-});
-defineAccessor(Gauge.prototype, "height", {
-	get() {return this.nativeContent.scale.y},
-	set(v) {this.nativeContent.scale.y = v}
-});
-defineAccessor(Gauge.prototype, "value", {
-	get() {this.foreground.width * this.maxValue},
-	set(v) {
+	get height() {return this.nativeContent.scale.y}
+	set height(v) {this.nativeContent.scale.y = v}
+
+	get value() {this.foreground.width * this.maxValue}
+	set value(v) {
 		this.foreground.width = v / this.maxValue;
 		this.foreground.x = -(1 - this.foreground.width) / 2
 	}
-});
-defineAccessor(Gauge.prototype, "fillOpacity", {
-	get() {return this.background.fillOpacity},
-	set(v) {this.background.fillOpacity = v}
-});
-defineAccessor(Gauge.prototype, "strokeOpacity", {
-	get() {return this.background.strokeOpacity},
-	set(v) {this.background.strokeOpacity = v}
-});
-defineAccessor(Gauge.prototype, "gaugeOpacity", {
-	get() {return this.foreground.opacity},
-	set(v) {this.foreground.opacity = v}
-});
-defineAccessor(Gauge.prototype, "strokeWidth", {
-	get() {return this.background.strokeWidth},
-	set(v) {this.background.strokeWidth = v}
-});
-defineAccessor(Gauge.prototype, "fillColor", {
-	get() {return this.background.fillColor},
-	set(v) {this.background.fillColor = v}
-});
-defineAccessor(Gauge.prototype, "strokeColor", {
-	get() {return this.background.strokeColor},
-	set(v) {this.background.strokeColor = v}
-});
-defineAccessor(Gauge.prototype, "gaugeColor", {
-	get() {return this.foreground.fillColor},
-	set(v) {this.foreground.fillColor = v}
-});
 
+	get fillOpacity() {return this.background.fillOpacity}
+	set fillOpacity(v) {this.background.fillOpacity = v}
+
+	get strokeOpacity() {return this.background.strokeOpacity}
+	set strokeOpacity(v) {this.background.strokeOpacity = v}
+
+	get gaugeOpacity() {return this.foreground.opacity}
+	set gaugeOpacity(v) {this.foreground.opacity = v}
+
+	get strokeWidth() {return this.background.strokeWidth}
+	set strokeWidth(v) {this.background.strokeWidth = v}
+
+	get fillColor() {return this.background.fillColor}
+	set fillColor(v) {this.background.fillColor = v}
+
+	get strokeColor() {return this.background.strokeColor}
+	set strokeColor(v) {this.background.strokeColor = v}
+
+	get gaugeColor() {return this.foreground.fillColor}
+	set gaugeColor(v) {this.foreground.fillColor = v}
+}
 
 export {textAlign};

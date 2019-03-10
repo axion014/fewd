@@ -5,7 +5,6 @@ import {
 	Shape, Vector3
 } from "three";
 
-import {defineAccessor} from "./utils";
 import {createMeshLine, setMeshLineGeometry} from "./threeutil";
 import Element from "./element";
 import {hitTestRectangle, hitTestEllipse} from './hittest';
@@ -38,48 +37,39 @@ export class Rectangle extends Element {
 
 		this.hitTest = hitTestRectangle;
 	}
-}
-
-defineAccessor(Rectangle.prototype, "width", {
-	get() {return this.fill.scale.x},
-	set(v) {
+	get width() {return this.fill.scale.x}
+	set width(v) {
 		this.fill.scale.x = v;
 		setMeshLineGeometry(this.stroke, rectlinegeometry(v / 2, this.fill.scale.y / 2), true);
 	}
-});
-defineAccessor(Rectangle.prototype, "height", {
-	get() {return this.fill.scale.y},
-	set(v) {
+
+	get height() {return this.fill.scale.y}
+	set height(v) {
 		this.fill.scale.y = v;
 		setMeshLineGeometry(this.stroke, rectlinegeometry(this.fill.scale.x / 2, v / 2), true);
 	}
-});
-defineAccessor(Rectangle.prototype, "fillOpacity", {
-	get() {return this.fill.opacity},
-	set(v) {this.fill.opacity = v}
-});
-defineAccessor(Rectangle.prototype, "strokeOpacity", {
-	get() {return this.stroke.opacity},
-	set(v) {this.stroke.opacity = v}
-});
-defineAccessor(Rectangle.prototype, "strokeWidth", {
-	get() {return this.stroke.material.uniforms.lineWidth.value},
-	set(v) {this.stroke.material.uniforms.lineWidth.value = v}
-});
-defineAccessor(Rectangle.prototype, "fillColor", {
-	get() {return this.fill.material.color},
-	set(v) {
+
+	get fillOpacity() {return this.fill.opacity}
+	set fillOpacity(v) {this.fill.opacity = v}
+
+	get strokeOpacity() {return this.stroke.opacity}
+	set strokeOpacity(v) {this.stroke.opacity = v}
+
+	get strokeWidth() {return this.stroke.material.uniforms.lineWidth.value}
+	set strokeWidth(v) {this.stroke.material.uniforms.lineWidth.value = v}
+
+	get fillColor() {return this.fill.material.color}
+	set fillColor(v) {
 		this.fill.visible = Boolean(v);
 		this.fill.material.color.set(v)
 	}
-});
-defineAccessor(Rectangle.prototype, "strokeColor", {
-	get() {return this.stroke.material.uniforms.color.value},
-	set(v) {
+
+	get strokeColor() {return this.stroke.material.uniforms.color.value}
+	set strokeColor(v) {
 		this.stroke.visible = Boolean(v);
 		this.stroke.material.uniforms.color.value.set(v)
 	}
-});
+}
 
 const circlegeometries = {};
 export class Ellipse extends Element {
@@ -101,33 +91,27 @@ export class Ellipse extends Element {
 
 		this.hitTest = hitTestEllipse;
 	}
-}
-defineAccessor(Ellipse.prototype, "width", {
-	get() {return this.nativeContent.scale.x},
-	set(v) {this.nativeContent.scale.x = v}
-});
-defineAccessor(Ellipse.prototype, "height", {
-	get() {return this.nativeContent.scale.y},
-	set(v) {this.nativeContent.scale.y = v}
-});
-defineAccessor(Ellipse.prototype, "fillColor", {
-	get() {return this.nativeContent.material.color},
-	set(v) {
+	get width() {return this.nativeContent.scale.x}
+	set width(v) {this.nativeContent.scale.x = v}
+
+	get height() {return this.nativeContent.scale.y}
+	set height(v) {this.nativeContent.scale.y = v}
+
+	get fillColor() {return this.nativeContent.material.color}
+	set fillColor(v) {
 		this.nativeContent.visible = Boolean(v);
 		this.nativeContent.material.color.set(v)
 	}
-});
-defineAccessor(Ellipse.prototype, "radius", {
-	get() {
+
+	get radius() {
 		if (this.width !== this.height)
 			throw new Error("Attempted to access radius property of a ellipse whose width and height is different");
 		return this.width;
-	},
-	set(v) {this.width = this.height = v}
-});
-defineAccessor(Ellipse.prototype, "segments", {
-	set(v) {this.nativeContent.geometry = getCircleGeometry(v)}
-});
+	}
+	set radius(v) {this.width = this.height = v}
+
+	set segments(v) {this.nativeContent.geometry = getCircleGeometry(v)}
+}
 
 const shape = new Shape();
 shape.moveTo(0, -0.5);
@@ -146,19 +130,15 @@ export class SymmetricTriangle extends Element {
 
 		this.nativeContent.visible = !!options.fillColor;
 	}
-}
-defineAccessor(SymmetricTriangle.prototype, "width", {
-	get() {return this.nativeContent.scale.x},
-	set(v) {this.nativeContent.scale.x = v}
-});
-defineAccessor(SymmetricTriangle.prototype, "height", {
-	get() {return this.nativeContent.scale.y},
-	set(v) {this.nativeContent.scale.y = v}
-});
-defineAccessor(SymmetricTriangle.prototype, "fillColor", {
-	get() {return this.nativeContent.material.color},
-	set(v) {
+	get width() {return this.nativeContent.scale.x}
+	set width(v) {this.nativeContent.scale.x = v}
+
+	get height() {return this.nativeContent.scale.y}
+	set height(v) {this.nativeContent.scale.y = v}
+
+	get fillColor() {return this.nativeContent.material.color}
+	set fillColor(v) {
 		this.nativeContent.visible = Boolean(v);
 		this.nativeContent.material.color.set(v)
 	}
-});
+}

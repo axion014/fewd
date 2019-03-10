@@ -47,12 +47,10 @@ function forEachResourse(list, callback) {
 		if (innerList.constructor === Object) {
 			Object.keys(innerList).forEach(type => {
 				function callbackSimpleList(list) {
-					Object.keys(list).forEach(name => callback(type, name, list[name]));
+					if (typeof list === "string") callback(type, list, urlList[type][list]);
+					else Object.keys(list).forEach(name => callback(type, name, list[name]));
 				}
-				if (Array.isArray(innerList[type])) innerList[type].forEach(elm => {
-					if (typeof elm === "string") callback(type, elm, urlList[type][elm]);
-					else callbackSimpleList(elm);
-				});
+				if (Array.isArray(innerList[type])) innerList[type].forEach(callbackSimpleList);
 				else callbackSimpleList(innerList[type]);
 			});
 		} else forEachResourse(innerList.requiredResources, callback);

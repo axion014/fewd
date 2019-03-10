@@ -49,7 +49,7 @@ export default class Easing {
 		const order = this.queue[0];
 		if (order === undefined) return;
 		if (typeof order === "function") {
-			order();
+			order.call(this.target);
 			this.queue.shift();
 			this.update(delta);
 		} else {

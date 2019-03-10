@@ -54,6 +54,12 @@ export function applyToAllMaterials(m, f) {
 	else f(m);
 }
 
+export function modifySafeTraverse(t, f) {
+	f(t);
+	let children = t.children.slice();
+	for (let i = 0, l = children.length; i < l; i++) modifySafeTraverse(children[i], f);
+}
+
 export function connectColor(base, key, targetbase, targetkey, target) {
 	if (targetkey === undefined) targetkey = key;
 	defineAccessor(base, key, {

@@ -4,6 +4,7 @@ import RenderPass from "./three-effect/RenderPass";
 
 import {setCurrentScene, vw, vh, resized} from "./main";
 import Easing from "./easing";
+import {modifySafeTraverse} from "./threeutil";
 
 const pos = new Vector3();
 
@@ -69,8 +70,8 @@ export default class Scene extends EventDispatcher {
 		}
 		this.updateEasings(deltaTime);
 		this.dispatchEvent(updateEvent);
-		this.threeScene.traverse(updateChild);
-		this.UIScene.traverse(updateChild);
+		modifySafeTraverse(this.threeScene, updateChild);
+		modifySafeTraverse(this.UIScene, updateChild);
 	}
 
 	enterThisScene() {

@@ -11,6 +11,7 @@ export default class Element extends Group {
 		this.opacity = options.opacity;
 		this.selfOpacity = options.selfOpacity;
 
+		// Can't put this in prototype because Object3D defines this in the constructor
 		defineAccessor(this, "rotation", {
 			get() {return this._rotation},
 			set(v) {

@@ -76,6 +76,7 @@ export function loadResource(type, name, url) {
 		loadingResources.set(key, (async () => {
 			if (!fileParsers[type]) throw new Error(`fileParsers[${type}] does not exist`);
 			if (!url) url = urlList[type][name];
+			if (!url) throw new Error(`URL for resource ${key} is not registered`);
 			const response = await fetch(new Request(url, {}));
 			if (!response.ok) throw new Error(`HTTP error, status = ${response.status}`);
 			if (!assets[type]) assets[type] = [];

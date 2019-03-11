@@ -75,8 +75,6 @@ export function setFrameRate(v) {
 	}
 }
 
-initKeyEvents();
-
 let canvas;
 
 export async function init(options) {
@@ -99,6 +97,7 @@ export async function init(options) {
 	window.addEventListener('unload', () => threeRenderer.forceContextLoss());
 
 	initPointerEvents(canvas);
+	initKeyEvents();
 
 	if (!canvaspresented) return canvas;
 }

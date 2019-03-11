@@ -12,14 +12,12 @@ const updateEvent = {type: "update"};
 const renderEvent = {type: "render"};
 
 export default class Scene extends EventDispatcher {
-
-	threeScene = new THREEScene();
-	camera = new PerspectiveCamera(45, vw / vh, 1, 10000);
-	UIScene = new THREEScene();
-	UICamera = new OrthographicCamera(-vw / 2, vw / 2, vh / 2, -vh / 2, 1, 10000);
-
 	constructor() {
 		super();
+		this.threeScene = new THREEScene();
+		this.camera = new PerspectiveCamera(45, vw / vh, 1, 10000);
+		this.UIScene = new THREEScene();
+		this.UICamera = new OrthographicCamera(-vw / 2, vw / 2, vh / 2, -vh / 2, 1, 10000);
 		this.threeScene.add(this.camera);
 		this.UICamera.position.z = 5;
 		this.UIScene.add(this.UICamera);

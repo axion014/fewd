@@ -5,15 +5,14 @@ import "./identicalVertex";
 addFile('GLSL', 'zoomblurFragment', "node_modules/w3g/three-effect/zoomblurFragment.min.glsl");
 
 export default class ZoomblurShader {
-	uniforms = {
-		tDiffuse: {value: null},
-		strength: {value: 0}
-	};
-
 	constructor() {
+		this.uniforms = {
+			tDiffuse: {value: null},
+			strength: {value: 0}
+		};
 		this.vertexShader = assets.GLSL.identicalVertex;
 		this.fragmentShader = assets.GLSL.zoomblurFragment;
 	}
-
-	static requiredResources = {GLSL: ['identicalVertex', 'zoomblurFragment']};
 }
+
+ZoomblurShader.requiredResources = {GLSL: ['identicalVertex', 'zoomblurFragment']};

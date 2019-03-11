@@ -4,7 +4,7 @@
   "description": "The framework for making 3D browser games.",
   "main": "w3g.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r esm"
   },
   "author": "axion014",
   "license": "ISC",
@@ -16,9 +16,11 @@
     "three.meshline": "https://github.com/axion014/THREE.MeshLine.git#usematrix"
   },
   "devDependencies": {
+		"esm": "^3.2.14",
     "gulp": "^4.0.0",
     "gulp-glsl": "^1.2.4",
     "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^1.4.0"
+    "gulp-rename": "^1.4.0",
+    "mocha": "^6.0.2"
   }
 }

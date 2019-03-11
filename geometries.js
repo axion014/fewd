@@ -36,17 +36,21 @@ export class Rectangle extends Element {
 		this.nativeContent.add(this.stroke);
 
 		this.hitTest = hitTestRectangle;
+
+		this.addEventListener("render", () => {
+			if (this._dirty) setMeshLineGeometry(this.stroke, rectlinegeometry(this.fill.scale.x / 2, this.fill.scale.y / 2), true);
+		});
 	}
 	get width() {return this.fill.scale.x}
 	set width(v) {
 		this.fill.scale.x = v;
-		setMeshLineGeometry(this.stroke, rectlinegeometry(v / 2, this.fill.scale.y / 2), true);
+		this._dirty = true;
 	}
 
 	get height() {return this.fill.scale.y}
 	set height(v) {
 		this.fill.scale.y = v;
-		setMeshLineGeometry(this.stroke, rectlinegeometry(this.fill.scale.x / 2, v / 2), true);
+		this._dirty = true;
 	}
 
 	get fillOpacity() {return this.fill.opacity}

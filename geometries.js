@@ -106,9 +106,9 @@ export class Ellipse extends Element {
 	get radius() {
 		if (this.width !== this.height)
 			throw new Error("Attempted to access radius property of a ellipse whose width and height is different");
-		return this.width;
+		return this.width / 2;
 	}
-	set radius(v) {this.width = this.height = v}
+	set radius(v) {this.width = this.height = v * 2}
 
 	set segments(v) {this.nativeContent.geometry = getCircleGeometry(v)}
 }

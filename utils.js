@@ -1,5 +1,3 @@
-import {Vector3} from "three";
-
 export function opt(base, key) {
 	if (base[key] === undefined) return function() {};
 	if (base[key] instanceof Function) return base[key].bind(base);

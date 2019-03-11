@@ -21,7 +21,7 @@ Register combination of resource identifier and resource URL.
 
 ---
 ##### `countResources(list)` : Number
-Returns how many resources to be loaded is in the list.
+Returns number of resources to be loaded in the list.
 - `list` - Same as that of `loadResources()`.
 
 ---

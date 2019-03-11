@@ -15,8 +15,8 @@ Create a new `THREE.MeshLine`.
 ---
 ##### `deepclone(object, clonegeometry, clonematerial)` : `THREE.Mesh`
 Deep clone the passed mesh.
-- clonegeometry - Whether the geometry of the mesh will be cloned.
-- clonematerial - Whether the material of the mesh will be cloned.
+- `clonegeometry` - Whether the geometry of the mesh will be cloned.
+- `clonematerial` - Whether the material of the mesh will be cloned.
 
 ---
 ##### `modifySafeTraverse(t, f)` : undefined
@@ -41,5 +41,5 @@ Rotate a quaternion `o` around *local* X / Y / Z axis by `r` radian.
 ---
 ##### `setMeshLineGeometry(mesh, geometry, flat)` : undefined
 Update geometry of existing `THREE.MeshLine`.
-- `mesh` - The target `MeshLine` instance.
-- `geometry` and `flat` - same parameter as that of `createMeshLine`.
+- `mesh` **:** `THREE.Mesh` - The target MeshLine.
+- `geometry` and `flat` - Same parameter as that of `createMeshLine`.

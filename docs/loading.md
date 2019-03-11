@@ -17,7 +17,7 @@ File types below are provided by default:
 
 ## Functions
 ##### `addFile(type, name, url)` : undefined
-Register combination of resource ID and resource URL.
+Register combination of resource identifier and resource URL.
 
 ---
 ##### `countResources(list)` : Number

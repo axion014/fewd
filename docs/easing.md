@@ -7,8 +7,8 @@
 
 #### Methods
 ##### `add(changes, time, func)` : this
-Add an order to mutate `target` over `time`ms.
-- `changes` - object with properties `target` will end up with.
+Add an order to mutate `this.target` over `time`ms.
+- `changes` - Object with properties `this.target` will end up with.
 - `func` - Easing function specifying how the properties should change over time.
 
 ---
@@ -19,7 +19,7 @@ The function will be called with `target` as `this`.
 ---
 ##### `update(delta)` : undefined
 Update the target.
-- `delta` - how many milliseconds went since the last time you updated.
+- `delta` - Milliseconds elapsed since the previous call.
 
 ---
 ##### `wait(time)` : this

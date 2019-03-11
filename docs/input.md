@@ -9,11 +9,11 @@ A boolean for each keycode is stored. Pressing keys will turn this true as long 
 
 ---
 #### `mouseX` : Number
-x coordinate of the pointer, relative to the left edge of the screen.
+*x* coordinate of the pointer, relative to the left edge of the screen.
 
 ---
 #### `mouseY` : Number
-y coordinate of the pointer, relative to the top edge of the screen.
+*y* coordinate of the pointer, relative to the top edge of the screen.
 
 ---
 #### `pointing` : Boolean

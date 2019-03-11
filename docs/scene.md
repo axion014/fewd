@@ -23,15 +23,15 @@ Camera projecting 2D interfaces.
 ##### `UIScene` : `THREE.Scene`
 Scene to compose 2D interfaces on top of 3D scene.
 #### Methods
-##### `enterThisScene()`
+##### `enterThisScene()` : undefined
 Replace applications `currentScene` with this scene.
 
 ---
-##### `update(deltaTime)`
+##### `update(deltaTime)` : undefined
 Update the scene.
 - `deltaTime` - Milliseconds elapsed since the previous call.
 
 ## Functions
-##### `Scene.createAndEnter()`
+##### `Scene.createAndEnter()` : undefined
 Create a scene of the class you called this static method from, passing any arguments passed to this function.
 Enter to that scene immediately.

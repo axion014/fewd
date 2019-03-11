@@ -91,7 +91,9 @@ export function loadResource(type, name, url) {
 
 export function countResources(list) {
 	let count = 0;
-	forEachResourse(list, () => count++);
+	forEachResourse(list, (type, name) => {
+		if (!(assets[type] && assets[type][name])) count++;
+	});
 	return count;
 }
 

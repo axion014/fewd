@@ -25,7 +25,7 @@ Screen width and height.
 ## Functions
 ##### async `init(options)` : options.canvas ? `<canvas>` : undefined
 Initializes the screen and the renderer.  
-`options` - object. Properties:
+`options` - Object. Optional. Properties:
 - width - Screen width.
 - height - Screen height.
 - canvas - The canvas to be used.

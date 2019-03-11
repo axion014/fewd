@@ -8,9 +8,9 @@ Contains property `x`, `y` and `z`, `THREE.Vector3`s pointing the positive direc
 ---
 ##### `createMeshLine(geometry, material, flat)` : `THREE.Mesh`
 Create a new `THREE.MeshLine`.
-- `geometry` - Array of `THREE.Vector2`s, `THREE.Vector3` or 2-dimensional Array representing the shape of `MeshLine`.
-- `material` - additional options which will be passed to options parameter of the `MeshLineMaterial` constuctor.
-- `flat`
+- `geometry` - Array of `THREE.Vector2`s, `THREE.Vector3`, 2-dimensional Array, or flat Array representing the shape of `MeshLine`.
+- `material` - Additional options object which will be passed to options parameter of the `MeshLineMaterial` constuctor.
+- `flat` - Indicates that the `geometry` passed is flat Array. defaults to false.
 
 ---
 ##### `deepclone(object, clonegeometry, clonematerial)` : `THREE.Mesh`

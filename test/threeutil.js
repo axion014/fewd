@@ -1,26 +1,29 @@
 import assert from "assert";
 import {deepclone, modifySafeTraverse} from "../threeutil";
-import {Scene, Group, Mesh, BoxBufferGeometry, MeshBasicMaterial} from "three";
+import {Scene, Group, Mesh} from "three";
 
 describe('threeutil.js', function() {
-	describe('#deepclone()', function() {
+	describe('deepclone()', function() {
 		it('returns mesh with different geometry and material than one passed', function() {
-			const original = new Mesh(new BoxBufferGeometry(), new MeshBasicMaterial());
+			const original = new Mesh();
 			const cloned = deepclone(original, true, true);
 			assert.notEqual(original.geometry, cloned.geometry);
 			assert.notEqual(original.material, cloned.material);
 		});
-		it('can clone only either geometry or material if specified', function() {
-			const original = new Mesh(new BoxBufferGeometry(), new MeshBasicMaterial());
+		it('can clone only geometry if specified', function() {
+			const original = new Mesh();
 			let cloned = deepclone(original, true, false);
 			assert.notEqual(original.geometry, cloned.geometry);
 			assert.equal(original.material, cloned.material);
-			cloned = deepclone(original, false, true);
+		});
+		it('can clone only material if specified', function() {
+			const original = new Mesh();
+			let cloned = deepclone(original, false, true);
 			assert.equal(original.geometry, cloned.geometry);
 			assert.notEqual(original.material, cloned.material);
 		});
   });
-	describe('#modifySafeTraverse()', function() {
+	describe('modifySafeTraverse()', function() {
 		let root, count;
 		beforeEach('build some scene graph', function() {
 			count = 0;

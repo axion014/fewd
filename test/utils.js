@@ -6,14 +6,14 @@ function closeTo(a, b) {
 }
 
 describe('utils.js', function() {
-	before('call #get() and #free() randomly', function() {
+	before('call get() and free() randomly', function() {
 		const objects = [];
-		for (let i = 0; i < 100; i++) {
-			if (Math.random() > 0.6) objects.push(get(Object));
+		for (let i = 0; i < 500; i++) {
+			if (Math.random() > 0.5) objects.push(get(Object));
 			if (Math.random() < 0.3 && objects.length > 0) free(objects.pop());
 		}
 	});
-	describe('#get()', function() {
+	describe('get()', function() {
 		it('returns object of specified class', function() {
 			assert.equal(get(Object).constructor, Object);
 		});
@@ -26,15 +26,23 @@ describe('utils.js', function() {
 			}
 		});
   });
-  describe('#normalizeAngle()', function() {
+  describe('normalizeAngle()', function() {
     it('returns the value passed unchanged if it\'s between -π and π', function() {
       assert.equal(normalizeAngle(1), 1);
+    });
+		it('returns the value passed unchanged if it\'s between -π and π', function() {
 			assert.equal(normalizeAngle(-2), -2);
+    });
+		it('returns the value passed unchanged if it\'s between -π and π', function() {
 			assert.equal(normalizeAngle(3), 3);
     });
 		it('wraps the value between -π and π if it\'s out of bounds', function() {
       closeTo(normalizeAngle(5), 5 - Math.PI * 2);
+    });
+		it('wraps the value between -π and π if it\'s out of bounds', function() {
 			closeTo(normalizeAngle(-8), -8 + Math.PI * 2);
+    });
+		it('wraps the value between -π and π if it\'s out of bounds', function() {
 			closeTo(normalizeAngle(-66), -66 + Math.PI * 22);
     });
   });

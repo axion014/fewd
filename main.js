@@ -25,7 +25,7 @@ let running = false;
 
 export function setCurrentScene(scene) {
 	currentScene = scene;
-	threeComposer.passes = scene.threePasses;
+	if (threeComposer) threeComposer.passes = scene.threePasses;
 	scene.updateCameras();
 }
 
@@ -93,6 +93,7 @@ export async function init(options) {
 	threeRenderer.setClearColor(new Color(0xffffff), 1.0);
 	await loadResources(EffectComposer);
 	threeComposer = new EffectComposer(threeRenderer);
+	if (currentScene) threeComposer.passes = currentScene.threePasses;
 
 	window.addEventListener('unload', () => threeRenderer.forceContextLoss());
 

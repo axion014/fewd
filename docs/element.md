@@ -27,3 +27,7 @@ Opacity for this element but not the childrens.
 ---
 ##### `x` / `y` / `z` : Number
 Alias for according properties in `this.position`.
+
+---
+##### `width` / `height` : Number
+Size of the element.

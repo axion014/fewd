@@ -10,6 +10,8 @@ export default class Element extends Group {
 		this.nativeContent = nativeContent;
 		this.opacity = options.opacity;
 		this.selfOpacity = options.selfOpacity;
+		if (options.width) this.width = options.width;
+		if (options.height) this.height = options.height;
 
 		// Can't put this in prototype because Object3D defines this in the constructor
 		defineAccessor(this, "rotation", {

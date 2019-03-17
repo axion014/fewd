@@ -8,6 +8,7 @@
 - `opacity`
 - `selfOpacity`
 - `x` / `y` / `z`
+- `width` / `height`
 
 Properties above will be copied to the element.
 

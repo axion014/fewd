@@ -26,9 +26,36 @@ function getFontHeight(fontStyle) {
   return result;
 }
 
-function MultilineSpriteText2D(text, options) {
-	options = options || {};
+class ModifiedSpriteText2D extends SpriteText2D {
+	constructor(text, options) {
+		options = options || {};
+		super(text || " ", Object.assign({
+			align: textAlign.center,
+			fillStyle: 'hsla(0, 0%, 0%, 0.6)',
+			font: "32px 'HiraKakuProN-W3'"
+		}, options));
+		if (options.rotation) this.rotation = options.rotation;
+		if (options.opacity) this.opacity = options.opacity;
+		this.hitTest = hitTestRectangle;
+		if (options.x) this.x = options.x;
+		if (options.y) this.y = options.y;
+		if (options.z) this.z = options.z;
+	}
 
+	get rotation() {return this.material.rotation}
+	set rotation(v) {this.material.rotation = v}
+
+	get x() {return this.position.x}
+	set x(v) {this.position.x = v}
+
+	get y() {return this.position.y}
+	set y(v) {this.position.y = v}
+
+	get z() {return this.position.z}
+	set z(v) {this.position.z = v}
+}
+
+function MultilineSpriteText2D(text, options) {
 	this.width = options.width;
 	this.lineHeight = options.lineHeight;
 	SpriteText2D.apply(this, arguments);
@@ -75,19 +102,17 @@ function MultilineSpriteText2D(text, options) {
 	return this;
 }
 
-MultilineSpriteText2D.prototype = Object.create(SpriteText2D.prototype);
+MultilineSpriteText2D.prototype = Object.create(ModifiedSpriteText2D.prototype);
 
 define(MultilineSpriteText2D.prototype, "width", null);
 
-export class Label extends SpriteText2D {
+export class Label extends ModifiedSpriteText2D {
 	constructor(text, options) {
 		super(text || " ", Object.assign({
 			align: textAlign.center,
 			fillStyle: 'hsla(0, 0%, 0%, 0.6)',
 			font: "32px 'HiraKakuProN-W3'"
 		}, options));
-		this.opacity = options ? options.opacity : 1;
-		this.hitTest = hitTestRectangle;
 	}
 }
 
@@ -99,8 +124,6 @@ export class LabelArea extends MultilineSpriteText2D {
 			font: "32px 'HiraKakuProN-W3'",
 			lineHeight: 1.2
 		}, options));
-		this.opacity = options ? options.opacity : 1;
-		this.hitTest = hitTestRectangle;
 	}
 }
 

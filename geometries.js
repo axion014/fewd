@@ -43,12 +43,14 @@ export class Rectangle extends Element {
 	}
 	get width() {return this.fill.scale.x}
 	set width(v) {
+		if (!this.fill) return;
 		this.fill.scale.x = v;
 		this._dirty = true;
 	}
 
 	get height() {return this.fill.scale.y}
 	set height(v) {
+		if (!this.fill) return;
 		this.fill.scale.y = v;
 		this._dirty = true;
 	}

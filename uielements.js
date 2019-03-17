@@ -40,7 +40,7 @@ class ModifiedSpriteText2D extends SpriteText2D {
 			set(v) {this.material.rotation = v}
 		});
 		if (options.rotation) this.rotation = options.rotation;
-		if (options.opacity) this.opacity = options.opacity;
+		this.opacity = options.opacity;
 		this.hitTest = hitTestRectangle;
 		if (options.x) this.x = options.x;
 		if (options.y) this.y = options.y;

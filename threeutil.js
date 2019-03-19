@@ -54,10 +54,17 @@ export function applyToAllMaterials(m, f) {
 	else f(m);
 }
 
-export function modifySafeTraverse(t, f) {
+const children = [];
+export function modifySafeTraverse(t, f, d) {
+	if (!d) d = 0;
 	f(t);
-	let children = t.children.slice();
-	for (let i = 0, l = children.length; i < l; i++) modifySafeTraverse(children[i], f);
+	if (children[d]) children[d].length = 0;
+	else children.push([]);
+
+	// May not work for element with tens of thousands of childrens
+	Array.prototype.push.apply(children[d], t.children);
+
+	for (let i = 0, l = children[d].length; i < l; i++) modifySafeTraverse(children[d][i], f, d + 1);
 }
 
 export function connectColor(base, key, targetbase, targetkey, target) {

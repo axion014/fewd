@@ -14,17 +14,15 @@ const rectlinegeometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
 export class Rectangle extends Element {
 	constructor(options) {
 		options = options || {};
-		super(new Group(), Object.assign(options, {customScale: true}));
-
-		this.fill = new Mesh(
+		const group = new Group();
+		group.fill = new Mesh(
 			rectgeometry,
 			new MeshBasicMaterial({color: options.fillColor})
 		);
-		this.fill.visible = !!options.fillColor;
-		this.fill.scale.set(options.width, options.height, 1);
-		this.nativeContent.add(this.fill);
+		group.fill.visible = !!options.fillColor;
+		group.add(group.fill);
 
-		this.stroke = createMeshLine(
+		group.stroke = createMeshLine(
 			rectlinegeometry(options.width / 2, options.height / 2),
 			{
 				color: options.strokeColor,
@@ -32,8 +30,10 @@ export class Rectangle extends Element {
 			},
 			true
 		);
-		this.stroke.visible = !!options.strokeColor;
-		this.nativeContent.add(this.stroke);
+		group.stroke.visible = !!options.strokeColor;
+		group.add(group.stroke);
+
+		super(group, Object.assign(options, {customScale: true}));
 
 		this.hitTest = hitTestRectangle;
 
@@ -41,39 +41,37 @@ export class Rectangle extends Element {
 			if (this._dirty) setMeshLineGeometry(this.stroke, rectlinegeometry(this.fill.scale.x / 2, this.fill.scale.y / 2), true);
 		});
 	}
-	get width() {return this.fill.scale.x}
+	get width() {return this.nativeContent.fill.scale.x}
 	set width(v) {
-		if (!this.fill) return;
-		this.fill.scale.x = v;
+		this.nativeContent.fill.scale.x = v;
 		this._dirty = true;
 	}
 
-	get height() {return this.fill.scale.y}
+	get height() {return this.nativeContent.fill.scale.y}
 	set height(v) {
-		if (!this.fill) return;
-		this.fill.scale.y = v;
+		this.nativeContent.fill.scale.y = v;
 		this._dirty = true;
 	}
 
-	get fillOpacity() {return this.fill.opacity}
-	set fillOpacity(v) {this.fill.opacity = v}
+	get fillOpacity() {return this.nativeContent.fill.opacity}
+	set fillOpacity(v) {this.nativeContent.fill.opacity = v}
 
-	get strokeOpacity() {return this.stroke.opacity}
-	set strokeOpacity(v) {this.stroke.opacity = v}
+	get strokeOpacity() {return this.nativeContent.stroke.opacity}
+	set strokeOpacity(v) {this.nativeContent.stroke.opacity = v}
 
-	get strokeWidth() {return this.stroke.material.uniforms.lineWidth.value}
-	set strokeWidth(v) {this.stroke.material.uniforms.lineWidth.value = v}
+	get strokeWidth() {return this.nativeContent.stroke.material.uniforms.lineWidth.value}
+	set strokeWidth(v) {this.nativeContent.stroke.material.uniforms.lineWidth.value = v}
 
-	get fillColor() {return this.fill.material.color}
+	get fillColor() {return this.nativeContent.fill.material.color}
 	set fillColor(v) {
-		this.fill.visible = Boolean(v);
-		this.fill.material.color.set(v)
+		this.nativeContent.fill.visible = Boolean(v);
+		this.nativeContent.fill.material.color.set(v)
 	}
 
-	get strokeColor() {return this.stroke.material.uniforms.color.value}
+	get strokeColor() {return this.nativeContent.stroke.material.uniforms.color.value}
 	set strokeColor(v) {
-		this.stroke.visible = Boolean(v);
-		this.stroke.material.uniforms.color.value.set(v)
+		this.nativeContent.stroke.visible = Boolean(v);
+		this.nativeContent.stroke.material.uniforms.color.value.set(v)
 	}
 }
 

@@ -81,33 +81,81 @@ function getCircleGeometry(segments) {
 	if (!circlegeometries[segments]) circlegeometries[segments] = new CircleBufferGeometry(0.5, segments);
 	return circlegeometries[segments];
 }
+const ellipselinegeometry = (w, h, s) => {
+	w /= 2;
+	h /= 2;
+	const g = [];
+	for (let i = 0; i <= s; i++) {
+		const r = i / s * Math.PI * 2;
+		g.push(Math.cos(r) * w, Math.sin(r) * h);
+	}
+	return g;
+};
 export class Ellipse extends Element {
 	constructor(options) {
 		options = options || {};
 
 		if (options.segments === undefined) options.segments = 32;
+		if (options.radius) options.width = options.height = options.radius * 2;
 
-		super(new Mesh(
+		const group = new Group();
+		group.fill = new Mesh(
 			getCircleGeometry(options.segments),
 			new MeshBasicMaterial({color: options.fillColor})
-		), options);
+		);
+		group.fill.visible = !!options.fillColor;
+		group.add(group.fill);
 
-		this.nativeContent.visible = !!options.fillColor;
+		group.stroke = createMeshLine(
+			ellipselinegeometry(options.width, options.height, options.segments),
+			{
+				color: options.strokeColor,
+				lineWidth: options.strokeWidth !== undefined ? options.strokeWidth : 2
+			},
+			true
+		);
+		group.stroke.visible = !!options.strokeColor;
+		group.add(group.stroke);
 
-		if (options.radius) this.radius = options.radius;
+		super(group, options);
+
+		this._segments = options.segments;
 
 		this.hitTest = hitTestEllipse;
+
+		this.addEventListener("render", () => {
+			if (this._dirty) setMeshLineGeometry(group.stroke, ellipselinegeometry(group.fill.scale.x, group.fill.scale.y, this._segments), true);
+			this._dirty = false;
+		});
 	}
-	get width() {return this.nativeContent.scale.x}
-	set width(v) {this.nativeContent.scale.x = v}
+	get width() {return this.nativeContent.fill.scale.x}
+	set width(v) {
+		this.nativeContent.fill.scale.x = v;
+		this._dirty = true;
+	}
 
-	get height() {return this.nativeContent.scale.y}
-	set height(v) {this.nativeContent.scale.y = v}
+	get height() {return this.nativeContent.fill.scale.y}
+	set height(v) {
+		this.nativeContent.fill.scale.y = v;
+		this._dirty = true;
+	}
 
-	get fillColor() {return this.nativeContent.material.color}
+	get fillOpacity() {return this.nativeContent.fill.opacity}
+	set fillOpacity(v) {this.nativeContent.fill.opacity = v}
+
+	get strokeOpacity() {return this.nativeContent.stroke.opacity}
+	set strokeOpacity(v) {this.nativeContent.stroke.opacity = v}
+
+	get fillColor() {return this.nativeContent.fill.material.color}
 	set fillColor(v) {
-		this.nativeContent.visible = Boolean(v);
-		this.nativeContent.material.color.set(v)
+		this.nativeContent.fill.visible = Boolean(v);
+		this.nativeContent.fill.material.color.set(v)
+	}
+
+	get strokeColor() {return this.nativeContent.stroke.material.uniforms.color.value}
+	set strokeColor(v) {
+		this.nativeContent.stroke.visible = Boolean(v);
+		this.nativeContent.stroke.material.uniforms.color.value.set(v)
 	}
 
 	get radius() {
@@ -117,7 +165,12 @@ export class Ellipse extends Element {
 	}
 	set radius(v) {this.width = this.height = v * 2}
 
-	set segments(v) {this.nativeContent.geometry = getCircleGeometry(v)}
+	get segments() {return this._segments}
+	set segments(v) {
+		this.nativeContent.fill.geometry = getCircleGeometry(v);
+		this._segments = v;
+		this._dirty = true;
+	}
 }
 
 const shape = new Shape();

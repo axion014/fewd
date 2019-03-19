@@ -77,16 +77,18 @@ export class Rectangle extends Element {
 }
 
 const circlegeometries = {};
+function getCircleGeometry(segments) {
+	if (!circlegeometries[segments]) circlegeometries[segments] = new CircleBufferGeometry(0.5, segments);
+	return circlegeometries[segments];
+}
 export class Ellipse extends Element {
 	constructor(options) {
 		options = options || {};
 
 		if (options.segments === undefined) options.segments = 32;
-		if (!circlegeometries[options.segments])
-			circlegeometries[options.segments] = new CircleBufferGeometry(0.5, options.segments);
 
 		super(new Mesh(
-			circlegeometries[options.segments],
+			getCircleGeometry(options.segments),
 			new MeshBasicMaterial({color: options.fillColor})
 		), options);
 

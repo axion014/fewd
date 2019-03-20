@@ -174,10 +174,10 @@ export class Ellipse extends Element {
 }
 
 const shape = new Shape();
-shape.moveTo(0, -0.5);
-shape.lineTo(0.5, 0.5);
-shape.lineTo(-0.5, 0.5);
-shape.lineTo(0, -0.5);
+shape.moveTo(0, 0.5);
+shape.lineTo(0.5, -0.5);
+shape.lineTo(-0.5, -0.5);
+shape.lineTo(0, 0.5);
 const symmetrictrianglegeometry = new ShapeBufferGeometry(shape);
 export class SymmetricTriangle extends Element {
 	constructor(options) {

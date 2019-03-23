@@ -97,21 +97,14 @@ export default class Easing {
 	}
 
 	static in(d) {
-		return function(t) {
-    	return Math.pow(t, d);
-		}
+		return t => Math.pow(t, d);
 	}
 
 	static out(d) {
-		return function(t) {
-    	return 1 - Math.pow(1 - t, d);
-		}
+		return t => 1 - Math.pow(1 - t, d);
 	}
 
 	static inOut(d) {
-		return function(t) {
-    	if (t < 0.5) return Math.pow(t * 2, d) / 2;
-    	return 1 - Math.pow(2 - t * 2, d) / 2;
-		}
+		return t => t < 0.5 ? Math.pow(t * 2, d) / 2 : 1 - Math.pow(2 - t * 2, d) / 2;
 	}
 }

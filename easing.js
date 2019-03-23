@@ -105,6 +105,8 @@ export default class Easing {
 	}
 
 	static inOut(d) {
-		return t => t < 0.5 ? Math.pow(t * 2, d) / 2 : 1 - Math.pow(2 - t * 2, d) / 2;
+		const in = in(d);
+		const out = out(d);
+		return t => t < 0.5 ? in(t * 2) / 2 : 1 - out(2 - t * 2) / 2;
 	}
 }

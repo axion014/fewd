@@ -9,6 +9,7 @@ export default class Element extends Group {
 		this.add(nativeContent);
 		this.nativeContent = nativeContent;
 		this.opacity = options.opacity;
+		if (options.visible !== undefined) this.visible = options.visible;
 		this.selfOpacity = options.selfOpacity;
 		if (options.width) this.width = options.width;
 		if (options.height) this.height = options.height;

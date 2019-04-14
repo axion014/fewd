@@ -20,6 +20,7 @@ export class Rectangle extends Element {
 			new MeshBasicMaterial({color: options.fillColor})
 		);
 		group.fill.visible = !!options.fillColor;
+		group.fill.opacity = options.fillOpacity;
 		group.add(group.fill);
 
 		group.stroke = createMeshLine(
@@ -31,6 +32,7 @@ export class Rectangle extends Element {
 			true
 		);
 		group.stroke.visible = !!options.strokeColor;
+		group.stroke.opacity = options.strokeOpacity;
 		group.add(group.stroke);
 
 		super(group, Object.assign(options, {customScale: true}));
@@ -104,6 +106,7 @@ export class Ellipse extends Element {
 			new MeshBasicMaterial({color: options.fillColor})
 		);
 		group.fill.visible = !!options.fillColor;
+		group.fill.opacity = options.fillOpacity;
 		group.add(group.fill);
 
 		group.stroke = createMeshLine(
@@ -115,6 +118,7 @@ export class Ellipse extends Element {
 			true
 		);
 		group.stroke.visible = !!options.strokeColor;
+		group.stroke.opacity = options.strokeOpacity;
 		group.add(group.stroke);
 
 		super(group, options);
@@ -189,6 +193,7 @@ export class SymmetricTriangle extends Element {
 			new MeshBasicMaterial({color: options.fillColor})
 		);
 		group.fill.visible = !!options.fillColor;
+		group.fill.opacity = options.fillOpacity;
 		group.add(group.fill);
 
 		group.stroke = createMeshLine(
@@ -200,6 +205,7 @@ export class SymmetricTriangle extends Element {
 			true
 		);
 		group.stroke.visible = !!options.strokeColor;
+		group.stroke.opacity = options.strokeOpacity;
 		group.add(group.stroke);
 
 		super(group, options);

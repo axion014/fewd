@@ -139,14 +139,18 @@ export class Gauge extends Element {
 			width: 1,
 			height: 1,
 			fillColor: options.fillColor,
-			strokeColor: options.strokeColor
+			fillOpacity: options.fillOpacity,
+			strokeColor: options.strokeColor,
+			strokeOpacity: options.strokeOpacity,
+			strokeWidth: options.strokeWidth
 		});
 		this.nativeContent.add(this.background);
 
   	this.foreground = new Rectangle({
 			width: options.value / options.maxValue,
 			height: 1,
-			fillColor: options.gaugeColor
+			fillColor: options.gaugeColor,
+			opacity: options.gaugeOpacity
 		});
   	this.foreground.position.z = 0.0001;
 		this.nativeContent.add(this.foreground);

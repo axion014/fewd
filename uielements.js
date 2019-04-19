@@ -194,6 +194,7 @@ export class Gauge extends Element {
 
 export class DebugTexts extends Group {
 	constructor(options) {
+		options = options || {};
 		super(options);
 		this.labels = {};
 		this.font = options.font || "16px 'HiraKakuProN-W3'";
@@ -209,14 +210,15 @@ export class DebugTexts extends Group {
 			align: textAlign.left, font: this.font,
 			fillStyle: 'hsla(0, 0%, 0%, 0.8)', y: -this.children.length * this.lineHeight
 		});
-		this.nativeContent.add(label);
+		this.add(label);
 		this.labels[id] = label;
 	}
 	get parent() {return this._parent}
 	set parent(v) {
 		this._parent = v;
-		for (; v.parent; v = v.parent);
-		v.debug = this.set;
+		if (!v) return;
+		for (; v.parent || v._meta; v = v.parent || v._meta);
+		v.debug = this.set.bind(this);
 	}
 }
 

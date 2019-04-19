@@ -15,8 +15,10 @@ export default class Scene extends EventDispatcher {
 	constructor() {
 		super();
 		this.threeScene = new THREEScene();
+		this.threeScene._meta = this;
 		this.camera = new PerspectiveCamera(45, vw / vh, 1, 10000);
 		this.UIScene = new THREEScene();
+		this.UIScene._meta = this;
 		this.UICamera = new OrthographicCamera(-vw / 2, vw / 2, vh / 2, -vh / 2, 1, 10000);
 		this.threeScene.add(this.camera);
 		this.UICamera.position.z = 5;

@@ -133,6 +133,21 @@ export function createMeshLine(geometry, material, flat) {
 	return mesh;
 }
 
+export function toString(o) {
+	if (o instanceof Vector3) return `{x: ${o.x.toFixed(2)}, y: ${o.y.toFixed(2)}, z: ${o.z.toFixed(2)}}`;
+	if (o instanceof Vector2) return `{x: ${o.x.toFixed(2)}, y: ${o.y.toFixed(2)}}`;
+	if (o instanceof Quaternion) return `{x: ${o.x.toFixed(2)}, y: ${o.y.toFixed(2)}, z: ${o.z.toFixed(2)}, w: ${o.w.toFixed(2)}}`;
+	if (o instanceof Matrix4) {
+		let str = "";
+		for (let i = 0; i < 4; i++) {
+			str += "| ";
+			for (let j = 0; j < 4; j++) str += o.elements[i + j * 4] + " ";
+			str += "|\n";
+		}
+		return str;
+	}
+}
+
 export default function extend() {
 	/*THREE.$extend = function(a, o) {
 		var arg = Array.prototype.slice.call(arguments);

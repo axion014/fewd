@@ -192,4 +192,32 @@ export class Gauge extends Element {
 	set gaugeColor(v) {this.foreground.fillColor = v}
 }
 
+export class DebugTexts extends Group {
+	constructor(options) {
+		super(options);
+		this.labels = {};
+		this.font = options.font || "16px 'HiraKakuProN-W3'";
+		this.lineHeight = options.lineHeight || 24;
+	}
+	set(id, text) {
+		text = `${id}: ${text}`;
+		if (this.labels[id]) {
+			this.labels[id].text = text;
+			return;
+		}
+		const label = new Label(text, {
+			align: textAlign.left, font: this.font,
+			fillStyle: 'hsla(0, 0%, 0%, 0.8)', y: -this.children.length * this.lineHeight
+		});
+		this.nativeContent.add(label);
+		this.labels[id] = label;
+	}
+	get parent() {return this._parent}
+	set parent(v) {
+		this._parent = v;
+		for (; v.parent; v = v.parent);
+		v.debug = this.set;
+	}
+}
+
 export {textAlign};

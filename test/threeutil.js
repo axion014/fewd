@@ -1,8 +1,17 @@
 import assert from "assert";
-import {deepclone, modifySafeTraverse} from "../threeutil";
-import {Scene, Group, Mesh} from "three";
+import {deepclone, modifySafeTraverse, rotateX, rotateY, rotateZ} from "../threeutil";
+import {Scene, Group, Mesh, Quaternion} from "three";
 
 describe('threeutil.js', function() {
+	describe('rotate()', function() {
+		it('rotates given quaternion based on local axis and angle', function() {
+			const quaternion = new Quaternion();
+			const object = new Group();
+			rotateZ(rotateY(rotateX(quaternion, 1), 2), 3);
+			object.rotateX(1).rotateY(2).rotateZ(3);
+			assert(quaternion.equals(object.quaternion));
+		});
+	});
 	describe('deepclone()', function() {
 		it('returns mesh with different geometry and material than one passed', function() {
 			const original = new Mesh();

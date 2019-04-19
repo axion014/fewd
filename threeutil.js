@@ -9,14 +9,14 @@ export const Axis = {x: new Vector3(1, 0, 0), y: new Vector3(0, 1, 0), z: new Ve
 
 export function rotate(o, a, r) {
 	const tempquaternion = get(Quaternion);
-	(o.quaternion || o).multiply(tempquaternion.setFromAxisAngle(a, r));
+	o.multiply(tempquaternion.setFromAxisAngle(a, r));
 	free(tempquaternion);
 	return o;
 }
 
 export function rotateAbs(o, a, r) {
 	const tempquaternion = get(Quaternion);
-	(o.quaternion || o).premultiply(tempquaternion.setFromAxisAngle(a, r));
+	o.premultiply(tempquaternion.setFromAxisAngle(a, r));
 	free(tempquaternion);
 	return o;
 }

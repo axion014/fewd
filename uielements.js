@@ -143,7 +143,7 @@ export class Gauge extends Element {
 			strokeColor: options.strokeColor,
 			strokeOpacity: options.strokeOpacity,
 			strokeWidth: options.strokeWidth
-		}).nativeContent;
+		});
 		this.nativeContent.add(this.background);
 
   	this.foreground = new Rectangle({
@@ -151,7 +151,7 @@ export class Gauge extends Element {
 			height: 1,
 			fillColor: options.gaugeColor,
 			opacity: options.gaugeOpacity
-		}).nativeContent;
+		});
   	this.foreground.position.z = 0.0001;
 		this.nativeContent.add(this.foreground);
 

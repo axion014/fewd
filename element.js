@@ -1,7 +1,6 @@
 import {Group} from "three";
 
 import {defineAccessor} from "./utils";
-import {rotateZ} from "./threeutil";
 
 export default class Element extends Group {
 	constructor(nativeContent, options) {
@@ -20,7 +19,7 @@ export default class Element extends Group {
 			set(v) {
 				this._rotation = v;
 				this.quaternion.set(0, 0, 0, 1);
-				rotateZ(this, v);
+				this.rotateZ(v);
 			}
 		});
 		this.rotation = options.rotation || 0;

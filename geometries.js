@@ -15,10 +15,8 @@ export class Rectangle extends Element {
 	constructor(options) {
 		options = options || {};
 		const group = new Group();
-		group.fill = new Mesh(
-			rectgeometry,
-			new MeshBasicMaterial({color: options.fillColor})
-		);
+		group.fill = new Mesh(rectgeometry, new MeshBasicMaterial());
+		group.fill.material.color.set(options.fillColor);
 		group.fill.visible = !!options.fillColor;
 		group.fill.opacity = options.fillOpacity;
 		group.add(group.fill);
@@ -101,10 +99,8 @@ export class Ellipse extends Element {
 		if (options.radius) options.width = options.height = options.radius * 2;
 
 		const group = new Group();
-		group.fill = new Mesh(
-			getCircleGeometry(options.segments),
-			new MeshBasicMaterial({color: options.fillColor})
-		);
+		group.fill = new Mesh(getCircleGeometry(options.segments), new MeshBasicMaterial());
+		group.fill.material.color.set(options.fillColor);
 		group.fill.visible = !!options.fillColor;
 		group.fill.opacity = options.fillOpacity;
 		group.add(group.fill);

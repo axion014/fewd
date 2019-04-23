@@ -68,13 +68,13 @@ export class Rectangle extends Element {
 	get fillColor() {return this.nativeContent.fill.material.color}
 	set fillColor(v) {
 		this.nativeContent.fill.visible = Boolean(v);
-		this.nativeContent.fill.material.color.set(v)
+		this.nativeContent.fill.material.color.set(v);
 	}
 
 	get strokeColor() {return this.nativeContent.stroke.material.uniforms.color.value}
 	set strokeColor(v) {
 		this.nativeContent.stroke.visible = Boolean(v);
-		this.nativeContent.stroke.material.uniforms.color.value.set(v)
+		this.nativeContent.stroke.material.uniforms.color.value.set(v);
 	}
 }
 
@@ -153,13 +153,13 @@ export class Ellipse extends Element {
 	get fillColor() {return this.nativeContent.fill.material.color}
 	set fillColor(v) {
 		this.nativeContent.fill.visible = Boolean(v);
-		this.nativeContent.fill.material.color.set(v)
+		this.nativeContent.fill.material.color.set(v);
 	}
 
 	get strokeColor() {return this.nativeContent.stroke.material.uniforms.color.value}
 	set strokeColor(v) {
 		this.nativeContent.stroke.visible = Boolean(v);
-		this.nativeContent.stroke.material.uniforms.color.value.set(v)
+		this.nativeContent.stroke.material.uniforms.color.value.set(v);
 	}
 
 	get radius() {
@@ -239,12 +239,12 @@ export class SymmetricTriangle extends Element {
 	get fillColor() {return this.nativeContent.fill.material.color}
 	set fillColor(v) {
 		this.nativeContent.fill.visible = Boolean(v);
-		this.nativeContent.fill.material.color.set(v)
+		this.nativeContent.fill.material.color.set(v);
 	}
 
 	get strokeColor() {return this.nativeContent.stroke.material.uniforms.color.value}
 	set strokeColor(v) {
 		this.nativeContent.stroke.visible = Boolean(v);
-		this.nativeContent.stroke.material.uniforms.color.value.set(v)
+		this.nativeContent.stroke.material.uniforms.color.value.set(v);
 	}
 }

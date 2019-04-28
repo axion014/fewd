@@ -6,6 +6,7 @@
  */
 export default class Easing {
 	constructor(target) {
+		if (!target) throw new Error("target is not specified");
 		this.target = target;
 		this.queue = [];
 	}

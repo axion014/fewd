@@ -3,7 +3,7 @@ import assets, {addFile} from "../loading";
 import "./identicalVertex";
 import {Vector4} from "three";
 
-addFile('GLSL', 'fadeFragment', "node_modules/w3g/three-effect/fadeFragment.min.glsl");
+addFile('GLSL', 'fadeFragment', "/node_modules/w3g/three-effect/fadeFragment.min.glsl");
 
 export default class FadeShader {
 	constructor() {

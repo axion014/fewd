@@ -2,7 +2,7 @@
 import assets, {addFile} from "../loading";
 import "./identicalVertex";
 
-addFile('GLSL', 'zoomblurFragment', "node_modules/w3g/three-effect/zoomblurFragment.min.glsl");
+addFile('GLSL', 'zoomblurFragment', "/node_modules/w3g/three-effect/zoomblurFragment.min.glsl");
 
 export default class ZoomblurShader {
 	constructor() {

@@ -7,7 +7,7 @@
 import assets, {addFile} from "../loading";
 import "./identicalVertex";
 
-addFile('GLSL', 'blendFragment', "node_modules/w3g/three-effect/blendFragment.min.glsl");
+addFile('GLSL', 'blendFragment', "/node_modules/w3g/three-effect/blendFragment.min.glsl");
 
 export default class BlendShader {
 	constructor() {

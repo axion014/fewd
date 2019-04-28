@@ -7,7 +7,7 @@
 import assets, {addFile} from "../loading";
 import "./identicalVertex";
 
-addFile('GLSL', 'copyFragment', "node_modules/w3g/three-effect/copyFragment.min.glsl");
+addFile('GLSL', 'copyFragment', "/node_modules/w3g/three-effect/copyFragment.min.glsl");
 
 export default class CopyShader {
 	constructor() {

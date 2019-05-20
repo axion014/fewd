@@ -4,7 +4,7 @@ import Easing from "../easing";
 describe('easing.js', function() {
 	describe('Easing', function() {
 		it('chains', function() {
-			const easing = new Easing(null);
+			const easing = new Easing({});
 			assert.equal(easing.add({}, 600, Easing.LINEAR), easing);
 			assert.equal(easing.trigger(function() {}), easing);
 			assert.equal(easing.wait(1000), easing);
@@ -47,7 +47,7 @@ describe('easing.js', function() {
   	});
 		it('waiting/callback', function() {
 			let triggercalled = false;
-			const easing = new Easing(null).wait(1000).trigger(function() {
+			const easing = new Easing({}).wait(1000).trigger(function() {
 				triggercalled = true;
 			});
 			assert.equal(triggercalled, false);

@@ -57,57 +57,6 @@ class ModifiedSpriteText2D extends SpriteText2D {
 	set z(v) {this.position.z = v}
 }
 
-function MultilineSpriteText2D(text, options) {
-	this.width = options.width;
-	this.lineHeight = options.lineHeight;
-	SpriteText2D.apply(this, arguments);
-	const self = this;
-	this.canvas.drawText = function (text, ctxOptions) {
-		const lineHeight = getFontHeight(ctxOptions.font);
-		const words = /\S/.test(text) ? Mikan.split(text) : [];
-		let width = 0;
-		const lines = [];
-		let lineIndex = 0;
-		lines[lineIndex] = "";
-		words.forEach(word => {
-			const wordWidth = this.ctx.measureText(word).width;
-			if (self.width - width >= wordWidth) {
-				lines[lineIndex] += word;
-				width += wordWidth;
-			} else {
-				lineIndex++;
-				lines[lineIndex] = word;
-				width = 0;
-			}
-		});
-		this.textWidth = 0;
-		lines.forEach(line => this.textWidth = Math.max(this.textWidth, Math.ceil(this.ctx.measureText(line).width)));
-		this.textHeight = lineHeight * self.lineHeight * lines.length;
-		this.canvas.width = Math.max(1, THREE_Math.ceilPowerOfTwo(this.textWidth));
-		this.canvas.height = Math.max(1, THREE_Math.ceilPowerOfTwo(this.textHeight));
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.ctx.font = ctxOptions.font;
-		this.ctx.fillStyle = ctxOptions.fillStyle;
-		this.ctx.textAlign = 'left';
-		this.ctx.textBaseline = 'top';
-		this.ctx.shadowColor = ctxOptions.shadowColor || 'transparent';
-		this.ctx.shadowBlur = ctxOptions.shadowBlur;
-		this.ctx.shadowOffsetX = ctxOptions.shadowOffsetX;
-		this.ctx.shadowOffsetY = ctxOptions.shadowOffsetY;
-		let y = 0;
-		lines.forEach(line => {
-	    this.ctx.fillText(line, 0, y);
-			y += lineHeight * self.lineHeight;
-		});
-    return this.canvas;
-	};
-	return this;
-}
-
-MultilineSpriteText2D.prototype = Object.create(ModifiedSpriteText2D.prototype);
-
-define(MultilineSpriteText2D.prototype, "width", null);
-
 export class Label extends ModifiedSpriteText2D {
 	constructor(text, options) {
 		super(text || " ", Object.assign({
@@ -118,7 +67,7 @@ export class Label extends ModifiedSpriteText2D {
 	}
 }
 
-export class LabelArea extends MultilineSpriteText2D {
+export class LabelArea extends ModifiedSpriteText2D {
 	constructor(text, options) {
 		super(text, Object.assign({
 			align: textAlign.center,
@@ -126,8 +75,54 @@ export class LabelArea extends MultilineSpriteText2D {
 			font: "32px 'HiraKakuProN-W3'",
 			lineHeight: 1.2
 		}, options));
+		this.width = options.width;
+	}
+	_wrapText(text) {
+		let wrappedText = "";
+		for (let line of text.split("\n")) {
+			if (/\S/.test(line)) {
+				let width = 0;
+				for (let word of Mikan.split(line)) {
+					const wordWidth = this.canvas.ctx.measureText(word).width;
+					if (this.width - width >= wordWidth) {
+						wrappedText += word;
+						width += wordWidth;
+					} else {
+						wrappedText += "\n" + word;
+						width = 0;
+					}
+				}
+			}
+			wrappedText += "\n";
+		}
+		return wrappedText;
 	}
 }
+
+defineAccessor(LabelArea.prototype, "width", {
+	get: function() {
+		return this._width;
+	},
+	set: function(value) {
+		if (this._width !== value) {
+			this._width = value;
+			this._text = this._wrapText(this.text);
+			this.updateText();
+		}
+	}
+});
+defineAccessor(LabelArea.prototype, "text", {
+	get: function() {
+		return this._originalText;
+	},
+	set: function(value) {
+		if (this._originalText !== value) {
+			this._originalText = value;
+			this._text = this._wrapText(value);
+			this.updateText();
+		}
+	}
+});
 
 export class Gauge extends Element {
 	constructor(options) {

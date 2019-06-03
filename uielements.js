@@ -89,7 +89,7 @@ export class LabelArea extends ModifiedSpriteText2D {
 						width += wordWidth;
 					} else {
 						wrappedText += "\n" + word;
-						width = 0;
+						width = wordWidth;
 					}
 				}
 			}

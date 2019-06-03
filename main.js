@@ -23,10 +23,13 @@ export let resized = false;
 let updated = false;
 let running = false;
 
+const enterEvent = {type: 'enter'};
+
 export function setCurrentScene(scene) {
 	currentScene = scene;
 	if (threeComposer) threeComposer.passes = scene.threePasses;
 	scene.updateCameras();
+	scene.dispatchEvent(enterEvent);
 }
 
 export function renderScreen() {

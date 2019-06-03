@@ -29,7 +29,7 @@ function getFontHeight(fontStyle) {
 class ModifiedSpriteText2D extends SpriteText2D {
 	constructor(text, options) {
 		options = options || {};
-		super(text || " ", Object.assign({
+		super(text, Object.assign({
 			align: textAlign.center,
 			fillStyle: 'hsla(0, 0%, 0%, 0.6)',
 			font: "32px 'HiraKakuProN-W3'"
@@ -59,7 +59,7 @@ class ModifiedSpriteText2D extends SpriteText2D {
 
 export class Label extends ModifiedSpriteText2D {
 	constructor(text, options) {
-		super(text || " ", Object.assign({
+		super(text, Object.assign({
 			align: textAlign.center,
 			fillStyle: 'hsla(0, 0%, 0%, 0.6)',
 			font: "32px 'HiraKakuProN-W3'"

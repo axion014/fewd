@@ -18,7 +18,7 @@ void main(void) {
 	for(float i = 0.0; i <= nRep; i++) {
 		float percent = (i + random) * nFrag;
 		float weight = percent - percent * percent;
-		destColor += texture2D(tDiffuse, vUv - (vUv - vec2(0.5, 0.5)) * percent * strength * nFrag) * weight;
+		destColor += texture2D(tDiffuse, vUv - (vUv - vec2(0.5)) * percent * strength * nFrag) * weight;
 		totalWeight += weight;
 	}
 	gl_FragColor = destColor / totalWeight;

@@ -31,15 +31,22 @@ export function initPointerEvents(element) {
 	}
 	element.addEventListener('touchstart', e => {
 		e.preventDefault();
-		element.dispatchEvent(processEvent('pointstart', e));
+		e = processEvent('pointstart', e);
+		updateMousePosition(e);
+		pointing = true;
+		element.dispatchEvent(e);
 	});
 	element.addEventListener('touchmove', e => {
 		e.preventDefault();
-		element.dispatchEvent(processEvent('pointmove', e));
+		e = processEvent('pointmove', e);
+		updateMousePosition(e);
+		element.dispatchEvent(e);
 	});
 	element.addEventListener('touchend', e => {
 		e.preventDefault();
-		element.dispatchEvent(processEvent('pointend', e));
+		e = processEvent('pointend', e);
+		if (!e.targetTouches.length) pointing = false;
+		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousedown', e => {
 		e = processEvent('pointstart', e);

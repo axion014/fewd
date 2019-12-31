@@ -3,6 +3,7 @@ export {default} from './element';
 export * from './geometries';
 export * from './hittest';
 export * from './input';
+export * from './layouts';
 export * from './loading';
 export * from './main';
 export {default} from './scene';

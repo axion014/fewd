@@ -1,5 +1,7 @@
 import {Group} from "three";
 
+const lengthChangedEvent = {type: "lengthchanged"};
+
 export class List extends Group {
 	constructor(vertical, padding, options) {
 		options = options || {};
@@ -26,8 +28,15 @@ export class List extends Group {
 					child.width * child.scale.x * 0.5 /*(1 - child.originX)*/
 				) + this.padding;
 			}
-			if (this.vertical) this.height = length - this.padding;
-			else this.width = length - this.padding;
+			if (this.vertical) {
+				const old = this.height;
+				this.height = length - this.padding;
+				if (this.height !== old) this.dispatchEvent(lengthChangedEvent);
+			} else {
+				const old = this.width;
+				this.width = length - this.padding;
+				if (this.width !== old) this.dispatchEvent(lengthChangedEvent);
+			}
 		});
 	}
 }

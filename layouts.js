@@ -15,16 +15,16 @@ export class List extends Group {
 				if (child.visible === false && !child.interactive) return;
 
 				length += (this.vertical ?
-					child.height * child.scale.y * 0.5 /*child.originY*/ :
+					-child.height * child.scale.y * 0.5 /*child.originY*/ :
 					child.width * child.scale.x * 0.5 /*child.originX*/
 				);
 				if (this.vertical) {
-					child.y = length;
+					child.position.y = length;
 				} else {
-					child.x = length;
+					child.position.x = length;
 				}
 				length += (this.vertical ?
-					child.height * child.scale.y * 0.5 /*(1 - child.originY)*/ :
+					-child.height * child.scale.y * 0.5 /*(1 - child.originY)*/ :
 					child.width * child.scale.x * 0.5 /*(1 - child.originX)*/
 				) + this.padding;
 			}

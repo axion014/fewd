@@ -27,6 +27,9 @@ export const fileParsers = {
 	},
 	async TEXT(response) {
 		return response.text();
+	},
+	async JSON(response) {
+		return response.json();
 	}
 }
 

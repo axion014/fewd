@@ -1,6 +1,6 @@
 import assert from "assert";
 import {Ellipse} from "../geometries";
-import {Scene, Group, Mesh, BoxBufferGeometry, MeshBasicMaterial} from "three";
+//import {Scene, Group, Mesh, BoxBufferGeometry, MeshBasicMaterial} from "three";
 
 describe('geometries.js', function() {
 	describe('Ellipse', function() {

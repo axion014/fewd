@@ -57,3 +57,17 @@ export function normalizeAngle(t) {
 	if (t < -Math.PI) t += Math.PI * 2;
 	return t;
 }
+
+export function debugHitbox(o, interval) {
+	interval = interval || 500;
+	const original = o.hitTest;
+	let prevtime = performance.now();
+	o.hitTest = (dx, dy) => {
+		const currtime = performance.now();
+		if (currtime - prevtime > interval) {
+			prevtime = currtime;
+			console.log(dx, dy);
+		}
+		original.call(o, dx, dy);
+	};
+}

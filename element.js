@@ -5,11 +5,13 @@ import {defineAccessor} from "./utils";
 export default class Element extends Group {
 	constructor(nativeContent, options) {
 		super();
-		this.add(nativeContent);
-		this.nativeContent = nativeContent;
+		if (nativeContent) {
+			this.add(nativeContent);
+			this.nativeContent = nativeContent;
+			this.selfOpacity = options.selfOpacity;
+		}
 		this.opacity = options.opacity;
 		if (options.visible !== undefined) this.visible = options.visible;
-		this.selfOpacity = options.selfOpacity;
 		if (options.width) this.width = options.width;
 		if (options.height) this.height = options.height;
 

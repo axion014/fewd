@@ -1,14 +1,14 @@
-import {Group} from "three";
+import Element from "./element";
+import {define} from "./utils";
 
 const lengthChangedEvent = {type: "lengthchanged"};
 
-export class List extends Group {
+export class List extends Element {
 	constructor(vertical, padding, options) {
 		options = options || {};
-		super();
+		super(null, options);
 		this.vertical = vertical;
     this.padding = padding;
-		this.opacity = options.opacity;
 		this.addEventListener("render", () => {
 			let length = 0;
 			for (const child of this.children) {
@@ -40,3 +40,6 @@ export class List extends Group {
 		});
 	}
 }
+
+define(List.prototype, "width", undefined);
+define(List.prototype, "height", undefined);

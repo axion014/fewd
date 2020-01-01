@@ -13,20 +13,13 @@ export class List extends Element {
 			let length = 0;
 			for (const child of this.children) {
 				if (child.visible === false && !child.interactive) return;
+				const w = child.width * child.scale.x;
+				const h = -child.height * child.scale.y;
 
-				length += (this.vertical ?
-					-child.height * child.scale.y * 0.5 /*child.originY*/ :
-					child.width * child.scale.x * 0.5 /*child.originX*/
-				);
-				if (this.vertical) {
-					child.position.y = length;
-				} else {
-					child.position.x = length;
-				}
-				length += (this.vertical ?
-					-child.height * child.scale.y * 0.5 /*(1 - child.originY)*/ :
-					child.width * child.scale.x * 0.5 /*(1 - child.originX)*/
-				) + this.padding;
+				length += this.vertical ? h * .5/*child.originY*/ : w * .5/*child.originX*/;
+				if (this.vertical) child.y = length;
+				else child.x = length;
+				length += (this.vertical ? h * .5/*(1-child.originY)*/ : w * .5/*(1-child.originX)*/) + this.padding;
 			}
 			if (this.vertical) {
 				const old = this.height;

@@ -36,7 +36,7 @@ export default class Scene extends EventDispatcher {
 			return e => {
 				scene.traverse(children => {
 					if (children.visible === false || children._interactive === false || !children.hitTest) return;
-					pos.copy(children.position).project(camera);
+					pos.setFromMatrixPosition(children.matrixWorld).project(camera);
 					if (children.hitTest(e.x - (pos.x + 1) * vw / 2, e.y - (1 - pos.y) * vh / 2)) {
 						children.dispatchEvent(e);
 					}

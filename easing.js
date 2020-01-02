@@ -59,15 +59,15 @@ export default class Easing {
 			if (order.changes) {
 				if (order.initialValue === undefined) {
 					order.initialValue = {};
-					Object.keys(order.changes).forEach(key => {
+					for (const key of Object.keys(order.changes)) {
 						if (this.target[key] === null || this.target[key] === undefined) throw new Error(`initial ${key} of the target is not set`);
 						order.initialValue[key] = this.target[key];
-					});
+					}
 				}
 				const place = order.func(order.currentTime / order.time);
-				Object.keys(order.changes).forEach(key => {
+				for (const key of Object.keys(order.changes)) {
 					this.target[key] = order.initialValue[key] * (1 - place) + order.changes[key] * place;
-				});
+				}
 			}
 			if (timeleft <= delta) {
 				this.queue.shift();

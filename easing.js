@@ -60,6 +60,7 @@ export default class Easing {
 				if (order.initialValue === undefined) {
 					order.initialValue = {};
 					Object.keys(order.changes).forEach(key => {
+						if (this.target[key] === null || this.target[key] === undefined) throw new Error(`initial ${key} of the target is not set`);
 						order.initialValue[key] = this.target[key];
 					});
 				}

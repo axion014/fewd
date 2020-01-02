@@ -12,8 +12,8 @@ export default class Element extends Group {
 		}
 		this.opacity = options.opacity;
 		if (options.visible !== undefined) this.visible = options.visible;
-		if (options.width) this.width = options.width;
-		if (options.height) this.height = options.height;
+		if (options.width !== undefined) this.width = options.width;
+		if (options.height !== undefined) this.height = options.height;
 
 		// Can't put this in prototype because Object3D defines this in the constructor
 		defineAccessor(this, "rotation", {
@@ -25,9 +25,9 @@ export default class Element extends Group {
 			}
 		});
 		this.rotation = options.rotation || 0;
-		if (options.x) this.x = options.x;
-		if (options.y) this.y = options.y;
-		if (options.z) this.z = options.z;
+		if (options.x !== undefined) this.x = options.x;
+		if (options.y !== undefined) this.y = options.y;
+		if (options.z !== undefined) this.z = options.z;
 	}
 
 	get x() {return this.position.x}

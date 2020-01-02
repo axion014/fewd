@@ -56,5 +56,12 @@ describe('easing.js', function() {
 			easing.update(1000);
 			assert.equal(triggercalled, true);
   	});
+		it('throws if no target is passed', function() {
+			assert.throws(() => new Easing());
+  	});
+		it('throws if there is no initial value for easing target property', function() {
+			const easing = new Easing({}).add({foo: 100}, 1000, Easing.LINEAR);
+			assert.throws(() => easing.update(500));
+  	});
 	});
 });

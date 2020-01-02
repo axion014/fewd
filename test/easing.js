@@ -56,6 +56,15 @@ describe('easing.js', function() {
 			easing.update(1000);
 			assert.equal(triggercalled, true);
   	});
+		it('safely processes order with time set to 0', function() {
+			const target = {x: 0};
+			const easing = new Easing(target);
+			easing.add({}, 0, Easing.LINEAR);
+			easing.wait(0);
+			easing.add({x: 100}, 0, Easing.LINEAR);
+			easing.update(250);
+			assert.equal(target.x, 100);
+  	});
 		it('throws if no target is passed', function() {
 			assert.throws(() => new Easing());
   	});

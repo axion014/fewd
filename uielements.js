@@ -8,6 +8,7 @@ import {Rectangle} from "./geometries";
 import {define, defineAccessor} from "./utils";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
+import {CENTER} from "./constants";
 
 class ModifiedSpriteText2D extends SpriteText2D {
 	constructor(text, options) {
@@ -28,6 +29,7 @@ class ModifiedSpriteText2D extends SpriteText2D {
 		if (options.x) this.x = options.x;
 		if (options.y) this.y = options.y;
 		if (options.z) this.z = options.z;
+		this.origin = options.origin || CENTER;
 	}
 
 	get x() {return this.position.x}

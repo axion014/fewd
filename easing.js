@@ -53,6 +53,10 @@ export default class Easing {
 			order.call(this.target);
 			this.queue.shift();
 			this.update(delta);
+		} else if (order.time === 0) {
+			if (order.changes) for (const key of Object.keys(order.changes)) this.target[key] = order.changes[key];
+			this.queue.shift();
+			this.update(delta);
 		} else {
 			const timeleft = order.time - order.currentTime;
 			order.currentTime += Math.min(delta, timeleft);

@@ -172,10 +172,10 @@ export class Gauge extends Element {
 	set gaugeColor(v) {this.foreground.fillColor = v}
 }
 
-export class DebugTexts extends Group {
+export class DebugTexts extends Element {
 	constructor(options) {
 		options = options || {};
-		super(options);
+		super(null, options);
 		this.labels = {};
 		this.font = options.font || "16px 'HiraKakuProN-W3'";
 		this.lineHeight = options.lineHeight || 24;

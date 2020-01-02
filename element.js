@@ -39,12 +39,6 @@ export default class Element extends Group {
 	get z() {return this.position.z}
 	set z(v) {this.position.z = v}
 
-	get width() {throw new Error("not implemented");}
-	set width(v) {throw new Error("not implemented");}
-
-	get height() {throw new Error("not implemented");}
-	set height(v) {throw new Error("not implemented");}
-
 	get selfOpacity() {return this.nativeContent.opacity}
 	set selfOpacity(v) {this.nativeContent.opacity = v}
 }

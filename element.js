@@ -1,6 +1,7 @@
 import {Group} from "three";
 
 import {defineAccessor} from "./utils";
+import {CENTER} from "./constants";
 
 export default class Element extends Group {
 	constructor(nativeContent, options) {
@@ -14,6 +15,7 @@ export default class Element extends Group {
 		if (options.visible !== undefined) this.visible = options.visible;
 		if (options.width !== undefined) this.width = options.width;
 		if (options.height !== undefined) this.height = options.height;
+		this.origin = options.origin || CENTER;
 
 		// Can't put this in prototype because Object3D defines this in the constructor
 		defineAccessor(this, "rotation", {

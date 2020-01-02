@@ -1,5 +1,6 @@
 import Element from "./element";
 import {define} from "./utils";
+import {TOP, LEFT} from "./constants";
 
 const lengthChangedEvent = {type: "lengthchanged"};
 
@@ -9,6 +10,7 @@ export class List extends Element {
 		super(null, options);
 		this.vertical = vertical;
     this.padding = padding;
+		if (!options.origin) this.origin = vertical ? TOP : LEFT;
 		this.addEventListener("render", () => {
 			let length = 0;
 			for (const child of this.children) {
@@ -16,10 +18,10 @@ export class List extends Element {
 				const w = child.width * child.scale.x;
 				const h = -child.height * child.scale.y;
 
-				length += this.vertical ? h * .5/*child.originY*/ : w * .5/*child.originX*/;
+				length += this.vertical ? h * (1 - child.origin.y) : w * child.origin.x;
 				if (this.vertical) child.y = length;
 				else child.x = length;
-				length += (this.vertical ? h * .5/*(1-child.originY)*/ : w * .5/*(1-child.originX)*/) + this.padding;
+				length += (this.vertical ? h * child.origin.y : w * (1 - child.origin.x)) + this.padding;
 			}
 			if (this.vertical) {
 				const old = this.height;

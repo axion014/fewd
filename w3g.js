@@ -1,3 +1,4 @@
+export * from './constants';
 export {default} from './easing';
 export {default} from './element';
 export * from './geometries';

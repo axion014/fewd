@@ -23,7 +23,7 @@ export class List extends Element {
 			}
 			if (this.vertical) {
 				const old = this.height;
-				this.height = length - this.padding;
+				this.height = -length - this.padding;
 				if (this.height !== old) this.dispatchEvent(lengthChangedEvent);
 			} else {
 				const old = this.width;

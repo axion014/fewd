@@ -9,10 +9,10 @@
   "author": "axion014",
   "license": "ISC",
   "dependencies": {
-    "mikan.js": "^1.0.10",
-    "regenerator-runtime": "^0.13.2",
-    "three": "^0.101.1",
-    "three-text2d": "^0.5.2",
+    "mikan.js": "^1.0.11",
+    "regenerator-runtime": "^0.13.5",
+    "three": "^0.115.0",
+    "three-text2d": "^0.6.0",
     "three.meshline": "git+https://github.com/axion014/THREE.MeshLine.git#usematrix"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
     "gulp-glsl": "^1.2.4",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.3",
     "node-fetch": "^2.6.0"
   }
 }

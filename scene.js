@@ -1,6 +1,6 @@
 import {EventDispatcher, Scene as THREEScene, PerspectiveCamera, OrthographicCamera, Vector3} from "three";
 
-import RenderPass from "./three-effect/RenderPass";
+import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass.js";
 
 import {setCurrentScene, vw, vh, resized} from "./main";
 import Easing from "./easing";

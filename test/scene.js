@@ -1,6 +1,6 @@
 import assert from "assert";
 import Scene from "../scene";
-import ShaderPass from "../three-effect/ShaderPass";
+import {ShaderPass} from "three/examples/jsm/postprocessing/ShaderPass.js";
 import {Group, Mesh} from "three";
 
 function closeTo(a, b) {

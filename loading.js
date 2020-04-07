@@ -1,6 +1,6 @@
 import {Texture, LoaderUtils} from "three";
 
-import GLTFLoader from "./GLTFLoader";
+import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import regeneratorRuntime from "regenerator-runtime"; // async requires this
 

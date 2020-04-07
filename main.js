@@ -1,6 +1,6 @@
 import {WebGLRenderer, Color} from "three";
 
-import EffectComposer from "./three-effect/EffectComposer";
+import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer.js";
 
 import {initPointerEvents, initKeyEvents, keyDown, processEvent} from "./input";
 import {loadResources} from "./loading";

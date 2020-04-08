@@ -13,7 +13,7 @@
     "regenerator-runtime": "^0.13.5",
     "three": "^0.115.0",
     "three-text2d": "^0.6.0",
-    "three.meshline": "git+https://github.com/axion014/THREE.MeshLine.git#usematrix"
+    "threejs-meshline": "^2.0.10"
   },
   "devDependencies": {
     "esm": "^3.2.25",

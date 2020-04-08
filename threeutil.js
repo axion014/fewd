@@ -1,5 +1,5 @@
 import {Mesh, Object3D, Quaternion, MultiMaterial, Vector2, Vector3, Color} from "three";
-import {MeshLine, MeshLineMaterial} from "three.meshline";
+import {MeshLine, MeshLineMaterial} from "threejs-meshline";
 
 import {vw, vh, resized} from "./main";
 import {get, free, defineAccessor} from "./utils";
@@ -125,7 +125,7 @@ export function createMeshLine(geometry, material, flat) {
 	const geometryGenerator = new MeshLine();
 	const mesh = new Mesh(
 		geometryGenerator.geometry,
-		new MeshLineMaterial(Object.assign({resolution: new Vector2(vw, vh), sizeAttenuation: 0}, material))
+		new MeshLineMaterial(Object.assign({resolution: new Vector2(vw, vh), sizeAttenuation: false}, material))
 	);
 	mesh.geometryGenerator = geometryGenerator;
 	setMeshLineGeometry(mesh, geometry, flat);

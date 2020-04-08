@@ -3,6 +3,7 @@ export {default} from './easing';
 export {default} from './element';
 export * from './geometries';
 export * from './hittest';
+export {default} from './infiniteof';
 export * from './input';
 export * from './layouts';
 export * from './loading';

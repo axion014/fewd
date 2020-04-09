@@ -5,6 +5,7 @@ import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass.js";
 import {setCurrentScene, vw, vh, resized} from "./main";
 import Easing from "./easing";
 import {modifySafeTraverse} from "./threeutil";
+import {defineAccessor} from "./utils";
 
 const pos = new Vector3();
 
@@ -23,10 +24,17 @@ export default class Scene extends EventDispatcher {
 		this.threeScene.add(this.camera);
 		this.UICamera.position.z = 5;
 		this.UIScene.add(this.UICamera);
+		const threeRenderPass = new RenderPass(this.threeScene, this.camera, {});
 		this.threePasses = [
-			new RenderPass(this.threeScene, this.camera, {}),
+			threeRenderPass,
 			new RenderPass(this.UIScene, this.UICamera, {})
 		];
+
+		// should render to screen if and only if no effect pass appears later, deny auto configure
+		defineAccessor(threeRenderPass, 'renderToScreen', {
+			get: () => this.threePasses[this.threePasses.indexOf(threeRenderPass) + 1].renderToScreen,
+			set: () => ; // do nothing
+		});
 
 		Easing.initIn(this);
 
@@ -91,20 +99,7 @@ export default class Scene extends EventDispatcher {
 
 	updatePasses() {
 		this.threePasses[0].clear = true;
-		this.threePasses[this.threePasses.length - 1].clear = false;
-		this.threePasses[this.threePasses.length - 1].renderToScreen = true;
-		for (let i = this.threePasses.length - 2; i >= 1; i--) {
-			this.threePasses[i].renderToScreen =
-				!(this.threePasses[i] instanceof RenderPass) && this.threePasses[i + 1].clear ||
-				this.threePasses[i + 1] instanceof RenderPass && this.threePasses[i + 1].renderToScreen;
-			this.threePasses[i].clear =
-				this.threePasses[i - 1].renderToScreen && !this.threePasses[i].renderToScreen;
-			this.threePasses[i].needsSwap =
-				!(this.threePasses[i] instanceof RenderPass && this.threePasses[i + 1] instanceof RenderPass);
-		}
-		this.threePasses[0].renderToScreen =
-			this.threePasses[1] instanceof RenderPass && this.threePasses[1].renderToScreen;
-		this.threePasses[0].needsSwap = !(this.threePasses[1] instanceof RenderPass);
+		for (let i = this.threePasses.length - 1; i >= 1; i--) this.threePasses[i].clear = false;
 	}
 
 	prepareForRendering() {

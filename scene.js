@@ -36,6 +36,8 @@ export default class Scene extends EventDispatcher {
 			set: () => ; // do nothing
 		});
 
+		this._threePasses = [];
+
 		Easing.initIn(this);
 
 		const updateInteractivity = target => target._interactive = target.interactive;
@@ -100,6 +102,7 @@ export default class Scene extends EventDispatcher {
 	updatePasses() {
 		this.threePasses[0].clear = true;
 		for (let i = this.threePasses.length - 1; i >= 1; i--) this.threePasses[i].clear = false;
+		this._threePasses = Array.from(this.threePasses); // shallow copy
 	}
 
 	prepareForRendering() {
@@ -114,7 +117,14 @@ export default class Scene extends EventDispatcher {
 				if (children.material.opacity !== 1) children.material.transparent = true;
 			}
 		});
-		this.updatePasses();
+
+		// only update passes when there are changes
+		for (let i = 0; i < this.threePasses.length; i++) {
+			if (this.threePasses[i] !== this._threePasses[i]) {
+				this.updatePasses();
+				break;
+			}
+		}
 	}
 
 	static createAndEnter() {

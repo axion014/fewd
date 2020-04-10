@@ -1,8 +1,8 @@
 {
-  "name": "w3g",
+  "name": "fewd",
   "version": "0.31.1",
   "description": "The framework for making 3D browser games.",
-  "main": "w3g.js",
+  "main": "fewd.js",
   "scripts": {
     "test": "mocha -r esm"
   },

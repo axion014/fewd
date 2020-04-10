@@ -40,7 +40,7 @@ export function renderScreen() {
 	updated = false;
 }
 
-export function setGameLoopfrequency(r) {
+export function setUpdatefrequency(r) {
 	loopRate = r;
 }
 const frameTimes = Array(60).fill(0);

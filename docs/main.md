@@ -51,6 +51,6 @@ Set how often the screen will be rendered.
 - v - Frame per second.
 
 ---
-##### `setGameLoopFreqency(r)` : undefined
+##### `setUpdateFreqency(r)` : undefined
 Set how often the update routines will be called.
 - r - Updates per second.

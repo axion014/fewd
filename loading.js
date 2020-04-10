@@ -6,10 +6,6 @@ import regeneratorRuntime from "regenerator-runtime"; // async requires this
 
 const glTFLoader = new GLTFLoader();
 export const fileParsers = {
-	/*THREE_Model_JSON(json, url) {
-		const data = new JSONLoader().parse(json, LoaderUtils.extractUrlBase(url));
-		return new Mesh(data.geometry, data.materials);
-	},*/
 	async THREE_Model_GLTF(response, url) {
 		const arrayBuffer = await response.arrayBuffer();
 		const gltf = await new Promise((resolve, reject) => {

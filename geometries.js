@@ -13,7 +13,7 @@ const rectgeometry = new PlaneBufferGeometry(1, 1);
 const rectlinegeometry = (w, h) => [-w, h, w, h, w, -h, -w, -h, -w, h];
 export class Rectangle extends Element {
 	constructor(options) {
-		options = options || {};
+		options = Object.assign({width: 10, height: 10}, options);
 		const group = new Group();
 		group.fill = new Mesh(rectgeometry, new MeshBasicMaterial());
 		group.fill.material.color.set(options.fillColor);
@@ -93,7 +93,7 @@ const ellipselinegeometry = (w, h, s) => {
 };
 export class Ellipse extends Element {
 	constructor(options) {
-		options = options || {};
+		options = Object.assign({width: 10, height: 10}, options);
 
 		if (options.segments === undefined) options.segments = 32;
 		if (options.radius) options.width = options.height = options.radius * 2;
@@ -182,7 +182,7 @@ const symmetrictrianglegeometry = new ShapeBufferGeometry(shape);
 const symmetrictrianglelinegeometry = (w, h) => [0, h, w, -h, -w, -h, 0, h];
 export class SymmetricTriangle extends Element {
 	constructor(options) {
-		options = options || {};
+		options = Object.assign({width: 10, height: 10}, options);
 		const group = new Group();
 		group.fill = new Mesh(
 			symmetrictrianglegeometry,

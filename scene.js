@@ -33,7 +33,7 @@ export default class Scene extends EventDispatcher {
 		// should render to screen if and only if no effect pass appears later, deny auto configure
 		defineAccessor(threeRenderPass, 'renderToScreen', {
 			get: () => this.threePasses[this.threePasses.indexOf(threeRenderPass) + 1].renderToScreen,
-			set: () => ; // do nothing
+			set: () => {} // do nothing
 		});
 
 		this._threePasses = [];

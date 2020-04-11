@@ -33,7 +33,10 @@ export function setCurrentScene(scene) {
 }
 
 export function renderScreen() {
-	if (resized) threeRenderer.setSize(vw, vh);
+	if (resized) {
+		threeRenderer.setSize(vw, vh);
+		threeComposer.setSize(vw, vh);
+	}
 	currentScene.prepareForRendering();
 	threeComposer.render();
 	resized = false;

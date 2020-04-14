@@ -29,7 +29,7 @@ export default class Scene extends EventDispatcher {
 		const threeRenderPass = new RenderPass(this.threeScene, this.camera, {});
 		this.threePasses = [
 			threeRenderPass,
-			new RenderPass(this.UIScene, this.UICamera, {})
+			new RenderPass(this.UIScene, this.UICamera)
 		];
 
 		// should render to screen if and only if no effect pass appears later, deny auto configure

@@ -92,7 +92,7 @@ export default class Easing {
 			this._easings.add(easing);
 		}
 		scene.updateEasings = function(delta) {
-			this._easings.forEach(easing => easing.update(delta));
+			for (const easing of this._easings) easing.update(delta);
 		}
 	}
 

@@ -204,10 +204,10 @@ export class DebugTexts extends Element {
 	}
 }
 
-export class Screen extends Element {
+export class Screen extends Rectangle {
 	constructor(options) {
-		options = options || {};
-		super(new Rectangle({fillColor: 0xffffff}), options);
+		options = Object.assign({fillColor: 0xffffff}, options);
+		super(options);
     this.zoom = 1;
 		this.content = new Scene(this);
 		this.content.frame = this;

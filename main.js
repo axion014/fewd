@@ -53,7 +53,7 @@ export function renderScene(scene, renderToScreen) {
 	threeComposer.renderToScreen = renderToScreen === undefined ? true : renderToScreen;
 	threeComposer.passes = scene.threePasses;
 	scene.prepareForRendering();
-	if (scene.width !== threeComposer.rt1.width || scene.height !== threeComposer.rt1.height) {
+	if (scene.width !== threeComposer.renderTarget1.width || scene.height !== threeComposer.renderTarget1.height) {
 		threeComposer.setSize(scene.width, scene.height);
 		if (!scene.frame) threeRenderer.setSize(vw, vh);
 	}

@@ -2,7 +2,7 @@ import {EventDispatcher, Scene as THREEScene, PerspectiveCamera, OrthographicCam
 
 import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass.js";
 
-import {setCurrentScene, vw, vh, resized} from "./main";
+import {setCurrentScene, vw, vh} from "./main";
 import Easing from "./easing";
 import {modifySafeTraverse} from "./threeutil";
 import {defineAccessor} from "./utils";

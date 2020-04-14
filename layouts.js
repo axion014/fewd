@@ -1,6 +1,6 @@
 import Element from "./element";
 import {define} from "./utils";
-import {TOP, LEFT} from "./constants";
+import {TOP, LEFT, CENTER} from "./constants";
 
 const lengthChangedEvent = {type: "lengthchanged"};
 
@@ -17,11 +17,12 @@ export class List extends Element {
 				if (child.visible === false && !child.interactive) return;
 				const w = child.width * child.scale.x;
 				const h = -child.height * child.scale.y;
+				const origin = child.origin || CENTER;
 
-				length += this.vertical ? h * (1 - child.origin.y) : w * child.origin.x;
+				length += this.vertical ? h * (1 - origin.y) : w * origin.x;
 				if (this.vertical) child.y = length;
 				else child.x = length;
-				length += (this.vertical ? h * child.origin.y : w * (1 - child.origin.x)) + this.padding;
+				length += (this.vertical ? h * origin.y : w * (1 - origin.x)) + this.padding;
 			}
 			if (this.vertical) {
 				const old = this.height;

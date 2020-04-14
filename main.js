@@ -105,6 +105,7 @@ let canvas;
 
 export async function init(options) {
 	if (!options) options = {};
+	if (!options.maxPixelRatio) options.maxPixelRatio = Infinity;
 	if (options.fitScreen) {
 		resize(window.innerWidth, window.innerHeight);
 		window.addEventListener('resize', () => {
@@ -115,7 +116,7 @@ export async function init(options) {
 	canvas = canvaspresented ? options.canvas : document.createElement("canvas");
 	threeRenderer = new WebGLRenderer({canvas: canvas, antialias: true});
 	threeRenderer.setSize(vw, vh);
-	threeRenderer.setPixelRatio(window.devicePixelRatio);
+	threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, options.maxPixelRatio));
 	threeRenderer.setClearColor(new Color(0xffffff), 1.0);
 	await loadResources(EffectComposer);
 	threeComposer = new EffectComposer(threeRenderer);

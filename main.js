@@ -1,4 +1,4 @@
-import {WebGLRenderer, WebGLRenderTarget, Color} from "three";
+import {WebGLRenderer, WebGLRenderTarget, Color, LinearFilter, RGBAFormat} from "three";
 
 import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer.js";
 
@@ -37,9 +37,9 @@ export function renderFrameBuffer(scene, buffer) {
 	const originalBuffer = threeComposer[bufferName];
 	if (!buffer) {
 		buffer = new WebGLRenderTarget(scene.width, scene.height, {
-			minFilter: THREE.LinearFilter,
-			magFilter: THREE.LinearFilter,
-			format: THREE.RGBAFormat,
+			minFilter: LinearFilter,
+			magFilter: LinearFilter,
+			format: RGBAFormat,
 			stencilBuffer: false
 		});
 	}

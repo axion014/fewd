@@ -1,4 +1,4 @@
-import {WebGLRenderer, Color} from "three";
+import {WebGLRenderer, WebGLRenderTarget, Color} from "three";
 
 import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer.js";
 
@@ -19,7 +19,6 @@ export let currentFPS = 0;
 
 export let vw = 640;
 export let vh = 960;
-export let resized = false;
 let updated = false;
 let running = false;
 
@@ -27,19 +26,42 @@ const enterEvent = {type: 'enter'};
 
 export function setCurrentScene(scene) {
 	currentScene = scene;
-	if (threeComposer) threeComposer.passes = scene.threePasses;
 	scene.updateCameras();
 	scene.dispatchEvent(enterEvent);
 }
 
-export function renderScreen() {
-	if (resized) {
-		threeRenderer.setSize(vw, vh);
-		threeComposer.setSize(vw, vh);
+export function renderFrameBuffer(scene, buffer) {
+	let swap = false;
+	for (const pass of scene.threePasses) if (pass.enabled && pass.swapBuffers) swap = !swap;
+	const bufferName = swap ? "readBuffer" : "writeBuffer";
+	const originalBuffer = threeComposer[bufferName];
+	if (!buffer) {
+		buffer = new WebGLRenderTarget(scene.width, scene.height, {
+			minFilter: THREE.LinearFilter,
+			magFilter: THREE.LinearFilter,
+			format: THREE.RGBAFormat,
+			stencilBuffer: false
+		});
 	}
-	currentScene.prepareForRendering();
+	threeComposer[bufferName] = buffer;
+	renderScene(scene, false);
+	threeComposer[bufferName] = originalBuffer;
+	return buffer;
+}
+
+export function renderScene(scene, renderToScreen) {
+	threeComposer.renderToScreen = renderToScreen === undefined ? true : renderToScreen;
+	threeComposer.passes = scene.threePasses;
+	scene.prepareForRendering();
+	if (scene.width !== threeComposer.rt1.width || scene.height !== threeComposer.rt1.height) {
+		threeComposer.setSize(scene.width, scene.height);
+		if (!scene.frame) threeRenderer.setSize(vw, vh);
+	}
 	threeComposer.render();
-	resized = false;
+}
+
+export function renderScreen() {
+	renderScene(currentScene);
 	updated = false;
 }
 
@@ -57,7 +79,6 @@ const renderLoop = () => {
 export function resize(width, height) {
 	vw = width;
 	vh = height;
-	resized = true;
 }
 
 let breakRenderLoop = false;

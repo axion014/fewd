@@ -9,6 +9,8 @@ import {define, defineAccessor} from "./utils";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
 import {CENTER} from "./constants";
+import Scene from "./scene";
+import {renderFrameBuffer} from "./main";
 
 class ModifiedSpriteText2D extends SpriteText2D {
 	constructor(text, options) {
@@ -199,6 +201,23 @@ export class DebugTexts extends Element {
 		if (!v) return;
 		for (; v.parent || v._meta; v = v.parent || v._meta);
 		v.debug = this.set.bind(this);
+	}
+}
+
+export class Screen extends Element {
+	constructor(options) {
+		options = options || {};
+		super(new Rectangle({fillColor: 0xffffff}), options);
+    this.zoom = 1;
+		this.content = new Scene(this);
+		thia.content.frame = this;
+		this.scroll = this.content.UICamera.position;
+		this.buffer = null;
+
+		this.addEventListener('render', () => {
+			this.buffer = renderFrameBuffer(this.content, this.buffer);
+			this.nativeContent.fill.map = this.buffer.texture;
+		});
 	}
 }
 

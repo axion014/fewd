@@ -13,16 +13,18 @@ const updateEvent = {type: "update"};
 const renderEvent = {type: "render"};
 
 export default class Scene extends EventDispatcher {
-	constructor() {
+	constructor(frame) {
 		super();
+		this.frame = frame;
 		this.threeScene = new THREEScene();
 		this.threeScene._meta = this;
-		this.camera = new PerspectiveCamera(45, vw / vh, 1, 10000);
+		this.camera = new PerspectiveCamera(45, this.width / this.height, 1, 10000);
 		this.UIScene = new THREEScene();
 		this.UIScene._meta = this;
-		this.UICamera = new OrthographicCamera(-vw / 2, vw / 2, vh / 2, -vh / 2, 1, 10000);
+		this.UICamera = new OrthographicCamera(-this.width / 2, this.width / 2, this.height / 2, -this.height / 2, 1, 10000);
 		this.threeScene.add(this.camera);
 		this.UICamera.position.z = 5;
+		this.UICamera.zoom = 1;
 		this.UIScene.add(this.UICamera);
 		const threeRenderPass = new RenderPass(this.threeScene, this.camera, {});
 		this.threePasses = [
@@ -42,17 +44,17 @@ export default class Scene extends EventDispatcher {
 
 		const updateInteractivity = target => target._interactive = target.interactive;
 
-		function hitTest(scene, camera) {
+		const hitTest = (scene, camera) => {
 			return e => {
 				scene.traverse(children => {
 					if (children.visible === false || children._interactive === false || !children.hitTest) return;
 					pos.setFromMatrixPosition(children.matrixWorld).project(camera);
-					if (children.hitTest(e.x - (pos.x + 1) * vw / 2, e.y - (1 - pos.y) * vh / 2)) {
+					if (children.hitTest(e.x - (pos.x + 1) * this.width / 2, e.y - (1 - pos.y) * this.height / 2)) {
 						children.dispatchEvent(e);
 					}
 				});
 			};
-		}
+		};
 
 		const hitTestThreeScene = hitTest(this.threeScene, this.camera);
 		const hitTestUIScene = hitTest(this.UIScene, this.UICamera);
@@ -89,24 +91,31 @@ export default class Scene extends EventDispatcher {
 	}
 
 	updateCameras() {
-		this.camera.aspect = vw / vh;
-		this.camera.zoom = Math.sqrt(this.camera.aspect);
+		this.camera.aspect = this.width / this.height;
+		const zoomOriginal = this.camera.zoom;
+		this.camera.zoom *= Math.sqrt(this.camera.aspect);
 		this.camera.updateProjectionMatrix();
-		this.UICamera.left = -vw / 2;
-		this.UICamera.right = vw / 2;
-		this.UICamera.top = vh / 2;
-		this.UICamera.bottom = -vh / 2;
+		this.camera.zoom = zoomOriginal;
+		const zoom = this.UICamera.zoom * 2;
+		this.UICamera.left = -this.width / zoom;
+		this.UICamera.right = this.width / zoom;
+		this.UICamera.top = this.height / zoom;
+		this.UICamera.bottom = -this.height / zoom;
 		this.UICamera.updateProjectionMatrix();
 	}
 
 	updatePasses() {
-		this.threePasses[0].clear = true;
+		this.threePasses[0].clear = !(this.frame && this.threePasses[0].renderToScreen);
 		for (let i = this.threePasses.length - 1; i >= 1; i--) this.threePasses[i].clear = false;
 		this._threePasses = Array.from(this.threePasses); // shallow copy
 	}
 
 	prepareForRendering() {
-		if (resized) this.updateCameras();
+		if (this.width !== this._width || this.height !== this._height) {
+			this.width = this._width;
+			this.height = this._height;
+			this.updateCameras();
+		}
 		this.UIScene.traverse(children => {
 			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {
@@ -126,6 +135,9 @@ export default class Scene extends EventDispatcher {
 			}
 		}
 	}
+
+	get _width() {return this.frame ? this.frame.width * this.frame.scale.x : vw}
+	get _height() {return this.frame ? this.frame.height * this.frame.scale.y : vh}
 
 	static createAndEnter() {
 		const scene = new this(...arguments);

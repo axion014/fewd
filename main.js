@@ -118,7 +118,6 @@ export async function init(options) {
 	threeRenderer.setSize(vw, vh);
 	threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, options.maxPixelRatio));
 	threeRenderer.setClearColor(new Color(0xffffff), 1.0);
-	await loadResources(EffectComposer);
 	threeComposer = new EffectComposer(threeRenderer);
 	if (currentScene) threeComposer.passes = currentScene.threePasses;
 

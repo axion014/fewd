@@ -210,7 +210,7 @@ export class Screen extends Element {
 		super(new Rectangle({fillColor: 0xffffff}), options);
     this.zoom = 1;
 		this.content = new Scene(this);
-		thia.content.frame = this;
+		this.content.frame = this;
 		this.scroll = this.content.UICamera.position;
 		this.buffer = null;
 

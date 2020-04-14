@@ -12,7 +12,8 @@ export default class Infiniteof extends Element {
 				(globalpos.y - (interval.y < 0 ? vh : 0)) / interval.y));
 
 	    const base = interval.clone().multiplyScalar(backrate + 1);
-	    for(const pos = interval.clone().multiplyScalar(backrate - 1), i = -1;
+			let i = -1;
+	    for(const pos = interval.clone().multiplyScalar(backrate - 1);
 					pos.x - base.x < vw && pos.x - base.x > -vw && pos.y - base.y < vh && pos.y - base.y > -vh;
 	        pos.add(this.pitch), i++) {
 	      if (i + backrate >= this.nodemin && i + backrate < this.nodemax) continue;
@@ -26,7 +27,7 @@ export default class Infiniteof extends Element {
 	    }
 	    this.nodemin = backrate - 1;
 	    this.nodemax = i + backrate;
-	    for (child of this.children) {
+	    for (const child of this.children) {
 	      if (child._i < this.nodemin || child._i > this.nodemax) child.remove();
 	    }
 	  });
@@ -37,6 +38,6 @@ export default class Infiniteof extends Element {
   refresh() {
     this.nodemin = Infinity;
     this.nodemax = -Infinity;
-		for (child of this.children) child.remove();
+		for (const child of this.children) child.remove();
   }
 }

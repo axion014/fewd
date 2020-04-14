@@ -11,8 +11,8 @@ export default class Infiniteof extends Element {
 	    const backrate = -Math.floor(Math.min((globalpos.x - (interval.x < 0 ? vw : 0)) / interval.x,
 				(globalpos.y - (interval.y < 0 ? vh : 0)) / interval.y));
 
-	    const base = interval.clone().mul(backrate + 1);
-	    for(const pos = interval.clone().mul(backrate - 1), i = -1;
+	    const base = interval.clone().multiplyScalar(backrate + 1);
+	    for(const pos = interval.clone().multiplyScalar(backrate - 1), i = -1;
 					pos.x - base.x < vw && pos.x - base.x > -vw && pos.y - base.y < vh && pos.y - base.y > -vh;
 	        pos.add(this.pitch), i++) {
 	      if (i + backrate >= this.nodemin && i + backrate < this.nodemax) continue;

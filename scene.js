@@ -76,9 +76,10 @@ export default class Scene extends EventDispatcher {
 
 	update(deltaTime) {
 		updateEvent.deltaTime = deltaTime;
+		updateEvent.scene = this;
 		function updateChild(children) {
 			children.dispatchEvent(updateEvent);
-			if (children.update) children.update(deltaTime);
+			if (children.update) children.update(updateEvent);
 		}
 		this.updateEasings(deltaTime);
 		this.dispatchEvent(updateEvent);
@@ -116,6 +117,9 @@ export default class Scene extends EventDispatcher {
 			this.height = this._height;
 			this.updateCameras();
 		}
+
+		const parentScene = renderEvent.scene;
+		renderEvent.scene = this;
 		this.UIScene.traverse(children => {
 			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {
@@ -126,6 +130,7 @@ export default class Scene extends EventDispatcher {
 				if (children.material.opacity !== 1) children.material.transparent = true;
 			}
 		});
+		renderEvent.scene = parentScene;
 
 		// only update passes when there are changes
 		for (let i = 0; i < this.threePasses.length; i++) {

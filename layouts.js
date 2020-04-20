@@ -20,8 +20,8 @@ export class List extends Element {
 				const origin = child.origin || CENTER;
 
 				length += this.vertical ? h * (1 - origin.y) : w * origin.x;
-				if (this.vertical) child.y = length;
-				else child.x = length;
+				if (this.vertical) child.position.y = length;
+				else child.position.x = length;
 				length += (this.vertical ? h * origin.y : w * (1 - origin.x)) + this.padding;
 			}
 			if (this.vertical) {

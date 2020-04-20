@@ -25,6 +25,7 @@ export default class Scene extends EventDispatcher {
 			get: () => false,
 			set: v => this.UIScene._autoUpdate = v
 		});
+		this.UIScene.autoUpdate = true;
 		this.UICamera = new OrthographicCamera(-this.width / 2, this.width / 2, this.height / 2, -this.height / 2, 1, 10000);
 		this.threeScene.add(this.camera);
 		this.UICamera.position.z = 5;

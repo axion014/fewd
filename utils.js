@@ -71,3 +71,21 @@ export function debugHitbox(o, interval) {
 		original.call(o, dx, dy);
 	};
 }
+
+export function maxNum(...array) {
+	let max = NaN;
+	for (let i = 0, l = array.length; i < l; i++) {
+    let n = array[i];
+    if (!(isNaN(n) || n <= max)) max = n;
+  }
+	return max;
+}
+
+export function minNum(...array) {
+	let min = NaN;
+	for (let i = 0, l = array.length; i < l; i++) {
+    let n = array[i];
+    if (!(isNaN(n) || n >= min)) min = n;
+  }
+	return min;
+}

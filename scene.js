@@ -21,6 +21,10 @@ export default class Scene extends EventDispatcher {
 		this.camera = new PerspectiveCamera(45, this.width / this.height, 1, 10000);
 		this.UIScene = new THREEScene();
 		this.UIScene._meta = this;
+		defineAccessor(this.UIScene, 'autoUpdate', {
+			get: () => false,
+			set: v => this.UIScene._autoUpdate = v
+		});
 		this.UICamera = new OrthographicCamera(-this.width / 2, this.width / 2, this.height / 2, -this.height / 2, 1, 10000);
 		this.threeScene.add(this.camera);
 		this.UICamera.position.z = 5;
@@ -120,6 +124,7 @@ export default class Scene extends EventDispatcher {
 
 		const parentScene = renderEvent.scene;
 		renderEvent.scene = this;
+		if (this.UIScene._autoUpdate) this.UIScene.updateMatrixWorld();
 		this.UIScene.traverse(children => {
 			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {

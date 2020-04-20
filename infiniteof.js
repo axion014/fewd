@@ -1,7 +1,6 @@
 import {Group, Vector2, Vector3, Vector4, Matrix3} from "three";
 
 import Element from "./element";
-import {maxNum, minNum} from "./utils";
 
 export default class Infiniteof extends Element {
 	constructor(generator, interval, options) {
@@ -59,15 +58,14 @@ export default class Infiniteof extends Element {
 			const verticalStart = globalInterval.y > 0 ? bottom : top;
 			const verticalEnd = globalInterval.y > 0 ? top : bottom;
 
-			const lowerBound = Math.floor(maxNum(
-				(horizontalStart - Math[globalInterval.x > 0 ? "max" : "min"](position1.x, position2.x)) / globalInterval.x,
-				(verticalStart - Math[globalInterval.y > 0 ? "max" : "min"](position1.y, position2.y)) / globalInterval.y
+			const lowerBound = Math.floor(Math.max(
+				globalInterval.x !== 0 ? (horizontalStart - Math[globalInterval.x > 0 ? "max" : "min"](position1.x, position2.x)) / globalInterval.x : -Infinity,
+				globalInterval.y !== 0 ? (verticalStart - Math[globalInterval.y > 0 ? "max" : "min"](position1.y, position2.y)) / globalInterval.y : -Infinity
 			));
-			const upperBound = Math.ceil(minNum(
-				(horizontalEnd - Math[globalInterval.x > 0 ? "min" : "max"](position1.x, position2.x)) / globalInterval.x,
-				(verticalEnd - Math[globalInterval.y > 0 ? "min" : "max"](position1.y, position2.y)) / globalInterval.y
+			const upperBound = Math.ceil(Math.min(
+				globalInterval.x !== 0 ? (horizontalEnd - Math[globalInterval.x > 0 ? "min" : "max"](position1.x, position2.x)) / globalInterval.x : Infinity,
+				globalInterval.y !== 0 ? (verticalEnd - Math[globalInterval.y > 0 ? "min" : "max"](position1.y, position2.y)) / globalInterval.y : Infinity
 			));
-			console.log(globalInterval.x, globalInterval.y, position1.x, position2.x, (horizontalEnd - Math[globalInterval.x > 0 ? "max" : "min"](position1.x, position2.x)) / globalInterval.x);
 
 			// extend
 			if (lowerBound < this.upperBound && upperBound > this.lowerBound) {

@@ -1,7 +1,8 @@
 import assert from "assert";
 import Element from "../element";
-import {Euler, Mesh} from "three";
+import {Euler, Mesh, Quaternion} from "three";
 import Scene from "../scene";
+import {rotateZ} from "../threeutil";
 
 describe('element.js', function() {
 	describe('Element', function() {
@@ -9,7 +10,11 @@ describe('element.js', function() {
 			it('isn\'t default three.js Euler instance', function() {
 				assert(!(new Element(new Mesh(), {}).rotation instanceof Euler));
 			});
-			it('rotates the element around the Z axis');
+			it('rotates the element around the Z axis', function() {
+				const element = new Element(new Mesh(), {});
+				element.rotation = Math.PI / 3;
+				assert(element.quaternion.equals(rotateZ(new Quaternion(), Math.PI / 3)));
+			});
 		});
 		describe('#selfOpacity', function() {
 			let scene;

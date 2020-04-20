@@ -1,7 +1,6 @@
 import {Mesh, Object3D, Quaternion, MultiMaterial, Vector2, Vector3, Color} from "three";
 import {MeshLine, MeshLineMaterial} from "threejs-meshline";
 
-import {vw, vh} from "./main";
 import {get, free, defineAccessor} from "./utils";
 
 //3軸
@@ -125,12 +124,12 @@ export function createMeshLine(geometry, material, flat) {
 	const geometryGenerator = new MeshLine();
 	const mesh = new Mesh(
 		geometryGenerator.geometry,
-		new MeshLineMaterial(Object.assign({resolution: new Vector2(vw, vh), sizeAttenuation: false}, material))
+		new MeshLineMaterial(Object.assign({sizeAttenuation: false}, material))
 	);
 	mesh.geometryGenerator = geometryGenerator;
 	setMeshLineGeometry(mesh, geometry, flat);
-	mesh.addEventListener("render", () => {
-		mesh.material.uniforms.resolution.value.set(vw, vh); // the uniform variable resolution must be kept up to date
+	mesh.addEventListener("render", e => {
+		mesh.material.uniforms.resolution.value.set(e.scene.width, e.scene.height); // the uniform variable resolution must be kept up to date
 	});
 	return mesh;
 }

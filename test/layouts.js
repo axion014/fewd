@@ -31,5 +31,15 @@ describe('layouts.js', function() {
 			assert.equal(list.children[2].position.x, 41);
 			assert.equal(list.width, 48);
 		});
+		it('ignores invisible, uninteractive children', function() {
+			const list = new List(false, 0);
+			list.add(new Rectangle({width: 10}));
+			list.add(new Ellipse({radius: 8, visible: false}));
+			list.add(new SymmetricTriangle({width: 14}));
+			list.dispatchEvent({type: "render"});
+			assert.equal(list.children[0].position.x, 5);
+			assert.equal(list.children[2].position.x, 17);
+			assert.equal(list.width, 24);
+		});
 	});
 });

@@ -22,7 +22,7 @@ export class List extends Element {
 				length += this.vertical ? h * (1 - origin.y) : w * origin.x;
 				if (this.vertical) child.position.y = length;
 				else child.position.x = length;
-				length += (this.vertical ? h * origin.y : w * (1 - origin.x)) + this.padding;
+				length += (this.vertical ? h * origin.y - this.padding: w * (1 - origin.x) + this.padding);
 			}
 			if (this.vertical) {
 				const old = this.height;

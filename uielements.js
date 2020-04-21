@@ -128,16 +128,20 @@ export class Gauge extends Element {
 		});
 		this.nativeContent.add(this.background);
 
+		this.minValue = options.minValue || 0;
+		this.maxValue = options.maxValue;
+		this._value = options.value;
+
   	this.foreground = new Rectangle({
-			width: options.value / options.maxValue,
+			width: this.rate,
 			height: 1,
 			fillColor: options.gaugeColor,
 			opacity: options.gaugeOpacity
 		});
+		this.foreground.position.x = -(1 - this.foreground.width) / 2;
   	this.foreground.position.z = 0.0001;
 		this.nativeContent.add(this.foreground);
 
-		this.maxValue = options.maxValue;
 		this.hitTest = hitTestRectangle;
 	}
 	get width() {return this.nativeContent.scale.x}
@@ -146,11 +150,14 @@ export class Gauge extends Element {
 	get height() {return this.nativeContent.scale.y}
 	set height(v) {this.nativeContent.scale.y = v}
 
-	get value() {this.foreground.width * this.maxValue}
+	get value() {return this._value}
 	set value(v) {
-		this.foreground.width = v / this.maxValue;
-		this.foreground.x = -(1 - this.foreground.width) / 2
+		this._value = v;
+		this.foreground.width = this.rate;
+		this.foreground.position.x = -(1 - this.foreground.width) / 2;
 	}
+
+	get rate() {return (this._value - this.minValue) / (this.maxValue - this.minValue)}
 
 	get fillOpacity() {return this.background.fillOpacity}
 	set fillOpacity(v) {this.background.fillOpacity = v}

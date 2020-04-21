@@ -14,7 +14,7 @@ export class List extends Element {
 		this.addEventListener("render", () => {
 			let length = 0;
 			for (const child of this.children) {
-				if (child.visible === false && !child.interactive) return;
+				if (child.visible === false && !child.interactive) continue;
 				const w = child.width * child.scale.x;
 				const h = -child.height * child.scale.y;
 				const origin = child.origin || CENTER;

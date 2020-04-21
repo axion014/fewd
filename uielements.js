@@ -224,7 +224,7 @@ export class Screen extends Rectangle {
 
 		this.addEventListener('render', () => {
 			this.buffer = renderFrameBuffer(this.content, this.buffer);
-			this.nativeContent.fill.map = this.buffer.texture;
+			this.nativeContent.fill.material.map = this.buffer.texture;
 		});
 	}
 }

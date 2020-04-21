@@ -155,7 +155,7 @@ export class Gauge extends Element {
 		this._value = v;
 		this.foreground.width = this.rate;
 		this.foreground.position.x = -(1 - this.foreground.width) / 2;
-		this.dispatchEvent("changed");
+		this.dispatchEvent({type: "changed"});
 	}
 
 	get rate() {return (this._value - this.minValue) / (this.maxValue - this.minValue)}

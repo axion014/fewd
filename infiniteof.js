@@ -6,7 +6,7 @@ export default class Infiniteof extends Element {
 	constructor(generator, interval, options) {
 		options = Object.assign({}, options);
 		if (!options.margin) options.margin = new Vector4(0, 0, 0, 0); // margin in CSS order(top - right - bottom - left)
-		super(new Group(), options);
+		super(null, options);
 		this.interval = interval;
 		this.margin = options.margin;
 		const position1 = new Vector3();

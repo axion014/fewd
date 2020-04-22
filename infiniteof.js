@@ -18,11 +18,11 @@ export default class Infiniteof extends Element {
 		this.nodes.offset = 0;
 
 		const addRange = (start, end) => {
-			currentPosition.copy(this.interval).multiplyScalar(start);
+			currentPosition.set(this.interval.x, this.interval.y, 0).multiplyScalar(start);
 			this.nodes.length += end - start;
 			this.nodes.copyWithin(end, start, start - end);
 			if (start < this.nodes.offset) this.nodes.offset = start;
-			for(let i = start; i < end; currentPosition.add(this.interval), i++) {
+			for(let i = start; i <= end; currentPosition.x += this.interval.x, currentPosition.y += this.interval.y, i++) {
 				const node = generator(i);
 				this.add(node);
 				node.position.copy(currentPosition);

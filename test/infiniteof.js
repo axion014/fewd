@@ -11,6 +11,7 @@ describe('infiniteof.js', function() {
 			assert.equal(infiniteof.lowerBound, -12); // -480 / 40
 			assert.equal(infiniteof.upperBound, 12); // 480 / 40
 			assert.equal(infiniteof.nodes.length, 25);
+			assert.equal(infiniteof.children.length, 25);
 		});
 
 		it('can be moved around', function() {

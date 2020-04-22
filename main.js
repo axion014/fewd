@@ -30,27 +30,7 @@ export function setCurrentScene(scene) {
 	scene.dispatchEvent(enterEvent);
 }
 
-export function renderFrameBuffer(scene, buffer) {
-	let swap = false;
-	for (const pass of scene.threePasses) if (pass.enabled && pass.swapBuffers) swap = !swap;
-	const bufferName = swap ? "readBuffer" : "writeBuffer";
-	const originalBuffer = threeComposer[bufferName];
-	if (!buffer) {
-		buffer = new WebGLRenderTarget(scene.width, scene.height, {
-			minFilter: LinearFilter,
-			magFilter: LinearFilter,
-			format: RGBAFormat,
-			stencilBuffer: false
-		});
-	}
-	threeComposer[bufferName] = buffer;
-	renderScene(scene, false);
-	threeComposer[bufferName] = originalBuffer;
-	return buffer;
-}
-
-export function renderScene(scene, renderToScreen) {
-	scene.prepareForRendering();
+function renderScenePrepared(scene, renderToScreen) {
 	threeComposer.renderToScreen = renderToScreen === undefined ? true : renderToScreen;
 	threeComposer.passes = scene.threePasses;
 	if (scene.width !== threeComposer.renderTarget1.width || scene.height !== threeComposer.renderTarget1.height) {
@@ -58,6 +38,32 @@ export function renderScene(scene, renderToScreen) {
 		if (!scene.frame) threeRenderer.setSize(vw, vh);
 	}
 	threeComposer.render();
+}
+
+export function renderFrameBuffer(scene, buffer) {
+	let swap = false;
+	for (const pass of scene.threePasses) if (pass.enabled && pass.swapBuffers) swap = !swap;
+	const bufferName = swap ? "writeBuffer" : "readBuffer";
+	const originalBuffer = threeComposer[bufferName];
+	scene.prepareForRendering();
+	if (!buffer) {
+		const pixelRatio = threeRenderer.getPixelRatio();
+		buffer = new WebGLRenderTarget(scene.width * pixelRatio, scene.height * pixelRatio, {
+			minFilter: LinearFilter,
+			magFilter: LinearFilter,
+			format: RGBAFormat,
+			stencilBuffer: false
+		});
+	}
+	threeComposer[bufferName] = buffer;
+	renderScenePrepared(scene, false);
+	threeComposer.readBuffer = originalBuffer;
+	return buffer;
+}
+
+export function renderScene(scene, renderToScreen) {
+	scene.prepareForRendering();
+	renderScenePrepared(scene, renderToScreen);
 }
 
 export function renderScreen() {

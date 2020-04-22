@@ -81,6 +81,7 @@ export default class Scene extends EventDispatcher {
 
 	update(deltaTime) {
 		updateEvent.deltaTime = deltaTime;
+		const parentScene = updateEvent.scene;
 		updateEvent.scene = this;
 		function updateChild(children) {
 			children.dispatchEvent(updateEvent);
@@ -90,6 +91,7 @@ export default class Scene extends EventDispatcher {
 		this.dispatchEvent(updateEvent);
 		modifySafeTraverse(this.threeScene, updateChild);
 		modifySafeTraverse(this.UIScene, updateChild);
+		updateEvent.scene = updateEvent.scene;
 	}
 
 	enterThisScene() {

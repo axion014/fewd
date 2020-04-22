@@ -216,7 +216,6 @@ export class Screen extends Rectangle {
 	constructor(options) {
 		options = Object.assign({fillColor: 0xffffff}, options);
 		super(options);
-    this.zoom = 1;
 		this.content = new Scene(this);
 		this.content.frame = this;
 		this.scroll = this.content.UICamera.position;
@@ -226,6 +225,16 @@ export class Screen extends Rectangle {
 			this.buffer = renderFrameBuffer(this.content, this.buffer);
 			this.nativeContent.fill.material.map = this.buffer.texture;
 		});
+
+		['pointstart', 'pointmove', 'pointend', 'click'].forEach(name => {
+			this.addEventListener(name, e => {
+				this.content.dispatchEvent(e);
+			});
+		});
+	}
+
+	update(e) {
+		this.content.update(e.deltaTime);
 	}
 }
 

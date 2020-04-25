@@ -5,7 +5,7 @@ import {SpriteText2D, textAlign} from "three-text2d";
 import Mikan from "mikan.js";
 
 import {Rectangle} from "./geometries";
-import {define, defineAccessor} from "./utils";
+import {define, connect} from "./utils";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
 import {CENTER} from "./constants";
@@ -21,10 +21,7 @@ class ModifiedSpriteText2D extends SpriteText2D {
 			font: "32px 'HiraKakuProN-W3'"
 		}, options));
 		// Can't put this in prototype because Object3D defines this in the constructor
-		defineAccessor(this, "rotation", {
-			get() {return this.material.rotation},
-			set(v) {this.material.rotation = v}
-		});
+		connect(this, "rotation", this.material);
 		if (options.rotation) this.rotation = options.rotation;
 		this.opacity = options.opacity;
 		this.hitTest = hitTestRectangle;

@@ -119,7 +119,8 @@ export default class Scene extends EventDispatcher {
 	}
 
 	prepareForRendering() {
-		if (this.width !== this._width || this.height !== this._height) {
+		const resized = this.width !== this._width || this.height !== this._height;
+		if (resized) {
 			this.width = this._width;
 			this.height = this._height;
 			this.updateCameras();
@@ -127,6 +128,7 @@ export default class Scene extends EventDispatcher {
 
 		const parentScene = renderEvent.scene;
 		renderEvent.scene = this;
+		renderEvent.resized = resized;
 		if (this.UIScene._autoUpdate) this.UIScene.updateMatrixWorld();
 		this.UIScene.traverse(children => {
 			children.dispatchEvent(renderEvent);

@@ -2,7 +2,6 @@ import {Group} from "three";
 
 import {defineAccessor} from "./utils";
 import {CENTER} from "./constants";
-import {setupLayoutExpression} from "./layouts";
 
 export default class Element extends Group {
 	constructor(nativeContent, options) {
@@ -45,5 +44,3 @@ export default class Element extends Group {
 	get selfOpacity() {return this.nativeContent.opacity}
 	set selfOpacity(v) {this.nativeContent.opacity = v}
 }
-
-Element.prototype.setupLayoutExpression = setupLayoutExpression;

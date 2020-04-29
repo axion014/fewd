@@ -39,3 +39,10 @@ export class List extends Element {
 
 define(List.prototype, "width", undefined);
 define(List.prototype, "height", undefined);
+
+export function setupLayoutExpression(initialRules) {
+	this.rules = initialRules || {};
+	this.addEventListener('render', e => {
+		for (const k of Object.keys(this.rules)) this[k] = this.rules[k](e);
+	});
+}

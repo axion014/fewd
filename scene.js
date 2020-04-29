@@ -130,6 +130,7 @@ export default class Scene extends EventDispatcher {
 		renderEvent.scene = this;
 		renderEvent.resized = resized;
 		if (this.UIScene._autoUpdate) this.UIScene.updateMatrixWorld();
+		this.dispatchEvent(renderEvent);
 		this.UIScene.traverse(children => {
 			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {

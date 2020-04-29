@@ -11,6 +11,7 @@ import {hitTestRectangle} from './hittest';
 import {CENTER} from "./constants";
 import Scene from "./scene";
 import {renderFrameBuffer} from "./main";
+import {setupLayoutExpression} from "./layouts";
 
 class ModifiedSpriteText2D extends SpriteText2D {
 	constructor(text, options) {
@@ -40,6 +41,8 @@ class ModifiedSpriteText2D extends SpriteText2D {
 	get z() {return this.position.z}
 	set z(v) {this.position.z = v}
 }
+
+ModifiedSpriteText2D.prototype.setupLayoutExpression = setupLayoutExpression;
 
 export class Label extends ModifiedSpriteText2D {
 	constructor(text, options) {

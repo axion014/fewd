@@ -5,7 +5,7 @@ import {SpriteText2D, textAlign} from "three-text2d";
 import Mikan from "mikan.js";
 
 import {Rectangle} from "./geometries";
-import {define, connect} from "./utils";
+import {defineAccessor, connect} from "./utils";
 import Element from "./element";
 import {hitTestRectangle} from './hittest';
 import {CENTER} from "./constants";

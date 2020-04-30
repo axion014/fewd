@@ -51,11 +51,11 @@ export default class Scene extends EventDispatcher {
 
 		const hitTest = (scene, camera) => {
 			return e => {
-				scene.traverse(children => {
-					if (children.visible === false || children._interactive === false || !children.hitTest) return;
-					pos.setFromMatrixPosition(children.matrixWorld).project(camera);
-					if (children.hitTest(e.x - (pos.x + 1) * this.width / 2, e.y - (1 - pos.y) * this.height / 2)) {
-						children.dispatchEvent(e);
+				scene.traverse(child => {
+					if (child.visible === false || child._interactive === false || !child.hitTest) return;
+					pos.setFromMatrixPosition(child.matrixWorld).project(camera);
+					if (child.hitTest(e.x - (pos.x + 1) * this.width / 2, e.y - (1 - pos.y) * this.height / 2)) {
+						child.dispatchEvent(e);
 					}
 				});
 			};

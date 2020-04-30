@@ -140,12 +140,6 @@ export function run() {
 		canvas.addEventListener(name, e => currentScene.dispatchEvent(Object.assign({type: e.type}, e)));
 	});
 
-	['touchend', 'click'].forEach(name => {
-		canvas.addEventListener(name, e => {
-			currentScene.dispatchEvent(Object.assign({type: e.type}, processEvent('click', e)));
-		});
-	});
-
 	let previous = performance.now();
 	(function loop() {
 		window.setTimeout(loop, 1000 / loopRate);

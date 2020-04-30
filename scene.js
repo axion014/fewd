@@ -64,7 +64,7 @@ export default class Scene extends EventDispatcher {
 		const hitTestThreeScene = hitTest(this.threeScene, this.camera);
 		const hitTestUIScene = hitTest(this.UIScene, this.UICamera);
 
-		['pointstart', 'pointmove', 'pointend', 'click'].forEach(name => {
+		['pointstart', 'pointmove', 'pointend'].forEach(name => {
 			this.addEventListener(name, e => {
 				/*
 				 * Don't change actual interactivity of objects anywhere else, so that changeing their

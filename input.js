@@ -1,13 +1,4 @@
-export function createCustomEvent(name, detail) {
-	let event = null;
-	try {
-	  event = new CustomEvent(name, {detail: detail});
-	} catch (e) {
-	  event = document.createEvent('CustomEvent');
-	  event.initCustomEvent(name, false, false, detail);
-	}
-	return event;
-}
+import {createCustomEvent, toSoftEvent} from "./utils";
 
 export let mouseX = null;
 export let mouseY = null;
@@ -54,7 +45,6 @@ export function initPointerEvents(element) {
 		e.startTracking = startTracking;
 		e.isTracking = isTracking;
 		updateMousePosition(e);
-		for (const trackingObject of trackingObjects.get(e.identifier)) trackingObject.dispatchEvent(e);
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('touchend', e => {
@@ -62,11 +52,9 @@ export function initPointerEvents(element) {
 		e = processEvent('pointend', e);
 		e.isTracking = isTracking;
 		if (!e.targetTouches.length) pointing = false;
-		for (const trackingObject of trackingObjects.get(e.identifier)) trackingObject.dispatchEvent(e);
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousedown', e => {
-		currentClick++;
 		e = processEvent('pointstart', e);
 		trackingObjects.set(currentClick, []);
 		e.startTracking = startTracking;
@@ -82,7 +70,6 @@ export function initPointerEvents(element) {
 		if (pointing) {
 			e.startTracking = startTracking;
 			e.isTracking = isTracking;
-			for (const trackingObject of trackingObjects.get(currentClick)) trackingObject.dispatchEvent(e);
 		}
 		element.dispatchEvent(e);
 	});
@@ -90,9 +77,9 @@ export function initPointerEvents(element) {
 		e.isTracking = isTracking;
 		e.identifier = currentClick;
 		pointing = false;
-		for (const trackingObject of trackingObjects.get(currentClick)) trackingObject.dispatchEvent(e);
 		trackingObjects.delete(currentClick);
 		element.dispatchEvent(processEvent('pointend', e));
+		currentClick++;
 	});
 }
 

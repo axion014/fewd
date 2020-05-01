@@ -89,3 +89,18 @@ export function minNum(...array) {
   }
 	return min;
 }
+
+export function createCustomEvent(name, detail) {
+	let event = null;
+	try {
+	  event = new CustomEvent(name, {detail: detail});
+	} catch (e) {
+	  event = document.createEvent('CustomEvent');
+	  event.initCustomEvent(name, false, false, detail);
+	}
+	return event;
+}
+
+export function toSoftEvent(e) {
+	return Object.assign({type: e.type}, e);
+}

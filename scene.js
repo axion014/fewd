@@ -115,8 +115,14 @@ export default class Scene extends EventDispatcher {
 	}
 
 	updatePasses() {
-		this.threePasses[0].clear = !(this.frame && this.threePasses[0].renderToScreen);
-		for (let i = this.threePasses.length - 1; i >= 1; i--) this.threePasses[i].clear = false;
+		let i = 0;
+		for (; i < this.threePasses.length; i++) {
+			if (this.threePasses[i].enabled) {
+				this.threePasses[i].clear = !(this.frame && this.threePasses[0].renderToScreen);
+				break;
+			}
+		}
+		for (let j = this.threePasses.length - 1; j > i; j--) this.threePasses[j].clear = false;
 		this._threePasses = Array.from(this.threePasses); // shallow copy
 	}
 

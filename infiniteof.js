@@ -49,10 +49,10 @@ export default class Infiniteof extends Element {
 			matrix.setFromMatrix4(this.matrixWorld); // ignore translation
 			globalInterval.applyMatrix3(matrix);
 
-			const top = e.scene.height / 2;
-			const right = e.scene.width / 2;
-			const bottom = -top;
-			const left = -right;
+			const top = e.scene.height / 2 + e.scene.UICamera.position.y;
+			const right = e.scene.width / 2 + e.scene.UICamera.position.x;
+			const bottom = -e.scene.height / 2 + e.scene.UICamera.position.y;
+			const left = -e.scene.width / 2 + e.scene.UICamera.position.x;
 			const horizontalStart = globalInterval.x > 0 ? left : right;
 			const horizontalEnd = globalInterval.x > 0 ? right : left;
 			const verticalStart = globalInterval.y > 0 ? bottom : top;

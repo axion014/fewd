@@ -57,7 +57,7 @@ export default class Scene extends EventDispatcher {
 
 					pos.setFromMatrixPosition(child.matrixWorld).project(camera);
 					e.localX = e.x - (pos.x + 1) * this.width / 2;
-					e.localY = e.y - (1 - pos.y) * this.height / 2;
+					e.localY = -e.y + (1 - pos.y) * this.height / 2;
 					if ((e.isTracking && e.isTracking(child)) || child.hitTest(e.localX, e.localY)) child.dispatchEvent(e);
 				});
 			};

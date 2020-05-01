@@ -13,6 +13,7 @@ export let mouseX = null;
 export let mouseY = null;
 export let pointing = false;
 let currentClick = 0;
+const trackingObjects = new Map();
 
 export const keys = {};
 export const keyDown = {};
@@ -25,6 +26,14 @@ export function processEvent(newname, olde) {
 	return newe;
 }
 
+function startTracking() {
+	trackingObjects.get(this.identifier).push(this.target);
+}
+
+function isTracking(target) {
+	return trackingObjects.get(this.identifier).includes(target);
+}
+
 export function initPointerEvents(element) {
 	function updateMousePosition(e) {
 		mouseX = e.x;
@@ -33,6 +42,8 @@ export function initPointerEvents(element) {
 	element.addEventListener('touchstart', e => {
 		e.preventDefault();
 		e = processEvent('pointstart', e);
+		trackingObjects.set(this.identifier, []);
+		e.startTracking = startTracking;
 		updateMousePosition(e);
 		pointing = true;
 		element.dispatchEvent(e);
@@ -40,18 +51,25 @@ export function initPointerEvents(element) {
 	element.addEventListener('touchmove', e => {
 		e.preventDefault();
 		e = processEvent('pointmove', e);
+		e.startTracking = startTracking;
+		e.isTracking = isTracking;
 		updateMousePosition(e);
+		for (const trackingObject of trackingObjects.get(e.identifier)) trackingObject.dispatchEvent(e);
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('touchend', e => {
 		e.preventDefault();
 		e = processEvent('pointend', e);
+		e.isTracking = isTracking;
 		if (!e.targetTouches.length) pointing = false;
+		for (const trackingObject of trackingObjects.get(e.identifier)) trackingObject.dispatchEvent(e);
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousedown', e => {
 		currentClick++;
 		e = processEvent('pointstart', e);
+		trackingObjects.set(currentClick, []);
+		e.startTracking = startTracking;
 		e.identifier = currentClick; // note: click id currently doesn't account for possible collision
 		updateMousePosition(e);
 		pointing = true;
@@ -59,13 +77,20 @@ export function initPointerEvents(element) {
 	});
 	element.addEventListener('mousemove', e => {
 		e = processEvent('pointmove', e);
+		const trackingEvent = processEvent('move', e);
+		e.startTracking = startTracking;
+		e.isTracking = isTracking;
 		e.identifier = currentClick;
 		updateMousePosition(e);
+		for (const trackingObject of trackingObjects.get(currentClick)) trackingObject.dispatchEvent(e);
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mouseup', e => {
+		e.isTracking = isTracking;
 		e.identifier = currentClick;
 		pointing = false;
+		for (const trackingObject of trackingObjects.get(currentClick)) trackingObject.dispatchEvent(e);
+		trackingObjects.delete(currentClick);
 		element.dispatchEvent(processEvent('pointend', e));
 	});
 }

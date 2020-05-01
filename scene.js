@@ -53,7 +53,7 @@ export default class Scene extends EventDispatcher {
 			return e => {
 				scene.traverse(child => {
 					if (child.visible === false || child._interactive === false || !child.hitTest ||
-						child._listeners === undefined || !child._listeners[e.type]) return;
+						child._listeners === undefined || !child._listeners[e.type] || e.isTracking(child)) return;
 
 					pos.setFromMatrixPosition(child.matrixWorld).project(camera);
 					e.localX = e.x - (pos.x + 1) * this.width / 2;

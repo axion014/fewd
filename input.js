@@ -12,6 +12,7 @@ export function createCustomEvent(name, detail) {
 export let mouseX = null;
 export let mouseY = null;
 export let pointing = false;
+let currentClick = 0;
 
 export const keys = {};
 export const keyDown = {};
@@ -49,17 +50,21 @@ export function initPointerEvents(element) {
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousedown', e => {
+		currentClick++;
 		e = processEvent('pointstart', e);
+		e.identifier = currentClick; // note: click id currently doesn't account for possible collision
 		updateMousePosition(e);
 		pointing = true;
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mousemove', e => {
 		e = processEvent('pointmove', e);
+		e.identifier = currentClick;
 		updateMousePosition(e);
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mouseup', e => {
+		e.identifier = currentClick;
 		pointing = false;
 		element.dispatchEvent(processEvent('pointend', e));
 	});

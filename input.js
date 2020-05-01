@@ -77,12 +77,13 @@ export function initPointerEvents(element) {
 	});
 	element.addEventListener('mousemove', e => {
 		e = processEvent('pointmove', e);
-		const trackingEvent = processEvent('move', e);
-		e.startTracking = startTracking;
-		e.isTracking = isTracking;
 		e.identifier = currentClick;
 		updateMousePosition(e);
-		for (const trackingObject of trackingObjects.get(currentClick)) trackingObject.dispatchEvent(e);
+		if (pointing) {
+			e.startTracking = startTracking;
+			e.isTracking = isTracking;
+			for (const trackingObject of trackingObjects.get(currentClick)) trackingObject.dispatchEvent(e);
+		}
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mouseup', e => {

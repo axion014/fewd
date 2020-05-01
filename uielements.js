@@ -110,7 +110,7 @@ defineAccessor(LabelArea.prototype, "text", {
 
 export class Gauge extends Element {
 	constructor(options) {
-		options = options || {};
+		options = Object.assign({interaction: "absolute"}, options);
 
 		super(new Group(), options);
 
@@ -128,6 +128,26 @@ export class Gauge extends Element {
 		this.minValue = options.minValue || 0;
 		this.maxValue = options.maxValue;
 		this._value = options.value;
+		this.interaction = options.interaction;
+		this.interactive = false;
+
+		let currentPointer, previousPosition;
+
+		this.addEventListener('pointstart', e => {
+			currentPointer = e.identifier;
+			previousPosition = e.localX;
+		});
+
+		this.addEventListener('pointmove', e => {
+			if (e.identifier === currentPointer) {
+				if (this._interaction.type === "absolute") {
+					this.value = (e.localX / this.width + 0.5) * (this.maxValue - this.minValue) + this.minValue;
+				} else {
+					this.value += (e.localX - previousPosition) * this._interaction.sensivity;
+					previousPosition = e.localX;
+				}
+			}
+		});
 
   	this.foreground = new Rectangle({
 			width: this.rate,
@@ -177,6 +197,16 @@ export class Gauge extends Element {
 
 	get gaugeColor() {return this.foreground.fillColor}
 	set gaugeColor(v) {this.foreground.fillColor = v}
+
+	get interaction() {return this._interaction}
+	set interaction(v) {
+		if (typeof v === "string") v = {type: v};
+		if (v.type === "absolute") {
+		} else if (v.type === "relative") {
+			if (!v.sensivity) v.sensivity = 1;
+		} else throw new Error("invaild interaction type");
+		this._interaction = v;
+	}
 }
 
 export class DebugTexts extends Element {

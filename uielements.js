@@ -136,6 +136,7 @@ export class Gauge extends Element {
 		this.addEventListener('pointstart', e => {
 			currentPointer = e.identifier;
 			previousPosition = e.localX;
+			e.startTracking();
 		});
 
 		this.addEventListener('pointmove', e => {

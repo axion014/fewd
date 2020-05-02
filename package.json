@@ -1,7 +1,7 @@
 {
   "name": "fewd",
-  "version": "0.31.1",
-  "description": "The framework for making 3D browser games.",
+  "version": "1.0.0-beta",
+  "description": "Application framework built on top of three.js, supporting user interfaces",
   "main": "fewd.js",
   "scripts": {
     "test": "mocha -r esm"

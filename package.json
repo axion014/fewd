@@ -1,5 +1,5 @@
 {
-  "name": "fewd",
+  "name": "@doublequartz/fewd",
   "version": "1.0.0-beta",
   "description": "Application framework built on top of three.js, supporting user interfaces",
   "main": "fewd.js",

@@ -74,11 +74,12 @@ export function initPointerEvents(element) {
 		element.dispatchEvent(e);
 	});
 	element.addEventListener('mouseup', e => {
+		e = processEvent('pointend', e);
 		e.isTracking = isTracking;
 		e.identifier = currentClick;
 		pointing = false;
 		trackingObjects.delete(currentClick);
-		element.dispatchEvent(processEvent('pointend', e));
+		element.dispatchEvent(e);
 		currentClick++;
 	});
 }

@@ -50,7 +50,7 @@ export function initPointerEvents(element) {
 	element.addEventListener('touchend', e => {
 		e.preventDefault();
 		e = processEvent('pointend', e);
-		e.isTracking = isTracking;
+		trackingObjects.delete(e.identifier);
 		if (!e.targetTouches.length) pointing = false;
 		element.dispatchEvent(e);
 	});
@@ -75,7 +75,6 @@ export function initPointerEvents(element) {
 	});
 	element.addEventListener('mouseup', e => {
 		e = processEvent('pointend', e);
-		e.isTracking = isTracking;
 		e.identifier = currentClick;
 		pointing = false;
 		trackingObjects.delete(currentClick);

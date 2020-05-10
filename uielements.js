@@ -141,12 +141,14 @@ export class Gauge extends Element {
 
 		this.addEventListener('pointmove', e => {
 			if (e.identifier === currentPointer) {
+				let value;
 				if (this._interaction.type === "absolute") {
-					this.value = (e.localX / this.width + 0.5) * (this.maxValue - this.minValue) + this.minValue;
+					value = (e.localX / this.width + 0.5) * (this.maxValue - this.minValue) + this.minValue;
 				} else {
-					this.value += (e.localX - previousPosition) * this._interaction.sensivity;
+					value = this.value + (e.localX - previousPosition) * this._interaction.sensivity;
 					previousPosition = e.localX;
 				}
+				this.value = Math.min(Math.max(value, this.minValue), this.maxValue);
 			}
 		});
 

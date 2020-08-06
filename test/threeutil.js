@@ -1,5 +1,5 @@
 import assert from "assert";
-import {deepclone, modifySafeTraverse, rotateX, rotateY, rotateZ} from "../threeutil";
+import {deepclone, traverseExt, rotateX, rotateY, rotateZ} from "../threeutil";
 import {Scene, Group, Mesh, Quaternion} from "three";
 
 describe('threeutil.js', function() {
@@ -32,7 +32,7 @@ describe('threeutil.js', function() {
 			assert.notEqual(original.material, cloned.material);
 		});
   });
-	describe('modifySafeTraverse()', function() {
+	describe('traverseExt()', function() {
 		let root, count;
 		beforeEach('build some scene graph', function() {
 			count = 0;
@@ -55,7 +55,7 @@ describe('threeutil.js', function() {
 			root.traverse(function(child) {
 				objectsCalledOn.push(child);
 			});
-			modifySafeTraverse(root, function(child) {
+			traverseExt(root, function(child) {
 				assert(objectsCalledOn.includes(child));
 				objectsCalledOn.splice(objectsCalledOn.indexOf(child), 1);
 			});
@@ -63,11 +63,19 @@ describe('threeutil.js', function() {
 		});
 		it('doesn\'t skip elements of later index in case the callback removes elements currently traversing', function() {
 			let traversedElements = 0;
-			modifySafeTraverse(root, function(child) {
+			traverseExt(root, function(child) {
 				if (child.parent) child.parent.remove(child);
 				traversedElements++;
-			});
+			}, true);
 			assert.equal(traversedElements, count);
+		});
+		it('leave children in case callback on parent returns {ignoreChildren: true}', function() {
+			let traversedElements = 0;
+			traverseExt(root, function(child) {
+				traversedElements++;
+				return {ignoreChildren: true};
+			});
+			assert.equal(traversedElements, 1);
 		});
 	});
 });

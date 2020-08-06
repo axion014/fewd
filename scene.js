@@ -4,7 +4,7 @@ import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass.js";
 
 import {setCurrentScene, vw, vh} from "./main";
 import Easing from "./easing";
-import {modifySafeTraverse} from "./threeutil";
+import {traverseExt} from "./threeutil";
 import {defineAccessor} from "./utils";
 
 const pos = new Vector3();
@@ -91,8 +91,8 @@ export default class Scene extends EventDispatcher {
 		}
 		this.updateEasings(deltaTime);
 		this.dispatchEvent(updateEvent);
-		modifySafeTraverse(this.threeScene, updateChild);
-		modifySafeTraverse(this.UIScene, updateChild);
+		traverseExt(this.threeScene, updateChild, true);
+		traverseExt(this.UIScene, updateChild, true);
 		updateEvent.scene = updateEvent.scene;
 	}
 

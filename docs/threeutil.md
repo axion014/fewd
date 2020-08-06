@@ -19,8 +19,10 @@ Deep clone the passed mesh.
 - `clonematerial` - Whether the material of the mesh will be cloned.
 
 ---
-##### `modifySafeTraverse(t, f)` : undefined
-Same as `THREE.Object3D.traverse` except this don't break in case you modify the tree while traversing.
+##### `traverseExt(object, callback, assumeModify)` : undefined
+Basically `THREE.Object3D.traverse`.
+- `callback` - May return an object with `ignoreChildren: true` to suppress traversing through children.
+- `assumeModify` - If true, internally copy array of children to avoid side effect of modifying `object.children` array.
 
 ---
 ##### `rotate(o, a, r)` : o

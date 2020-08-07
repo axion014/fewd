@@ -47,19 +47,19 @@ export default class Scene extends EventDispatcher {
 
 		Easing.initIn(this);
 
-		const updateInteractivity = target => target._interactive = target.interactive;
+		const updateInteractivity = target => {ignoreChildren: !(target._interactive = target.interactive)};
 
 		const hitTest = (scene, camera) => {
 			return e => {
-				scene.traverse(child => {
-					if (child.visible === false || child._interactive === false || !child.hitTest ||
-						child._listeners === undefined || !child._listeners[e.type]) return;
+				traverseExt(scene, child => {
+					if (child.visible === false || child._interactive === false) return {ignoreChildren: true};
+					if(!child.hitTest || child._listeners === undefined || !child._listeners[e.type]) return;
 
 					pos.setFromMatrixPosition(child.matrixWorld).project(camera);
 					e.localX = e.x - (pos.x + 1) * this.width / 2;
 					e.localY = -e.y + (1 - pos.y) * this.height / 2;
 					if ((e.isTracking && e.isTracking(child)) || child.hitTest(e.localX, e.localY)) child.dispatchEvent(e);
-				});
+				}, true);
 			};
 		};
 
@@ -139,7 +139,8 @@ export default class Scene extends EventDispatcher {
 		renderEvent.resized = resized;
 		if (this.UIScene._autoUpdate) this.UIScene.updateMatrixWorld();
 		this.dispatchEvent(renderEvent);
-		this.UIScene.traverse(children => {
+		traverseExt(this.UIScene, children => {
+			if (children.visible === false) return {ignoreChildren: true};
 			children.dispatchEvent(renderEvent);
 			if (children.material && children.material.opacity !== undefined) {
 				let opacity = 1;

@@ -1,6 +1,6 @@
 {
   "name": "@doublequartz/fewd",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Application framework built on top of three.js, supporting user interfaces",
   "main": "fewd.js",
   "scripts": {

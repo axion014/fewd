@@ -173,3 +173,46 @@ export class SymmetricTriangle extends GeometricElement {
 	}
 }
 setScaleToResize(SymmetricTriangle);
+
+function roundrectlinegeometry(self) {
+	const w = self.width * 0.5, h = self.height * 0.5;
+	const r = [self.radius.upperRight, self.radius.upperLeft, self.radius.lowerLeft, self.radius.lowerRight];
+	const s = [self.segments.upperRight, self.segments.upperLeft, self.segments.lowerLeft, self.segments.lowerRight];
+	const g = [];
+	const a = 0.5 * Math.PI;
+	for (let i = 0; i < 4; i++) {
+		const x = (i === 0 || i === 3) ? -1 : 1;
+		const y = i >= 2 ? -1 : 1;
+		Array.prototype.push.apply(g, arcvertices(x * (w - r[i]), y * (h - r[i]), r[i], r[i], s[i], a * i, a * i + a));
+	}
+}
+const roundrectgeometry = () => verticesToGeometry(roundrectlinegeometry({width: 1, height: 1}));
+class RoundRectangle extends GeometricElement {
+  constructor(options) {
+    options = Object.assign({
+			width: 10,
+			height: 10,
+      radius: 1,
+			segments: 8
+    }, options);
+
+    super(options, roundrectlinegeometry, roundrectgeometry);
+
+		this.radius = options.radius;
+		this.segments = options.segments;
+  }
+
+	get radius() {return this._radius}
+	set radius(v) {
+		if (typeof v === 'number') v = {upperLeft: v, upperRight: v, lowerRight: v, lowerLeft: v};
+		this._radius = v;
+		this._dirty = true;
+	}
+
+	get segments() {return this._segments}
+	set segments(v) {
+		if (typeof v === 'number') v = {upperLeft: v, upperRight: v, lowerRight: v, lowerLeft: v};
+		this._segments = v;
+		this._dirty = true;
+	}
+}

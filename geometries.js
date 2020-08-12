@@ -5,6 +5,8 @@ import {
 	Shape, Vector3
 } from "three";
 
+import onChange from "on-change";
+
 import {createMeshLine, setMeshLineGeometry} from "./threeutil";
 import Element from "./element";
 import {hitTestRectangle, hitTestEllipse} from './hittest';
@@ -89,9 +91,6 @@ export function setScaleToResize(c) {
 		get: function() {return this.nativeContent.fill.scale.y},
 		set: function(v) {this.nativeContent.fill.scale.y = v}
 	});
-	c.prototype.updateGeometry = function() {
-		setMeshLineGeometry(this.nativeContent.stroke, vertices(this), true);
-	};
 }
 
 const rectgeometry = new PlaneBufferGeometry(1, 1);
@@ -196,23 +195,28 @@ export class RoundRectangle extends GeometricElement {
 			segments: 8
     }, options);
 
+		if (typeof options.radius === 'number') options.radius = {
+			upperLeft: options.radius, upperRight: options.radius, lowerRight: options.radius, lowerLeft: options.radius
+		};
+		if (typeof options.segments === 'number') options.segments = {
+			upperLeft: options.segments, upperRight: options.segments, lowerRight: options.segments, lowerLeft: options.segments
+		};
+
     super(options, roundrectlinegeometry, roundrectgeometry);
 
-		this.radius = options.radius;
-		this.segments = options.segments;
+		this._radius = onChange(options.radius, () => this._dirty = true);
+		this._segments = onChange(options.segments, () => this._dirty = true);
   }
 
 	get radius() {return this._radius}
 	set radius(v) {
 		if (typeof v === 'number') v = {upperLeft: v, upperRight: v, lowerRight: v, lowerLeft: v};
-		this._radius = v;
-		this._dirty = true;
+		Object.assign(this._radius);
 	}
 
 	get segments() {return this._segments}
 	set segments(v) {
 		if (typeof v === 'number') v = {upperLeft: v, upperRight: v, lowerRight: v, lowerLeft: v};
-		this._segments = v;
-		this._dirty = true;
+		Object.assign(this._segments);
 	}
 }

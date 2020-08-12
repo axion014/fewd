@@ -187,7 +187,7 @@ function roundrectlinegeometry(self) {
 	}
 }
 const roundrectgeometry = () => verticesToGeometry(roundrectlinegeometry({width: 1, height: 1}));
-class RoundRectangle extends GeometricElement {
+export class RoundRectangle extends GeometricElement {
   constructor(options) {
     options = Object.assign({
 			width: 10,

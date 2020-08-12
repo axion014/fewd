@@ -211,12 +211,12 @@ export class RoundRectangle extends GeometricElement {
 	get radius() {return this._radius}
 	set radius(v) {
 		if (typeof v === 'number') v = {upperLeft: v, upperRight: v, lowerRight: v, lowerLeft: v};
-		Object.assign(this._radius);
+		Object.assign(this._radius, v);
 	}
 
 	get segments() {return this._segments}
 	set segments(v) {
 		if (typeof v === 'number') v = {upperLeft: v, upperRight: v, lowerRight: v, lowerLeft: v};
-		Object.assign(this._segments);
+		Object.assign(this._segments, v);
 	}
 }

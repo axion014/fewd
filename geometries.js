@@ -44,8 +44,8 @@ export class GeometricElement extends Element {
 	}
 
 	updateGeometry() {
-		group.fill.geometry = geometry(this);
-		setMeshLineGeometry(group.stroke, vertices(this), true);
+		this.nativeContent.fill.geometry = geometry(this);
+		setMeshLineGeometry(this.nativeContent.stroke, vertices(this), true);
 	}
 
 	get width() {return this._width}

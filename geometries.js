@@ -37,13 +37,13 @@ export class GeometricElement extends Element {
 
 		this.addEventListener("render", () => {
 			if (this._dirty) {
-				this.updateGeometry();
+				this.updateGeometry(vertices, geometry);
 				this._dirty = false;
 			}
 		});
 	}
 
-	updateGeometry() {
+	updateGeometry(vertices, geometry) {
 		this.nativeContent.fill.geometry = geometry(this);
 		setMeshLineGeometry(this.nativeContent.stroke, vertices(this), true);
 	}

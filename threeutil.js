@@ -5,6 +5,7 @@ import {get, free, defineAccessor} from "./utils";
 
 //3軸
 export const Axis = {x: new Vector3(1, 0, 0), y: new Vector3(0, 1, 0), z: new Vector3(0, 0, 1)};
+export const Vector2_ZERO = new Vector2();
 export const Vector3_ZERO = new Vector3();
 export const Quaternion_IDENTITY = new Quaternion();
 

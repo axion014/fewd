@@ -1,6 +1,6 @@
 import {
 	Mesh, Group,
-	Geometry, ShapeBufferGeometry, PlaneBufferGeometry, CircleBufferGeometry,
+	ShapeBufferGeometry, PlaneBufferGeometry, CircleBufferGeometry,
 	MeshBasicMaterial,
 	Shape, Vector3
 } from "three";
@@ -185,7 +185,6 @@ function roundrectlinegeometry(self) {
 		Array.prototype.push.apply(g, arcvertices(x * (w - r[i]), y * (h - r[i]), r[i], r[i], s[i], a * i, a * i + a));
 	}
 }
-const roundrectgeometry = () => verticesToGeometry(roundrectlinegeometry({width: 1, height: 1}));
 export class RoundRectangle extends GeometricElement {
   constructor(options) {
     options = Object.assign({
@@ -202,7 +201,7 @@ export class RoundRectangle extends GeometricElement {
 			upperLeft: options.segments, upperRight: options.segments, lowerRight: options.segments, lowerLeft: options.segments
 		};
 
-    super(options, roundrectlinegeometry, roundrectgeometry);
+    super(options, roundrectlinegeometry, self => verticesToGeometry(roundrectlinegeometry(self)));
 
 		this._radius = onChange(options.radius, () => this._dirty = true);
 		this._segments = onChange(options.segments, () => this._dirty = true);

@@ -184,6 +184,8 @@ function roundrectlinegeometry(self) {
 		const y = i >= 2 ? -1 : 1;
 		Array.prototype.push.apply(g, arcvertices(x * (w - r[i]), y * (h - r[i]), r[i], r[i], s[i], a * i, a * i + a));
 	}
+	g.push(g[0], g[1]); // Close the path
+	return g;
 }
 export class RoundRectangle extends GeometricElement {
   constructor(options) {

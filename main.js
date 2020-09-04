@@ -40,12 +40,12 @@ function renderScenePrepared(scene, renderToScreen) {
 	threeComposer.render();
 }
 
-export function renderFrameBuffer(scene, buffer) {
+export function renderFrameBuffer(scene, buffer, deltaTime) {
 	let swap = false;
 	for (const pass of scene.threePasses) if (pass.enabled && pass.swapBuffers) swap = !swap;
 	const bufferName = swap ? "writeBuffer" : "readBuffer";
 	const originalBuffer = threeComposer[bufferName];
-	scene.prepareForRendering();
+	scene.prepareForRendering(deltaTime);
 	if (!buffer) {
 		const pixelRatio = threeRenderer.getPixelRatio();
 		buffer = new WebGLRenderTarget(scene.width * pixelRatio, scene.height * pixelRatio, {
@@ -61,13 +61,13 @@ export function renderFrameBuffer(scene, buffer) {
 	return buffer;
 }
 
-export function renderScene(scene, renderToScreen) {
-	scene.prepareForRendering();
+export function renderScene(scene, deltaTime, renderToScreen) {
+	scene.prepareForRendering(deltaTime);
 	renderScenePrepared(scene, renderToScreen);
 }
 
-export function renderScreen() {
-	renderScene(currentScene);
+export function renderScreen(deltaTime) {
+	renderScene(currentScene, deltaTime);
 	updated = false;
 }
 
@@ -75,11 +75,15 @@ export function setUpdatefrequency(r) {
 	loopRate = r;
 }
 const frameTimes = Array(60).fill(0);
+let previous = performance.now();
 const renderLoop = () => {
 	const currentTime = performance.now();
 	frameTimes.push(currentTime);
 	currentFPS = 60000 / (currentTime - frameTimes.shift());
-	if (updated) renderScreen();
+	if (updated) {
+		renderScreen(currentTime - previous);
+		previous = currentTime;
+	}
 };
 
 export function resize(width, height) {

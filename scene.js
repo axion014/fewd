@@ -126,7 +126,7 @@ export default class Scene extends EventDispatcher {
 		this._threePasses = Array.from(this.threePasses); // shallow copy
 	}
 
-	prepareForRendering() {
+	prepareForRendering(deltaTime) {
 		const resized = this.width !== this._width || this.height !== this._height;
 		if (resized) {
 			this.width = this._width;
@@ -137,6 +137,7 @@ export default class Scene extends EventDispatcher {
 		const parentScene = renderEvent.scene;
 		renderEvent.scene = this;
 		renderEvent.resized = resized;
+		renderEvent.deltaTime = deltaTime;
 		if (this.UIScene._autoUpdate) this.UIScene.updateMatrixWorld();
 		this.dispatchEvent(renderEvent);
 		traverseExt(this.UIScene, children => {

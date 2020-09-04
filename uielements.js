@@ -251,8 +251,8 @@ export class Screen extends Rectangle {
 		this.scroll = this.content.UICamera.position;
 		this.buffer = null;
 
-		this.addEventListener('render', () => {
-			this.buffer = renderFrameBuffer(this.content, this.buffer);
+		this.addEventListener('render', e => {
+			this.buffer = renderFrameBuffer(this.content, this.buffer, e.deltaTime);
 			this.nativeContent.fill.material.map = this.buffer.texture;
 		});
 

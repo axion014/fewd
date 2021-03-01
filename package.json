@@ -12,7 +12,7 @@
     "mikan.js": "^1.0.11",
     "on-change": "^2.0.2",
     "regenerator-runtime": "^0.13.7",
-    "three": "^0.115.0",
+    "three": "^0.125.0",
     "three-text2d": "^0.6.0",
     "threejs-meshline": "^2.0.11"
   },

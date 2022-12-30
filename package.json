@@ -22,7 +22,7 @@
     "gulp-glsl": "^1.2.4",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
-    "mocha": "^6.2.3",
+    "mocha": "^10.2.0",
     "node-fetch": "^2.6.0"
   }
 }
